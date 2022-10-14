@@ -1,0 +1,61 @@
+<body>
+<!-- login -->
+<div class="login">
+    <div class="container">
+        <h2 style="text-align: center; font-family:Verdana, Geneva, Tahoma, sans-serif ;font-weight: bold;">LOGIN FORM</h2>
+    
+        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+            <form id="form">
+                <input type="email" name="email" placeholder="Email Address" >
+                <div class="emailError" style="color: red;"></div>
+                <input type="password" name="password" placeholder="Password" >
+                <div class="passwordError" style="color: red;"></div>
+                <div class="forgot">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <input type="submit">
+            </form>
+        </div>
+        <h4>For New People</h4>
+        <p><a href="/userSignup">Register Here</a> (Or) go back to <a href="/">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+    </div>
+</div>
+<!-- //login -->
+<script>
+    const form = document.querySelector('#form');
+    const emailError = document.querySelector('.emailError');
+    const passwordError = document.querySelector('.passwordError')
+
+    form.addEventListener('submit',async(e)=>{
+        e.preventDefault();
+
+        // reset errors
+        emailError.textContent = '';
+        passwordError.textContent = '';
+
+        //get the values
+        const email = form.email.value;
+        const password = form.password.value;
+
+        try{
+            const res = await fetch('/userLogin',{
+                method : 'post',
+                body:JSON.stringify({email,password}),
+                headers:{'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        console.log(data.errorHandle);
+        if(data.errorHandle){
+            emailError.textContent = data.errorHandle.email;
+            passwordError.textContent = data.errorHandle.password;
+        }
+        if(data.user){
+          location.assign('/');  
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+    })
+</script>
+</body>

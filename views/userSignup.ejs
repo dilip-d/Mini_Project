@@ -1,0 +1,101 @@
+<body>
+<!-- register -->
+<div class="register">
+    <div class="container">
+        <h2 style="text-align: center; font-family:Verdana, Geneva, Tahoma, sans-serif ;font-weight: bold;">REGISTER HERE</h2>
+        <div class="login-form-grids">
+            <h5>profile information</h5>
+
+<!--             
+             <% if(typeof alert != 'undefined') { %>
+                <% alert.forEach(function(error) { %>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                          <%= error.msg %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                <% }) %>
+            <% } %>  -->
+
+                <form id="form">
+                <input type="text" name ="fname" id="fname" placeholder="First Name" >
+                <div class="fnameError" style="color: red;"></div>
+                <input type="text" name ="lname" id="lname" placeholder="Last Name" >
+                <div class="lnameError" style="color: red;"></div>
+                <input type="email" style="margin-top: 12px;" name ="email" id="email" placeholder="Email Address"  >
+                <div class="emailError" style="color: red;"></div>
+                <input type="text" name ="phonenumber" id="phonenumber" placeholder="Phone Number" >
+                <div class="phoneNoError" style="color: red;"></div>
+                <input type="password" name ="password" id="password" placeholder="Password" >
+                <div class="passwordError" style="color: red;"></div>
+                <div class="register-check-box">
+                    <div class="check">
+                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and conditions</label>
+                    </div>   
+                </div>
+                <input type="submit">
+            </form>
+        </div>
+        <div class="register-home">
+            <a href="/">Home</a>
+        </div>
+    </div>
+</div>
+<!-- //register -->
+<script>
+   
+    const form = document.querySelector("#form");
+    const fnameError = document.querySelector('.fnameError');
+    const lnameError = document.querySelector('.lnameError');
+    const emailError = document.querySelector('.emailError');
+    const phoneNoError = document.querySelector('.phoneNoError');
+    const passwordError = document.querySelector('.passwordError');
+
+    form.addEventListener('submit',async(e)=>{
+        e.preventDefault();
+        console.log('signup submit');
+
+        // // reset errors
+        fnameError.textContent='';
+        lnameError.textContent='';
+        emailError.textContent = '';
+        phoneNoError.textContent='';
+        passwordError.textContent = '';
+
+        //get the values
+        const fname = form.fname.value;
+        const lname = form.lname.value;
+        const email = form.email.value;
+        const phonenumber = form.phonenumber.value;
+        const password = form.password.value;
+
+        console.log(fname,lname,email,phonenumber,password);
+
+        try{
+            const res = await fetch('/userSignup',{
+                method : 'POST',
+                body:JSON.stringify({fname,lname,email,phonenumber,password}),
+                headers:{'Content-Type': 'application/json'}
+        }); 
+        const data = await res.json();
+
+        console.log(data.errorHandler);
+
+        if(data.errorHandler){
+            fnameError.textContent=data.errorHandler.fname;
+            lnameError.textContent=data.errorHandler.lname;
+            emailError.textContent = data.errorHandler.email;
+            phoneNoError.textContent= data.errorHandler.phonenumber;            
+            passwordError.textContent = data.errorHandler.password;
+        }
+        if(data.user){ 
+          location.assign('/');  
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+    })
+</script>
+</body>
