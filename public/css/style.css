@@ -521,6 +521,10 @@ a.animated-button.gibson-three:hover:after {
     font-size: 40px;
     color: #016065;
 }
+.login h3{
+    font-size:25px ;
+    color: rgb(25, 93, 114);
+}
 .login p a{
 	color:#fe9126;
 	text-decoration:none;

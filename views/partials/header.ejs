@@ -40,15 +40,15 @@
                       User
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <% if (user) { %>
-                       <li>Welcome, <%= user.email %></li>
+                       
+                     
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         <li><a class="dropdown-item" href="/wishlist">Wishlist🤍</a></li>
-                        <% }else { %>
+                        
                         <li><a class="dropdown-item" href="/userLogin">Login</a></li>
                         <li><a class="dropdown-item" href="/userSignup">Register</a></li>
                         <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-                        <% } %>   
+                       
                     </ul>
                 </div>
                 <div class="cart mx-4">

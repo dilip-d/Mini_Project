@@ -1,8 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const session = require('express-session')
-const {handleErrors}  =require('../middleware/errHandlingMiddleware');
-const {loginerrorhandler}  =require('../middleware/errHandlingMiddleware');
+const {handleErrors}  = require('../middleware/errHandlingMiddleware');
+const {loginerrorhandler}  = require('../middleware/errHandlingMiddleware');
 const {requireAuth,checkUser} = require('../middleware/authMiddleware')
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -13,7 +12,7 @@ const createToken = (id)=>{
 }
 
 module.exports.userSignup_get = (req,res)=>{
-    res.render('./userSignup.ejs',{title:'signup'});
+    res.render('./user/userSignup.ejs',{title:'signup'});
 }
 
 module.exports.userSignup_post = async(req,res)=>{
@@ -28,7 +27,6 @@ module.exports.userSignup_post = async(req,res)=>{
             res.status(201).json({user});
             console.log(token);
             console.log(user);
-            // req.session.user = data;
             res.redirect('/');
 
     }catch(errors){
@@ -41,7 +39,7 @@ module.exports.userSignup_post = async(req,res)=>{
 }
 
 module.exports.userLogin_get = (req,res)=>{
-    res.render('./userLogin.ejs',{title:'login'});
+    res.render('./user/userLogin.ejs',{title:'login'});
 }
 
 module.exports.userLogin_post = async(req,res)=>{
@@ -54,9 +52,6 @@ console.log(req.body);
             res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
         res.status(200).json({user});
         console.log(user + "logged in");
-        
-                // req.session.user = user;
-                // console.log(req.session);
      
     } catch (errors) {
         console.log(errors);
