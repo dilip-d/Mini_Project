@@ -5,7 +5,7 @@ const app= express()
 const cookieParser = require('cookie-parser')
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
-// const nocache = require('nocache');
+const nocache = require('nocache');
 // const session = require('express-session');
 const { checkUser } = require('./middleware/authMiddleware');
 // require('dotenv').config();
@@ -18,6 +18,7 @@ app.set('view engine','ejs')
 //static files 
 app.use(express.static('public'))
 app.use(expressLayouts)
+app.use(nocache())
  
 app.use(cookieParser())
 app.use(express.urlencoded({extended : false}));

@@ -2,12 +2,9 @@ const express= require('express')
 const router=express.Router()
 const authController = require('../controllers/authController')
 const authMiddleware = require('../middleware/authMiddleware')
-const {requireAuth,checkUser} = require('../middleware/authMiddleware')
 
 //get home page
-router.get('/', (req,res)=>{
-    res.render('./user/index',{layout:"./layouts/layout.ejs" , title:'home page'})
-})
+router.get('/', authMiddleware.checkUser,authController.homepage_get)
 
 router.get('/userSignup',authController.userSignup_get);
 

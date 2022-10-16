@@ -42,11 +42,10 @@ adminSchema.methods.comparePassword = function(plainText,callback){
 //static method to login admin
 adminSchema.statics.login = async function(username,password){
     const admin = await this.findOne({username});
-    console.log('login admin');
+    console.log('Found admin');
     if(admin){
         const auth = await bcrypt.compare(password,admin.password);
         if(auth){
-            console.log('dcdvsnfvhfskvjfvbfdhvbhyf');
             return admin;
         }
         throw Error('Incorrect password');    

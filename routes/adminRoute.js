@@ -1,6 +1,7 @@
 const express= require('express')
 const router=express.Router()
 const adminauthController = require('../controllers/adminauthController')
+const productController = require('../controllers/productController')
 
 router.get('/adminLogin', (req,res)=>{
     console.log('Login page');
@@ -12,9 +13,7 @@ router.get('/admin', (req,res)=>{
     res.render('admin/index',{layout:"./layouts/adminlayout.ejs" ,title:'admin home',admin:true})
 })
 
-router.get('/addproduct', (req,res)=>{
-    res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'product management',admin:true})
-})
+router.get('/addproduct',productController.productManage_get)
 
 router.get('/userManage', (req,res)=>{
     res.render('admin/userManage',{layout:"./layouts/adminlayout.ejs" ,title:'user management',admin:true})

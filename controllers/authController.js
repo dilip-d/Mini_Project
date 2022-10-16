@@ -11,6 +11,10 @@ const createToken = (id)=>{
     })
 }
 
+module.exports.homepage_get = (req,res)=>{
+    res.render('./user/index',{layout:"./layouts/layout.ejs" , title:'home page'})
+}
+
 module.exports.userSignup_get = (req,res)=>{
     res.render('./user/userSignup.ejs',{title:'signup'});
 }
