@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const nocache = require('nocache');
+const fileUpload = require('express-fileupload')
 // const session = require('express-session');
 const { checkUser } = require('./middleware/authMiddleware');
 // require('dotenv').config();
@@ -21,8 +22,9 @@ app.use(expressLayouts)
 app.use(nocache())
  
 app.use(cookieParser())
-app.use(express.urlencoded({extended : false}));
+app.use(express.urlencoded({extended : true}));
 app.use(express.json());
+app.use(fileUpload())
 
 app.use('/',userRoute)
 app.use('/',adminRoute)

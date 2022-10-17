@@ -16,7 +16,6 @@ const productSchema = mongoose.Schema({
      },
     offer : {
         type : String,
-        required : true
     },
     category : {
         type : String,
