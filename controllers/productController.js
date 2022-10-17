@@ -1,9 +1,14 @@
 const Product = require('../models/productSchema');
 const jwt = require('jsonwebtoken');
 
-module.exports.productManage_get= (req,res)=>{
-    console.log('product manage');
-    res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'product management',admin:true})
+module.exports.addproduct_get= (req,res)=>{
+    console.log('add product');
+    res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'add product',admin:true})
+}
+
+module.exports.viewproduct_get= (req,res)=>{
+    console.log('view product');
+    res.render('admin/viewproduct',{layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
 }
 
 module.exports.addproduct_post = async (req,res) =>{
@@ -21,14 +26,26 @@ module.exports.addproduct_post = async (req,res) =>{
 
 //get product
 
-// module.exports.findproduct_get= async (req,res)=>{
-//     console.log('find product');
-//     try{
-//         const products = await Product.find({});
-//         console.log(products);
-//         res.render('admin/addproduct',{product : products , layout:"./layouts/adminlayout.ejs" ,title:'product management',admin:true})
+module.exports.findproduct_get= async (req,res)=>{
+    console.log('find product');
+    try{
+        const products = await Product.find({});
+        console.log('found');
+        // res.redirect('/viewproduct')
+        res.render('admin/viewproduct',{product : products , layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
            
-//     }catch(err){
-//         res.status(500).json(err);
-//     }
-// }
+    }catch(err){
+        res.status(500).json(err);
+    }
+}
+
+module.exports.deletedocument = async(req,res)=>{
+    console.log('try  delete');
+    try{
+        const result = await Product.deleteOne({_id});
+        console.log('deletion success');
+        res.redirect('/viewproduct');
+    }catch(err){
+        console.log(err);
+    }
+}

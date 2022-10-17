@@ -15,8 +15,11 @@ router.get('/userManage', (req,res)=>{
     res.render('admin/userManage',{layout:"./layouts/adminlayout.ejs" ,title:'user management',admin:true})
 })
 
-router.get('/addproduct',productController.productManage_get)
+router.get('/addproduct',productController.addproduct_get)
 router.post('/addproduct',productController.addproduct_post)
+router.get('/viewproduct',productController.findproduct_get,productController.viewproduct_get)
+router.delete('/deleteproduct',productController.deletedocument)
+
 // router.get('/addproduct/:id',productController.findproduct_get)
 
 //admin signup and login
