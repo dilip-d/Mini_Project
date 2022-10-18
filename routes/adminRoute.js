@@ -18,9 +18,10 @@ router.get('/userManage', (req,res)=>{
 router.get('/addproduct',productController.addproduct_get)
 router.post('/addproduct',productController.addproduct_post)
 router.get('/viewproduct',productController.findproduct_get,productController.viewproduct_get)
-router.delete('/deleteproduct',productController.deletedocument)
+router.get('/deleteproduct/:id',productController.deleteproduct)
+router.get('/editproduct/:id',productController.editproduct_get)
+router.post('/editproduct',productController.editproduct_post)
 
-// router.get('/addproduct/:id',productController.findproduct_get)
 
 //admin signup and login
 router.get('/adminSignup',adminauthController.adminSignup_get)

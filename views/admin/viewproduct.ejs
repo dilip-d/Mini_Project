@@ -28,11 +28,11 @@
                   alt=""/></td>
               <td>
                 <a
-                  href="/admin/edit-product <%= product._id %>"
+                  href="/editproduct/<%= product._id %>"
                   class="btn btn-primary"
                 >Edit</a>
                 <a
-                  href="/deleteproduct/<%= product.name %>"
+                  href="/deleteproduct/<%= product._id %>"
                   class="btn btn-danger"
                   onclick="return confirm('Do you want to delete <%=product.name %> ?')"
                 >Delete</a>

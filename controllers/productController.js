@@ -39,13 +39,24 @@ module.exports.findproduct_get= async (req,res)=>{
     }
 }
 
-module.exports.deletedocument = async(req,res)=>{
-    console.log('try  delete');
+module.exports.deleteproduct = async(req,res)=>{
+    const productId = req.params.id
+    console.log(productId);
     try{
-        const result = await Product.deleteOne({_id});
+        const result = await Product.deleteOne({_id : productId});
         console.log('deletion success');
         res.redirect('/viewproduct');
     }catch(err){
         console.log(err);
     }
+}
+module.exports.editproduct_get = async (req,res)=>{
+    console.log('edit product get');
+    res.render('admin/editproduct',{ layout:"./layouts/adminlayout.ejs" ,title:'edit product',admin:true})
+}
+
+module.exports.editproduct_post = async (req,res)=>{
+    console.log('edit product post');
+    
+    res.render('admin/editproduct',{ layout:"./layouts/adminlayout.ejs" ,title:'edit product',admin:true})
 }
