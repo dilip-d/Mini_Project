@@ -10,6 +10,7 @@
                 <div class="emailError" style="color: red;"></div>
                 <input type="password" name="password" placeholder="Password" >
                 <div class="passwordError" style="color: red;"></div>
+                <div class="blocked" style="color: red;"></div>
                 <div class="forgot">
                     <a href="#">Forgot Password?</a>
                 </div>
@@ -25,6 +26,7 @@
     const form = document.querySelector('#form');
     const emailError = document.querySelector('.emailError');
     const passwordError = document.querySelector('.passwordError')
+    const blocked = document.querySelector('.blocked')
 
     form.addEventListener('submit',async(e)=>{
         e.preventDefault();
@@ -32,6 +34,7 @@
         // reset errors
         emailError.textContent = '';
         passwordError.textContent = '';
+        blocked.textContent = '';
 
         //get the values
         const email = form.email.value;
@@ -48,6 +51,7 @@
         if(data.errorHandle){
             emailError.textContent = data.errorHandle.email;
             passwordError.textContent = data.errorHandle.password;
+            blocked.textContent = data.errorHandle.blocked;
         }
         if(data.user){
           location.assign('/');  

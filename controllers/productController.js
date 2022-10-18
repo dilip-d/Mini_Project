@@ -6,10 +6,10 @@ module.exports.addproduct_get= (req,res)=>{
     res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'add product',admin:true})
 }
 
-module.exports.viewproduct_get= (req,res)=>{
-    console.log('view product');
-    res.render('admin/viewproduct',{layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
-}
+// module.exports.viewproduct_get= (req,res)=>{
+//     console.log('view product');
+//     res.render('admin/viewproduct',{layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
+// }
 
 module.exports.addproduct_post = async (req,res) =>{
     console.log(req.body);
@@ -26,12 +26,11 @@ module.exports.addproduct_post = async (req,res) =>{
 
 //get product
 
-module.exports.findproduct_get= async (req,res)=>{
+module.exports.viewproduct_get= async (req,res)=>{
     console.log('find product');
     try{
         const products = await Product.find({});
         console.log('found');
-        // res.redirect('/viewproduct')
         res.render('admin/viewproduct',{product : products , layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
            
     }catch(err){
@@ -51,12 +50,37 @@ module.exports.deleteproduct = async(req,res)=>{
     }
 }
 module.exports.editproduct_get = async (req,res)=>{
-    console.log('edit product get');
-    res.render('admin/editproduct',{ layout:"./layouts/adminlayout.ejs" ,title:'edit product',admin:true})
+   try{
+     console.log('edit product get');
+    const proId = req.params.id
+    const products = await Product.findById(proId)
+    res.render('admin/editproduct',{ product :products,layout:"./layouts/adminlayout.ejs" ,title:'edit product',admin:true})
+}catch(err){
+    console.log(err);
+}
 }
 
 module.exports.editproduct_post = async (req,res)=>{
+    const proId = req.params.id
     console.log('edit product post');
-    
-    res.render('admin/editproduct',{ layout:"./layouts/adminlayout.ejs" ,title:'edit product',admin:true})
+    try{
+        await Product.updateOne({_id:proId},{
+            
+            $set:{
+                name : req.body.name,
+                category : req.body.category,
+                price : req.body.price,
+                description : req.body.description,
+                stock : req.body.stock,
+                image : req.body.image,
+            }
+            
+        })
+        console.log('dfdfsds');
+        res.redirect('/viewproduct');
+       
+    }catch(err){
+        console.log(err);
+    }
 }
+

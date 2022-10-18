@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema({
         trim : true,
         required : [true,'Please enter a password'],
         minLength: [3,'Minimum password length is 3 characters']
+    },
+    isBlocked :{
+        type : Boolean,
+        default : false
     }
 })
 
@@ -69,13 +73,16 @@ userSchema.statics.login = async function(email,password){
     if(user){
         const auth = await bcrypt.compare(password,user.password);
         if(auth){
+            if(user.isBlocked == false){
             return user;
+                }
+             throw Error('Your account is blocked');
+            }
+            throw Error('Incorrect password'); 
         }
-        throw Error('Incorrect password');    
-    }
-    throw Error('Incorrect email');   
-}
-
+        throw Error('Incorrect email');
+    } 
+    
 //fire a function after doc saved to db
 userSchema.post('save',function(doc,next){
     console.log('new user was created & saved',doc);

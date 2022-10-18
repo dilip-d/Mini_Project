@@ -5,15 +5,15 @@ const Admin = require('../models/admin');
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id)=>{
-    return jwt.sign({id}, 'the secret',{
+    return jwt.sign({id}, 'the topsecret',{
         expiresIn: maxAge
     })
 }
 
-// module.exports.adminHome_get = (req,res)=>{
-//     console.log('admin home');
-//     res.render('admin/index',{layout:"./layouts/adminlayout.ejs" ,title:'admin home'})
-// }
+module.exports.adminHome_get = (req,res)=>{
+    console.log('admin home');
+    res.render('admin/index',{layout:"./layouts/adminlayout.ejs" ,title:'admin home',admin : true})
+}
 
 module.exports.adminSignup_get = (req,res)=>{
     console.log('hai');

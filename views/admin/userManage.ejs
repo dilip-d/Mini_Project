@@ -2,24 +2,6 @@
     <div class="container">
       <div class="row mt-4">
         <div class="d-flex justify-content-between">
-          <!-- <div>
-            <a href="/admin/add-user" class="btn btn-success h-75">Add User</a>
-          </div>
-          <form
-            action="/admin/search-user"
-            method="post"
-            class="d-flex"
-            role="search"
-          >
-            <input
-              class="form-control"
-              type="text"
-              name="Name"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form> -->
         </div>
       </div>
       <table class="table mt-5">
@@ -28,27 +10,23 @@
             <th scope="col">No</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
+            <th scope="col">Phone No.</th>
           </tr>
         </thead>
         <tbody>
-
+          <% user.forEach(function(user,index) { %>
             <tr>
-              <th scope="row">1</th>
-              <td>Arun</td>
-              <td>Arun@gmail.com</td>
-              <td>
-                <a
-                  href="/admin/edit-user/{{this._id}}"
-                  class="btn btn-primary mr-1"
-                >Unblock</a>
-                <a
-                  href="/admin/delete-user/{{this._id}}"
-                  class="btn btn-danger"
-                  onclick="return confirm('Do you want to delete {{this.Name}} ?')"
-                >Block</a>
-              </td>
+              <th scope="row"><%= index+1 %></th>
+              <td><%=user.fname %></td>
+              <td><%=user.email %></td>
+              <td><%=user.phonenumber %></td>
+              <% if(user.isBlocked === false) { %>
+              <td><a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a></td>
+                <% } else { %>
+                <td><a href="/unblockuser/<%= user._id %>" class="btn btn-primary" onclick="return confirm('Do you want to unblock <%= user.fname %> ?')">Unblock</a></td>
+                <% } %>
             </tr>
-          <!-- {{/each}} -->
+            <% }) %>
         </tbody>
       </table>
     </div>

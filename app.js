@@ -12,7 +12,6 @@ const { checkUser } = require('./middleware/authMiddleware');
 // require('dotenv').config();
 
 app.set('layout','./layouts/layout.ejs','./layouts/adminlayout.ejs');
-// app.set('adminlayout','./layouts/adminlayout')
 //set templating engine
 app.set('view engine','ejs')
     

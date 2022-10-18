@@ -29,9 +29,7 @@ module.exports.userSignup_post = async(req,res)=>{
           const token = createToken(user._id);
             res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
             res.status(201).json({user});
-            console.log(token);
             console.log(user);
-            res.redirect('/');
 
     }catch(errors){
         console.log(errors);

@@ -6,9 +6,9 @@ const authMiddleware = require('../middleware/authMiddleware')
 //get home page
 router.get('/', authMiddleware.checkUser,authController.homepage_get)
 
-router.get('/userSignup',authController.userSignup_get);
+router.get('/userSignup',authMiddleware.requireAuth,authController.userSignup_get);
 
-router.post('/userSignup',authController.userSignup_post);
+router.post('/userSignup',authController.userSignup_post,authController.homepage_get);
 
 router.get('/userLogin',authMiddleware.requireAuth,authController.userLogin_get);
 
