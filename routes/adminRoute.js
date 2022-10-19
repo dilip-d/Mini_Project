@@ -10,14 +10,6 @@ router.get('/adminLogin', (req,res)=>{
     res.render('admin/adminLogin',{layout:"./layouts/adminlayout.ejs" ,title:'Login page', admin : false})
 })
 
-// router.get('/admin', (req,res)=>{
-//     console.log('admin page');
-//     res.render('admin/index',{layout:"./layouts/adminlayout.ejs" ,title:'admin home',admin:true})
-// })
-// router.get('/userManage', (req,res)=>{
-//     res.render('admin/userManage',{layout:"./layouts/adminlayout.ejs" ,title:'user management',admin:true})
-// })
-
 //admin user management
 router.get('/userManage',userController.userManage_get)
 router.get('/blockuser/:id',userController.blockUser)

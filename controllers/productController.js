@@ -6,11 +6,6 @@ module.exports.addproduct_get= (req,res)=>{
     res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'add product',admin:true})
 }
 
-// module.exports.viewproduct_get= (req,res)=>{
-//     console.log('view product');
-//     res.render('admin/viewproduct',{layout:"./layouts/adminlayout.ejs" ,title:'view product',admin:true})
-// }
-
 module.exports.addproduct_post = async (req,res) =>{
     console.log(req.body);
     try{
@@ -25,7 +20,6 @@ module.exports.addproduct_post = async (req,res) =>{
 }
 
 //get product
-
 module.exports.viewproduct_get= async (req,res)=>{
     console.log('find product');
     try{
@@ -49,6 +43,7 @@ module.exports.deleteproduct = async(req,res)=>{
         console.log(err);
     }
 }
+
 module.exports.editproduct_get = async (req,res)=>{
    try{
      console.log('edit product get');

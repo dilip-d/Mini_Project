@@ -26,8 +26,8 @@ module.exports.userSignup_post = async(req,res)=>{
     try{
     const user = await User.create({fname,lname,email,phonenumber,password});
          console.log('try to save data on db');
-          const token = createToken(user._id);
-            res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
+        //   const token = createToken(user._id);
+        //     res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
             res.status(201).json({user});
             console.log(user);
 
@@ -57,7 +57,6 @@ console.log(req.body);
      
     } catch (errors) {
         console.log(errors);
-        // res.redirect("/userLogin");
         const errorHandle = loginerrorhandler(errors);
         res.status(400).json({errorHandle});
     }

@@ -27,10 +27,10 @@ module.exports.adminSignup_post = async(req,res)=>{
     try{
     const admin = await Admin.create({username,password});
          console.log('try to save data on db');
-          const token = createToken(admin._id);
-            res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
-            res.status(201).json({admin});
-            console.log(token);
+        //   const token = createToken(admin._id);
+        //     // res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
+        //     // res.status(201).json({admin});
+            // console.log(token);
             res.redirect('/adminLogin');
 
     }catch(errors){
@@ -54,7 +54,7 @@ module.exports.adminLogin_post = async(req,res)=>{
         try {
             const admin = await Admin.login(username,password);
             const token = createToken(admin._id);
-            res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
+            res.cookie('jwt2',token,{httpOnly: true , maxAge: maxAge * 1000});
             res.status(200).json({admin});
             console.log(admin + "logged in");
 
@@ -67,7 +67,7 @@ module.exports.adminLogin_post = async(req,res)=>{
     }
 
 module.exports.adminlogout_get = (req,res)=>{
-        res.cookie('jwt','',{maxAge:1 });
+        res.cookie('jwt2','',{maxAge:1 });
         res.redirect('/adminLogin');
     }
    

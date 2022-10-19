@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const Admin = require('../models/User');
+const Admin = require('../models/admin');
 
 const requireAdminAuth = (req,res,next)=>{
     console.log('requirauth checking');

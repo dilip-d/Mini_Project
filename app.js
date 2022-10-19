@@ -1,13 +1,11 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const app= express()
-// const router=express.Router()
 const cookieParser = require('cookie-parser')
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const nocache = require('nocache');
 const fileUpload = require('express-fileupload')
-// const session = require('express-session');
 const { checkUser } = require('./middleware/authMiddleware');
 // require('dotenv').config();
 
