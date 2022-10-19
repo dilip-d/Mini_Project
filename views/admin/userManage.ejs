@@ -21,10 +21,10 @@
               <td><%=user.email %></td>
               <td><%=user.phonenumber %></td>
               <% if(user.isBlocked === false) { %>
-              <td><a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a></td>
+                <td><a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a></td>
                 <% } else { %>
                 <td><a href="/unblockuser/<%= user._id %>" class="btn btn-primary" onclick="return confirm('Do you want to unblock <%= user.fname %> ?')">Unblock</a></td>
-                <% } %>
+              <% } %>
             </tr>
             <% }) %>
         </tbody>

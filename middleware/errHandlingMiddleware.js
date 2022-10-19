@@ -26,23 +26,22 @@ const loginerrorhandler = (err)=>{
     console.log("before");
     console.log(err.message);
 
-    let errors = {email: '',password: '',isBlocked : ''};
+    let errors = {email: '',password: ''};
 
     //incorrect email
     if(err.message === 'Incorrect email'){
         errors.email = 'Email is not registered';
         return errors;
     }
-
      //incorrect password
      if(err.message === 'Incorrect password'){
         errors.password = 'Password is incorrect';
         return errors;
     }
-
-  if(err.message === 'Your account is blocked'){
-    errors.isBlocked = 'Your account is blocked';
-    return errors;
+    //blocked user
+    if(err.message === 'Your account is blocked'){
+      errors.email = 'Your account is blocked !';
+      return errors;
 }
 
     //validation errors
