@@ -158,7 +158,7 @@
                 fullCountDown += sectionTag.outerHTML;
 
 
-                countdown.innerHTML = fullCountDown;
+                // countdown.innerHTML = fullCountDown;
             }
         }, 1000);
     };

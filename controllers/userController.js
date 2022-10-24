@@ -26,5 +26,3 @@ module.exports.blockUser = async (req,res)=>{
    const user = await User.findByIdAndUpdate({_id:userId},{isBlocked:false})
    res.redirect('/userManage');
 }
-
- 

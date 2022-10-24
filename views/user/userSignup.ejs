@@ -6,7 +6,7 @@
         <div class="login-form-grids">
             <h5>profile information</h5>
 
-<!--             
+        <!--             
              <% if(typeof alert != 'undefined') { %>
                 <% alert.forEach(function(error) { %>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -34,27 +34,59 @@
                         <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and conditions</label>
                     </div>   
                 </div>
-                <input type="submit">
+                <button id="subbtn" class="btn mb-4" type="submit" style="background-color: rgb(42, 150, 201);">Submit</button>
             </form>
         </div>
         <div class="register-home">
             <a href="/">Home</a>
         </div>
-    </div>
-</div>
-<!-- //register -->
-<script>
    
+    </div>
+    <form id="otp" style="display: none;" class="col-md px-5">
+        <div class="form-group">
+            <input type="text" class="form-control" id="otpinp" placeholder="" name="otpvalue">
+            <label class="mb-2 mt-2">Enter OTP for verification</label>
+        </div>
+        <div class="text-center">
+        <!-- / button to trigger modal  -->
+             <a href="#myModal" class="btn btn-danger" data-toggle="modal" id="otpbtn">verify</a>
+        </div>
+    </form>
+</div>
+
+<div id ='myModal' class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+        <div class="modal-header">
+            <!-- <div class="icon-box">
+                <i class="material-icons"></i>
+            </div> -->
+        </div>
+        <div class="modal-body">
+            <p class="text-center responsetext h5"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+        </div>
+        </div>
+    </div>
+</div> 
+<!-- //register -->
+
+<script>
     const form = document.querySelector("#form");
+    const btn = document.getElementById('subbtn')
+    const otpform = document.getElementById('otp')
+    const otpbtn = document.getElementById('otpbtn')
+
+    btn.addEventListener('click',async(e)=>{
+        e.preventDefault();
+    
     const fnameError = document.querySelector('.fnameError');
     const lnameError = document.querySelector('.lnameError');
     const emailError = document.querySelector('.emailError');
     const phoneNoError = document.querySelector('.phoneNoError');
     const passwordError = document.querySelector('.passwordError');
-
-    form.addEventListener('submit',async(e)=>{
-        e.preventDefault();
-        console.log('signup submit');
 
         // // reset errors
         fnameError.textContent='';
@@ -80,7 +112,7 @@
         }); 
         const data = await res.json();
 
-        console.log(data.errorHandler);
+        // console.log(data.errorHandler);
 
         if(data.errorHandler){
             fnameError.textContent=data.errorHandler.fname;
@@ -89,13 +121,58 @@
             phoneNoError.textContent= data.errorHandler.phonenumber;            
             passwordError.textContent = data.errorHandler.password;
         }
-        if(data.user){ 
-          location.assign('/userLogin');  
+        if(data.user){
+            console.log(data.user.phonenumber);
+            const phonenumber = data.user.phonenumber;
+
+            const response =  await fetch('/sendnotification',{
+                method : 'POST',
+                body: JSON.stringify({phonenumber}),
+                headers:{'Content-Type':'application/json'}
+
+            }).catch(e => console.log(e));
+
+            if(response.ok){
+                form.style.display = 'none';
+                otpform.style.display = 'block';
+            }
+
+            otpbtn.addEventListener('click', async(e)=>{
+                e.preventDefault()
+
+                const otpInpvalue = otpform.otpvalue.value;
+                const responsetext = document.querySelector('.responsetext');
+
+                const otpData ={
+                    phonenumber : data.user.phonenumber,
+                    email : data.user.email,
+                    otp : otpInpvalue
+                };
+                try{
+                    const response = await fetch('/verify-otp',{
+                        method : 'POST',
+                        headers : {'Content-Type': 'application/json','Accept':'application/json'},
+                        body :JSON.stringify(otpData)
+                    });
+                     console.log("hii");
+                     const check = await response.json();
+                     console.log(check+"hai");
+
+                     responsetext.textContent = check;
+                     console.log(check);
+                     otpform.style.display ='none';
+
+                     setTimeout(()=>{
+                        location.assign('/userLogin');
+                     },3000);
+
+                    }catch{(e=> console.log(e))};
+
+                });
+            }
+        }catch(err){
+            console.log(err);
         }
-    }
-    catch(err){
-        console.log(err);
-    }
     })
 </script>
 </body>

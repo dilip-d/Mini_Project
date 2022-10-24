@@ -21,8 +21,8 @@ const adminSchema = mongoose.Schema({
         trim : true,
         required : [true,'Please enter a password'],
         minLength: [3,'Minimum password length is 3 characters']
-    }
-})
+    },
+},{timestamps:true})
 
 
 adminSchema.pre('save',async function(next){

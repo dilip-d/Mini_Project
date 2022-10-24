@@ -5,6 +5,8 @@ mongoose.connect('mongodb://localhost:27017/Admin-user-db',{
     useUnifiedTopology : true
 })
 
+
+
 const productSchema = mongoose.Schema({
     name : {
         type : String,
@@ -21,19 +23,21 @@ const productSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    subCategory :{
+        type:String,
+    },
     stock : {
         type : String,
         required : true
     }, 
     image : {
         type : String,
-        required : true
     }, 
     description : {
         type : String,
         required : true
     }
-})
+},{timestamps:true})
 
 const productModel = mongoose.model('product',productSchema);
 

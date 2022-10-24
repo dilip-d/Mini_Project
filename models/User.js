@@ -48,9 +48,12 @@ const userSchema = mongoose.Schema({
     isBlocked :{
         type : Boolean,
         default : false
+    },
+    isVerified :{
+        type : Boolean,
+        default : false
     }
-})
-
+},{timestamps:true})
 
 userSchema.pre('save',async function(next){
     if(!this.isModified('password')){

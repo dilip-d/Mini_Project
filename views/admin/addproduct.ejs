@@ -6,12 +6,24 @@
         <form
           action="/addproduct"
           method="post"
+          enctype="multipart/form-data"
         >
           <label for="">Name</label>
           <input type="text" name="name" class="form-control" required/>
 
           <label for="">Category</label>
-          <input type="text" name="category" class="form-control" required/>
+          <select id="category" name="category">
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+          </select>
+          <!-- <input type="text" name="category" class="form-control" required/>
+
+          <select id="cars" name="cars">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audi">Audi</option>
+          </select> -->
 
           <label for="">Price</label>
           <input type="text" name="price" class="form-control" required/>
@@ -23,7 +35,7 @@
           <input type="text" name="stock" class="form-control" required/>
 
           <label for="">Image</label>
-          <input type="text" name="image" class="form-control" required/>
+          <input type="file" name="image" class="form-control" required/>
 
           <button type="submit" class="btn btn-success mt-4" style="background-color: orange;">Submit</button>
         </form>

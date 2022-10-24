@@ -8,9 +8,16 @@ module.exports.addproduct_get= (req,res)=>{
 
 module.exports.addproduct_post = async (req,res) =>{
     console.log(req.body);
+    const name = req.body.name;
+    const category= req.body.category;
+    const price = req.body.price;
+    const description = req.body.description;
+    const stock = req.body.stock;
+
+    const product = await Product.create({name,category,price,description,stock});
     try{
-        const product = await Product.create(req.body)
-        console.log(product);
+       let image = req.files.image;
+       image.mv('./public/image/'+product._id+".jpeg");
         // res.status(200).json()
         res.redirect('/addproduct');
     }

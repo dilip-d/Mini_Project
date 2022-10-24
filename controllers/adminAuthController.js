@@ -38,7 +38,6 @@ module.exports.adminSignup_post = async(req,res)=>{
         const errorHandler = adminHandleerror(errors);
         console.log(errorHandler);
         res.status(400).json({errorHandler});
-        // res.redirect('/userSignup');
     }
 }
 
@@ -60,7 +59,6 @@ module.exports.adminLogin_post = async(req,res)=>{
 
         } catch (adminerrors) {
             console.log(adminerrors);
-            // res.redirect("/adminLogin");
             const adminerrorHandle = adminloginerrorhandler(adminerrors);
             res.status(400).json({adminerrorHandle});
         }
@@ -71,3 +69,49 @@ module.exports.adminlogout_get = (req,res)=>{
         res.redirect('/adminLogin');
     }
    
+// category
+
+module.exports.category =(req,res)=>{
+    // Category.find()
+    // .then((result)=>{
+        res.render('admin/category',{layout:"./layouts/adminlayout.ejs" ,title:'category mng',admin : true})
+    //     validation.category = false
+    // }).catch((err)=>console.log(err))
+}
+
+// add-category
+
+module.exports.cateman=(req,res)=>{
+    newcat = req.body.category
+    Category.findOne({category:newcat})
+    .then((result)=>{
+        if(result){
+            validation.category = true
+            res.redirect('/category-management')
+        }else{
+            let category = new Category({
+                category : newcat
+            })
+            category.save()
+            .then(()=>{
+                res.redirect('/category-management')
+            }).catch((err)=>{
+                console.log(err)
+            })   
+        }
+    })
+}
+
+// delete category
+
+module.exports.deleteCategory = (req,res)=>{
+    newcat = req.query.id
+    // console.log(newcat)
+    Category.deleteOne({_id:newcat})
+    .then((result)=>{
+        // console.log(result)
+        res.redirect('/category-management')
+    }).catch((err)=>{
+        console.log(err)
+    })
+}

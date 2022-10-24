@@ -7,7 +7,7 @@ const adminRoute = require("./routes/adminRoute");
 const nocache = require('nocache');
 const fileUpload = require('express-fileupload')
 const { checkUser } = require('./middleware/authMiddleware');
-// require('dotenv').config();
+
 
 app.set('layout','./layouts/layout.ejs','./layouts/adminlayout.ejs');
 //set templating engine
@@ -35,4 +35,3 @@ app.use(function (req, res, next) {
 app.listen(3000, (req,res)=>{
     console.log('app is listening on port 3000');
 })
-
