@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { adminHandleerror} = require('../middleware/adminErrMiddleware');
 const { adminloginerrorhandler} =  require('../middleware/adminErrMiddleware');
 const Admin = require('../models/admin');
+const Category = require('../models/categorySchema');
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id)=>{
@@ -71,47 +72,35 @@ module.exports.adminlogout_get = (req,res)=>{
    
 // category
 
-module.exports.category =(req,res)=>{
-    // Category.find()
-    // .then((result)=>{
-        res.render('admin/category',{layout:"./layouts/adminlayout.ejs" ,title:'category mng',admin : true})
-    //     validation.category = false
-    // }).catch((err)=>console.log(err))
-}
-
-// add-category
-
-module.exports.cateman=(req,res)=>{
-    newcat = req.body.category
-    Category.findOne({category:newcat})
+module.exports.category = (req,res)=>{
+    Category.find()
     .then((result)=>{
-        if(result){
-            validation.category = true
-            res.redirect('/category-management')
-        }else{
-            let category = new Category({
-                category : newcat
-            })
-            category.save()
-            .then(()=>{
-                res.redirect('/category-management')
-            }).catch((err)=>{
-                console.log(err)
-            })   
-        }
-    })
+    res.render('admin/category',{result, layout: 'layouts/adminlayout',title:'Category', admin: true })
+    }).catch((err)=>console.log(err))
+
 }
+module.exports.addCategory = async (req,res)=> {
 
-// delete category
+    try{
+        let category = req.body.category
 
-module.exports.deleteCategory = (req,res)=>{
-    newcat = req.query.id
-    // console.log(newcat)
-    Category.deleteOne({_id:newcat})
-    .then((result)=>{
-        // console.log(result)
+        const cat = await Category.create({category})
         res.redirect('/category-management')
-    }).catch((err)=>{
-        console.log(err)
-    })
+
+    } catch (err){
+        console.log(err);
+    }
 }
+
+module.exports.deleteCategory = (req,res) => {
+
+        newcat = req.query.id
+        // console.log(newcat)
+        Category.deleteOne({_id:newcat})
+        .then((result)=>{
+            // console.log(result)
+            res.redirect('/category-management')
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }

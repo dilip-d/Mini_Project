@@ -1,5 +1,3 @@
-
-
 <div class="container"> 
     <section class=""> 
 
@@ -13,16 +11,14 @@
                     <div class="form-outline"> 
                       <input type="text" name="category" id="form3Example1" class="form-control" placeholder="Category" required/> 
                     </div> 
-                 
-                      <b><p class="mt-2 fw-bold" style="color: red;">Already Added</p></b>
+                    
+                      <!-- <b><p class="mt-2 fw-bold" style="color: red;">Already Added</p></b> -->
                     
                   </div> 
- 
                 <!-- Submit button --> 
                 <button type="submit" class="btn btn-primary btn-block mb-4"> 
                   Add Category 
                 </button> 
- 
               </form> 
              
 </section> 
@@ -36,20 +32,21 @@
           </thead> 
           <tbody> 
               <!-- <th scope=""> --> 
+                <% for(let i=0;i<result.length;i++) { %> 
                 <tr>
-                  <th scope="row"></th>
-                <td><span style="font-weight: 700;" class="col-md-5 d-flex"></span></td>
-                <td><form action="" method="post">
-                  <button  type="submit" class="btn btn-danger" onclick="return confirm('Are you want to delete ')" >
+                  <th scope="row"><%= i+1  %> </th>
+                <td><span style="font-weight: 700;" class="col-md-5 d-flex"><%= result[i].category %></span></td>
+                <td>
+                  <form action="/admin/delete-category?id=<%= result[i]._id %>" method="post">
+                  <button  type="submit" class="btn btn-danger" onclick="return confirm('Are you want to delete <%= result[i].category %>')" >
                   Delete
                 </button>
               </form>
                </td>
                 <!-- <hr> --> 
               </tr>
+              <% } %>
               <!-- </th> --> 
-            </tbody> 
+            </tbody>
       </table> 
   </div> 
-
-

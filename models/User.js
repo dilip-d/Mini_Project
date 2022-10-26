@@ -7,6 +7,26 @@ mongoose.connect('mongodb://localhost:27017/Admin-user-db',{
     useUnifiedTopology : true
 })
 
+const cartSchema = new mongoose.Schema({
+    name: {type: String},
+    price: {type: String},
+    description: {type: String},
+    category: {type: String},
+    image: {type: String},
+    stock: {type: String},
+    count:{type:Number}
+})
+
+const wishlistSchema = new mongoose.Schema({
+    name: {type: String},
+    price: {type: String},
+    description: {type: String},
+    category: {type: String},
+    image: {type: String},
+    stock: {type: String},
+    count:{type:Number}
+})
+
 const userSchema = mongoose.Schema({
     fname : {
         type : String,
@@ -49,6 +69,28 @@ const userSchema = mongoose.Schema({
         type : Boolean,
         default : false
     },
+    address:[{
+        name : {type:String},
+        mobile : {type:Number},
+        address1: {type:String},
+        address2 :{type:String},
+        city : {type:String},
+        state : {type:String},
+        zip :{type:String}
+    }],
+    profileImage : {
+        type : String,
+        default : 'null'
+    },
+    cart:{
+        type: [cartSchema],
+        default:[]
+    },
+    wishlist:{
+        type: [wishlistSchema],
+        default:[]
+
+    }, 
     isVerified :{
         type : Boolean,
         default : false

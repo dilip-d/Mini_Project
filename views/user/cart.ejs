@@ -16,97 +16,39 @@
 								<th>Product Name</th>
 
 								<th>Price</th>
-								<th>Remove</th>
+								<!-- <th>Remove</th> -->
 							</tr>
 						</thead>
 						<tbody>
-							
+							<% user.forEach(function(user , index) { %>
 							<tr class="rem1">
-								<td class="invert"></td>
+
+								<td class="invert"><%= index+1 %></td>
 								<td class="invert-image">
 									<a href="single.html">
-										<img src="" alt=" " class="img-responsive">
+										<img src="./image/<%= user._id %>.jpeg" alt=" " class="img-responsive">
 									</a>
 								</td>
 								<td class="invert">
 									<div class="quantity">
 										<div class="quantity-select">
-											<div class="entry value-minus">&nbsp;</div>
-											<div class="entry value">
-												<span>1</span>
-											</div>
-											<div class="entry value-plus active">&nbsp;</div>
+											<a href="/removeFromcart/<%=user._id%>"><div class="entry value-minus">&nbsp;</div></a>
+											<div class="entry value"><span><%=user.count%></span></div>
+											<a href="/addtoCart/<%=user._id%>"><div class="entry value-plus active">&nbsp;</div></a>
 										</div>
 									</div>
 								</td>
-								<td class="invert"></td>
+								<td class="invert"><%=user.name %></td>
 
-								<td class="invert"></td>
-								<td class="invert">
+								<td class="invert">&#x20B9; <%= (user.price * user.count) %></td>
+								<!-- <td class="invert">
 									<div class="rem">
-										<div class="close1"> </div>
+										<i class='fa fa-trash-o'></i>
+										 <div class="close1"> </div>
 									</div>
-
-								</td>
+								</td>	 -->
 							</tr>
-							
-							<!-- <tr class="rem2">
-								<td class="invert">2</td>
-								<td class="invert-image">
-									<a href="single.html">
-										<img src="images/s5.jpg" alt=" " class="img-responsive">
-									</a>
-								</td>
-								<td class="invert">
-									<div class="quantity">
-										<div class="quantity-select">
-											<div class="entry value-minus">&nbsp;</div>
-											<div class="entry value">
-												<span>1</span>
-											</div>
-											<div class="entry value-plus active">&nbsp;</div>
-										</div>
-									</div>
-								</td>
-								<td class="invert">Fastrack Aviator </td>
-
-								<td class="invert">$325.00</td>
-								<td class="invert">
-									<div class="rem">
-										<div class="close2"> </div>
-									</div>
-
-								</td>
-							</tr>
-							<tr class="rem3">
-								<td class="invert">3</td>
-								<td class="invert-image">
-									<a href="single.html">
-										<img src="images/s2.jpg" alt=" " class="img-responsive">
-									</a>
-								</td>
-								<td class="invert">
-									<div class="quantity">
-										<div class="quantity-select">
-											<div class="entry value-minus">&nbsp;</div>
-											<div class="entry value">
-												<span>1</span>
-											</div>
-											<div class="entry value-plus active">&nbsp;</div>
-										</div>
-									</div>
-								</td>
-								<td class="invert">Opium (Grey)</td>
-
-								<td class="invert">$325.00</td>
-								<td class="invert">
-									<div class="rem">
-										<div class="close3"> </div>
-									</div>
-
-								</td>
-							</tr> -->
-
+							<% }) %> 
 						</tbody>
 					</table>
 				</div>
@@ -114,17 +56,11 @@
 					<div class="col-md-4 checkout-left-basket">
 						<h4>Continue to basket</h4>
 						<ul>
-							<li>Product1
+							<% user.forEach(function(user , index) { %>
+								<li>Product <%= index+1 %> <i></i> <span> &#x20B9; <%= (user.price * user.count) %></span></li>
+							<!-- <li>Product1
 								<i>-</i>
 								<span>$281.00 </span>
-							</li>
-							<li>Product2
-								<i>-</i>
-								<span>$325.00 </span>
-							</li>
-							<li>Product3
-								<i>-</i>
-								<span>$325.00 </span>
 							</li>
 							<li>Total Service Charges
 								<i>-</i>
@@ -133,7 +69,9 @@
 							<li>Total
 								<i>-</i>
 								<span>$986.00</span>
-							</li>
+							</li> -->
+							<% }) %>
+							<li>Total <i>-</i> <span>&#x20B9; <%=totals%></span></li>
 						</ul>
 					</div>
 					<div class="col-md-8 address_form">
@@ -180,7 +118,7 @@
 							</section>
 						</form>
 						<div class="checkout-right-basket">
-							<a href="/userPayment">Make a Payment </a>
+							<a href="/checkout">Make a Payment </a>
 						</div>
 					</div>
 
@@ -193,3 +131,37 @@
 		</div>
 	</section>
 	<!--//checkout-->
+
+	<!-- <tbody>
+		<% user.forEach(function(user,index) { %>
+	<tr class="rem1">
+		<td class="invert"><%= index+1 %></td>
+		<td class="invert-image"><a href="single.html"><img src="./image/<%=user._id %>.jpeg" width="300px" height="80px"  alt=" " ></a></td>
+		<td class="invert">
+			 <div class="quantity"> 
+				<div class="quantity-select">                           
+					<a href="/removeFromcart/<%=user._id%>"><div class="entry value-minus">&nbsp;</div></a>
+					<div class="entry value"><span><%=user.count%></span></div>
+					<a href="/addtoCart/<%=user._id%>"><div class="entry value-plus active">&nbsp;</div></a>
+				</div>
+			</div>
+		</td>
+		<td class="invert"><%=user.name %></td>
+		
+		<td class="invert">&#x20B9; <%= (user.price * user.count) %></td>
+<% }) %>
+</tbody></table>
+</div>
+<div class="checkout-left">	
+<div class="col-md-4 checkout-left-basket">
+	<h4>Continue to basket</h4>
+	<ul>
+		<% user.forEach(function(user,index) { %>
+		<li>Product <%= index+1 %> <i>-</i> <span> &#x20B9; <%= (user.price * user.count) %></span></li>
+		<li>Product2 <i>-</i> <span>$25.00 </span></li>
+		<li>Product3 <i>-</i> <span>$29.00 </span></li>
+		<li>Total Service Charges <i>-</i> <span>$15.00</span></li> -->
+		<!-- <% }) %>
+		<li>Total <i>-</i> <span>&#x20B9; <%=totals%></span></li>
+	</ul>
+</div> --> 

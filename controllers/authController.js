@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const Product = require('../models/productSchema');
-const Cart = require('../models/cartSchema');
 const jwt = require('jsonwebtoken');
 const {handleErrors}  = require('../middleware/errHandlingMiddleware');
 const {loginerrorhandler}  = require('../middleware/errHandlingMiddleware');
@@ -32,33 +31,6 @@ module.exports.userSignup_get = (req,res)=>{
 
 module.exports.otpSignup_get = (req,res)=>{
     res.render('./user/otpSignup.ejs',{title:'OTP'})
-}
-
-module.exports.userCart_get = (req,res)=>{
-    res.render('./user/cart.ejs',{title:'cart'})
-}
-
-module.exports.addToCart_post = async(req,res)=>{
-    console.log('adding to cart');
-    const id = req.body.id;
-    console.log(id);
-    try{
-        const cart = new Cart({
-            name:req.body._id,  
-        })
-        const cartData = await cart.save();
-        res.status(200).send({success:true})
-    }catch(err){
-        res.status(400).send({success:false, msg:err.message})
-    }
-}
-
-module.exports.singleProductView_get = (req,res)=>{
-    res.render('./user/singleProductView.ejs',{title:'Single Product View'})
-}
-
-module.exports.userPayment_get = (req,res)=>{
-    res.render('./user/payment.ejs',{title:'Payment'})
 }
 
 module.exports.sendOtp = async(req,res)=>{
@@ -164,4 +136,250 @@ module.exports.womensWatch_get = async(req,res)=>{
     }catch(err){
         res.status(500).json(err);
     }
+}
+
+module.exports.userCart_get = async(req,res)=>{
+    console.log('in cart');
+    try {
+        let Curuser = req.user.id
+
+        const users = await User.findById({ _id: Curuser })
+        // console.log(users);
+        const sum = function(items,p1,p2){
+            return items.reduce(function (a,b){
+                return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
+            },0)
+        }
+        const total = sum(users.cart,'price','count')
+
+        res.render('./user/cart.ejs', { user: users.cart, totals:total, layout:'./layouts/layout.ejs' ,title:'checkout', admin : false})
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.addToCart_post = async (req, res) => {
+
+    const id = req.body.id;
+    // console.log(id);
+    let userr = req.user.id
+    // console.log(userr);
+    
+    let product = await Product.findById({ _id: id })
+    product = product.toJSON()
+    product.count = 1;
+
+    const userid = await User.findById({ _id: userr })
+    const checks = userid.cart;
+    // console.log(checks);
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == id) {
+            await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
+                { $inc: { "cart.$.count": 1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        // console.log('in else block');
+        res.redirect('back')
+    }
+}
+
+module.exports.checkout_get = async (req, res) => {
+    console.log('checkouttttt');
+
+    try {
+        let Curuser = req.user.id
+        // console.log(Curuser);
+
+        const users = await User.findById({ _id: Curuser })
+        // console.log(users);
+        const sum = function(items,p1,p2){
+            return items.reduce(function (a,b){
+                return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
+            },0)
+        }
+        const total = sum(users.cart,'price','count')
+
+        res.render('./user/checkout.ejs', { user: users.cart, totals:total, layout: './layout/layout.ejs' ,title:'checkout', admin : false})
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.addToCart = async (req, res) => {
+
+    const prodId = req.params.id
+    let product = await Product.findById(prodId)
+    
+    let userr = req.user.id
+    const userid = await User.findById({ _id: userr })
+
+    const checks = userid.cart;
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == prodId) {
+            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                { $inc: { "cart.$.count": 1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        res.redirect('back')
+    }
+}
+
+module.exports.removeFromCart = async (req, res) => {
+
+    let prodId = req.params.id
+    // console.log(prodId);
+    let product = await Product.findById(prodId)
+    // console.log(product);
+    let userr = req.user.id
+    // console.log(userr);
+
+    const userid = await User.findById({ _id: userr })
+
+    const checks = userid.cart;
+    // console.log(checks);
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == prodId && check.count > 1) {
+            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                { $inc: { "cart.$.count": -1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
+        res.redirect('/userCart')
+    }
+}
+
+//wishlist get/add/remove
+module.exports.userWishlist_get = async(req,res)=>{
+    console.log('in wishlist');
+    try {
+        let Curuser = req.user.id
+
+        const users = await User.findById({ _id: Curuser })
+        // console.log(users);
+        const sum = function(items,p1,p2){
+            return items.reduce(function (a,b){
+                return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
+            },0)
+        }
+        const total = sum(users.cart,'price','count')
+
+        res.render('./user/wishlist.ejs', { user: users.cart, totals:total, layout:'./layouts/layout.ejs' ,title:'checkout', admin : false})
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.addToWishlist_post = async (req, res) => {
+
+    const id = req.body.id;
+    // console.log(id);
+    let userr = req.user.id
+    // console.log(userr);
+    
+    let product = await Product.findById({ _id: id })
+    product = product.toJSON()
+    product.count = 1;
+
+    const userid = await User.findById({ _id: userr })
+    const checks = userid.cart;
+    // console.log(checks);
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == id) {
+            await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
+                { $inc: { "cart.$.count": 1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        // console.log('in else block');
+        res.redirect('back')
+    }
+}
+
+module.exports.addToWishlist = async (req, res) => {
+
+    const prodId = req.params.id
+    let product = await Product.findById(prodId)
+    
+    let userr = req.user.id
+    const userid = await User.findById({ _id: userr })
+
+    const checks = userid.cart;
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == prodId) {
+            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                { $inc: { "cart.$.count": 1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        res.redirect('back')
+    }
+}
+
+module.exports.removeFromWishlist = async (req, res) => {
+
+    let prodId = req.params.id
+    // console.log(prodId);
+    let product = await Product.findById(prodId)
+    // console.log(product);
+    let userr = req.user.id
+    // console.log(userr);
+
+    const userid = await User.findById({ _id: userr })
+
+    const checks = userid.cart;
+    // console.log(checks);
+    let n = 0;
+    for (const check of checks) {
+        if (check._id == prodId && check.count > 1) {
+            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                { $inc: { "cart.$.count": -1 } })
+            n++
+        }
+    }
+    if (n > 0) {
+        res.redirect('back')
+    }
+    else {
+        await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
+        res.redirect('/userWishlist')
+    }
+}
+
+module.exports.singleProductView_get = (req,res)=>{
+    res.render('./user/singleProductView.ejs',{title:'Single Product View'})
 }

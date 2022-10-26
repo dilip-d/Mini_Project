@@ -23,9 +23,10 @@ app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 app.use(fileUpload())
 
+app.use('*',checkUser);
 app.use('/',userRoute)
 app.use('/',adminRoute)
-// app.use('*',checkUser);
+
 
 app.use(function (req, res, next) {
     res.status(404).send("<h1>Sorry can't find that!</h1>");

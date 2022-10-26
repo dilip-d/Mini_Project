@@ -33,7 +33,7 @@ router.get('/adminLogout',adminauthController.adminlogout_get);
 
 //category management
 router.get('/category-management',adminauthController.category)
-router.post('/admin-panel/category',adminauthController.cateman)
-router.post('/admin/delete-category',adminauthController.deleteCategory)
+router.post('/admin-panel/category',adminauthController.addCategory)
+router.post('/admin/delete-category',adminauthController.deleteCategory )
 
 module.exports = router;
