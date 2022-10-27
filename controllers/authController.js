@@ -382,3 +382,30 @@ module.exports.editProfile_get = async(req,res)=>{
     res.render('./user/editProfile.ejs',{ profile, layout:"./layouts/layout.ejs" , title:'User profile',admin:false}) 
 }
 
+module.exports.editProfile_post = async(req,res)=>{ 
+    const user = req.params.id
+    console.log(user);
+    console.log(req.body.fname);
+    console.log('edit profile post');
+    const result = req.body;
+
+    try{
+        await User.updateOne({_id:user},{
+            
+            $set:{
+                 address : {address : result.address,
+                    zip : result.zip} ,  
+                fname : result.fname,
+                lname : result.lname,
+                email : result.email,
+                phonenumber : result.phonenumber
+                 }         
+        })
+        console.log('dfdfsds');
+        res.redirect('/userProfile');
+       
+    }catch(err){
+        console.log(err);
+    }
+
+}

@@ -31,6 +31,7 @@ router.get('/addtoWishlist/:id',authController.addToWishlist)
 
 router.get('/userProfile',authController.userProfile_get);
 router.get('/editProfile',authController.editProfile_get);
+router.post('/editProfile/:id',authController.editProfile_post);
 
 router.get('/checkout',authController.checkout_get);
 

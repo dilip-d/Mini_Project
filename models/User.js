@@ -72,8 +72,7 @@ const userSchema = mongoose.Schema({
     address:[{
         name : {type:String},
         mobile : {type:Number},
-        address1: {type:String},
-        address2 :{type:String},
+        address: {type:String},
         city : {type:String},
         state : {type:String},
         zip :{type:String}
