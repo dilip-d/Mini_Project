@@ -29,6 +29,9 @@ router.post('/addToWishlist',authController.addToWishlist_post);
 router.get('/removeFromWishlist/:id',authController.removeFromWishlist)
 router.get('/addtoWishlist/:id',authController.addToWishlist)
 
+router.get('/userProfile',authController.userProfile_get);
+router.get('/editProfile',authController.editProfile_get);
+
 router.get('/checkout',authController.checkout_get);
 
 

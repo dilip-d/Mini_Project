@@ -142,9 +142,7 @@ module.exports.userCart_get = async(req,res)=>{
     console.log('in cart');
     try {
         let Curuser = req.user.id
-
         const users = await User.findById({ _id: Curuser })
-        // console.log(users);
         const sum = function(items,p1,p2){
             return items.reduce(function (a,b){
                 return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
@@ -162,9 +160,7 @@ module.exports.userCart_get = async(req,res)=>{
 module.exports.addToCart_post = async (req, res) => {
 
     const id = req.body.id;
-    // console.log(id);
     let userr = req.user.id
-    // console.log(userr);
     
     let product = await Product.findById({ _id: id })
     product = product.toJSON()
@@ -172,7 +168,6 @@ module.exports.addToCart_post = async (req, res) => {
 
     const userid = await User.findById({ _id: userr })
     const checks = userid.cart;
-    // console.log(checks);
     let n = 0;
     for (const check of checks) {
         if (check._id == id) {
@@ -186,20 +181,16 @@ module.exports.addToCart_post = async (req, res) => {
     }
     else {
         const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
-        // console.log('in else block');
         res.redirect('back')
     }
 }
 
 module.exports.checkout_get = async (req, res) => {
     console.log('checkouttttt');
-
     try {
         let Curuser = req.user.id
-        // console.log(Curuser);
-
         const users = await User.findById({ _id: Curuser })
-        // console.log(users);
+        
         const sum = function(items,p1,p2){
             return items.reduce(function (a,b){
                 return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
@@ -243,16 +234,12 @@ module.exports.addToCart = async (req, res) => {
 module.exports.removeFromCart = async (req, res) => {
 
     let prodId = req.params.id
-    // console.log(prodId);
     let product = await Product.findById(prodId)
-    // console.log(product);
     let userr = req.user.id
-    // console.log(userr);
 
     const userid = await User.findById({ _id: userr })
 
     const checks = userid.cart;
-    // console.log(checks);
     let n = 0;
     for (const check of checks) {
         if (check._id == prodId && check.count > 1) {
@@ -277,15 +264,13 @@ module.exports.userWishlist_get = async(req,res)=>{
         let Curuser = req.user.id
 
         const users = await User.findById({ _id: Curuser })
-        // console.log(users);
         const sum = function(items,p1,p2){
             return items.reduce(function (a,b){
                 return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
             },0)
         }
-        const total = sum(users.cart,'price','count')
-
-        res.render('./user/wishlist.ejs', { user: users.cart, totals:total, layout:'./layouts/layout.ejs' ,title:'checkout', admin : false})
+        const total = sum(users.wishlist,'price','count')
+        res.render('./user/wishlist.ejs', { user: users.wishlist, totals:total, layout:'./layouts/layout.ejs' ,title:'Wishlist', admin : false})
 
     } catch (err) {
         console.log(err);
@@ -295,22 +280,19 @@ module.exports.userWishlist_get = async(req,res)=>{
 module.exports.addToWishlist_post = async (req, res) => {
 
     const id = req.body.id;
-    // console.log(id);
     let userr = req.user.id
-    // console.log(userr);
     
     let product = await Product.findById({ _id: id })
     product = product.toJSON()
     product.count = 1;
 
     const userid = await User.findById({ _id: userr })
-    const checks = userid.cart;
-    // console.log(checks);
+    const checks = userid.wishlist;
     let n = 0;
     for (const check of checks) {
         if (check._id == id) {
-            await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
-                { $inc: { "cart.$.count": 1 } })
+            await User.updateOne({ _id: req.user.id, 'wishlist._id': req.body.id },
+                { $inc: { "wishlist.$.count": 1 } })
             n++
         }
     }
@@ -318,8 +300,7 @@ module.exports.addToWishlist_post = async (req, res) => {
         res.redirect('back')
     }
     else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
-        // console.log('in else block');
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
         res.redirect('back')
     }
 }
@@ -332,12 +313,12 @@ module.exports.addToWishlist = async (req, res) => {
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
 
-    const checks = userid.cart;
+    const checks = userid.wishlist;
     let n = 0;
     for (const check of checks) {
         if (check._id == prodId) {
-            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
-                { $inc: { "cart.$.count": 1 } })
+            await User.updateOne({ _id: userr, 'wishlist._id': req.params.id },
+                { $inc: { "wishlist.$.count": 1 } })
             n++
         }
     }
@@ -345,7 +326,7 @@ module.exports.addToWishlist = async (req, res) => {
         res.redirect('back')
     }
     else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        const neww = await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
         res.redirect('back')
     }
 }
@@ -353,21 +334,15 @@ module.exports.addToWishlist = async (req, res) => {
 module.exports.removeFromWishlist = async (req, res) => {
 
     let prodId = req.params.id
-    // console.log(prodId);
     let product = await Product.findById(prodId)
-    // console.log(product);
     let userr = req.user.id
-    // console.log(userr);
-
     const userid = await User.findById({ _id: userr })
-
-    const checks = userid.cart;
-    // console.log(checks);
+    const checks = userid.wishlist;
     let n = 0;
     for (const check of checks) {
         if (check._id == prodId && check.count > 1) {
-            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
-                { $inc: { "cart.$.count": -1 } })
+            await User.updateOne({ _id: userr, 'wishlist._id': req.params.id },
+                { $inc: { "wishlist.$.count": -1 } })
             n++
         }
     }
@@ -375,11 +350,35 @@ module.exports.removeFromWishlist = async (req, res) => {
         res.redirect('back')
     }
     else {
-        await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
+        await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
     }
 }
 
-module.exports.singleProductView_get = (req,res)=>{
-    res.render('./user/singleProductView.ejs',{title:'Single Product View'})
+module.exports.singleProductView_get = async(req,res)=>{   
+    let prodId = req.query.id
+    console.log(prodId);
+    let product = await Product.findById(prodId)
+    
+    res.render('./user/singleProductview.ejs',{product, layout:"./layouts/layout.ejs" , title:'Womens watch',admin:false})   
 }
+
+// user Profile view edit
+module.exports.userProfile_get = async(req,res)=>{   
+    console.log('profile getttt');
+    let user = req.user.id
+    console.log(user);
+    const profile = await User.findById({ _id: user })
+    
+    res.render('./user/profile.ejs',{ profile, layout:"./layouts/layout.ejs" , title:'User profile',admin:false}) 
+}
+
+module.exports.editProfile_get = async(req,res)=>{   
+    console.log('edit profile getttt');
+    let user = req.user.id
+    console.log(user);
+    const profile = await User.findById({ _id: user })
+    
+    res.render('./user/editProfile.ejs',{ profile, layout:"./layouts/layout.ejs" , title:'User profile',admin:false}) 
+}
+

@@ -1,9 +1,12 @@
 const Product = require('../models/productSchema');
+const Category = require('../models/categorySchema');
 const jwt = require('jsonwebtoken');
 
 module.exports.addproduct_get= (req,res)=>{
     console.log('add product');
-    res.render('admin/addproduct',{layout:"./layouts/adminlayout.ejs" ,title:'add product',admin:true})
+    Category.find().then((category) => {
+    res.render('admin/addproduct',{result: '', category,layout:"./layouts/adminlayout.ejs" ,title:'add product',admin:true})
+    })
 }
 
 module.exports.addproduct_post = async (req,res) =>{

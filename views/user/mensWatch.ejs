@@ -2,7 +2,6 @@
 <div class="banner_inner">
     <div class="services-breadcrumb">
         <div class="inner_breadcrumb">
-
             <ul class="short">
                 <li>
                     <a href="/">Home</a>
@@ -12,7 +11,6 @@
             </ul>
         </div>
     </div>
-
 </div>
 <!--//banner -->
 <!--/shop-->
@@ -28,7 +26,7 @@
                         <form action="#" method="post">
                                 <input class="form-control" type="search" name="search" placeholder="Search here..." required="">
                                 <button class="btn1">
-                                        <i class="fas fa-search"></i>
+                                    <i class="fas fa-search"></i>
                                 </button>
                                 <div class="clearfix"> </div>
                             </form>
@@ -57,7 +55,6 @@
                                 <input type="checkbox" class="checked">
                                 <span class="span">Phone Pocket</span>
                             </li>
-
                         </ul>
                     </div>
                     <!-- // preference -->
@@ -184,6 +181,7 @@
                         <div class="row">
                             <!-- /womens -->
                             <% product.forEach(function(product) { %>
+                                <% if (product.category === 'Men') { %>
 
                             <div class="col-md-3 product-men women_two shop-gd">
                                 <div class="product-googles-info googles">
@@ -192,7 +190,7 @@
                                             <img src="./image/<%= product._id %>.jpeg" class="img-shop" alt="">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a href="singleView" class="link-product-add-cart">Quick View</a>
+                                                    <a href="/singleProductView?id=<%= product._id %>"  class="link-product-add-cart">Quick View</a>
                                                 </div>
                                             </div>
                                             <span class="product-new-top">New</span>
@@ -202,7 +200,7 @@
                                                 <div class="grid_meta">
                                                     <div class="product_price">
                                                         <h4>
-                                                            <a href="/singleView"><%=product.name %></a>
+                                                            <a href="/singleProductView?id=<%= product._id %>"><%=product.name %></a>
                                                         </h4>
                                                         <div class="grid-price mt-2">
                                                             <span class="money "><%=product.price %></span>
@@ -235,13 +233,11 @@
                                                             </a>
                                                         </li>
                                                         
-                                                            <form action="#" method="post">
-                                                                <input type="hidden" name="cmd" value="_cart">
-                                                                <input type="hidden" name="add" value="1">
-                                                                <input type="hidden" name="googles_item" value="Farenheit">
-                                                                <input type="hidden" name="amount" value="575.00">
-                                                                <button type="submit" class="googles-cart pgoogles-cart">
-                                                                    <a href="#" class="btn btn-danger btn-sm">
+                                                            <form action="/addToWishlist" method="post">
+                                                                <input type="hidden" name="id" value="<%= product._id %>">
+                                                              
+                                                                <button type="submit" name="submit" value="Add to wishlist" class="googles-cart pgoogles-cart">
+                                                                    <a class="btn btn-danger btn-sm">
                                                                         Wishlist <span class="glyphicon glyphicon-heart"></span> 
                                                                       </a>
                                                                 </button> 
@@ -265,6 +261,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <% } %>
 
                             <% }) %> 
 

@@ -30,6 +30,7 @@
                         <% if(locals.user) { %>
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         <li><a class="dropdown-item" href="/userWishlist">Wishlist🤍</a></li>
+                        <li><a class="dropdown-item" href="/userProfile">Profile 👨🏻‍💼</a></li>
                         <% } else { %>
                         <li><a class="dropdown-item" href="/userLogin">Login</a></li>
                         <li><a class="dropdown-item" href="/userSignup">Register</a></li>
@@ -244,9 +245,9 @@
                     <a class="nav-link" href="contact.html">Contact</a>
                 </li>
             
-            <li>
+            <li style="margin-left: 30rem;">
                 <input type="search" class="form" style="border-radius: 5px; border-width:7px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                <button type="button" class="btn btn-dark">search</button>
+                <button type="button" class="btn btn-dark" >search</button>
             </li>
             </ul>
             <!-- <div class="search">

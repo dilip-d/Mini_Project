@@ -14,9 +14,8 @@
 								<th>Product</th>
 								<th>Quantity</th>
 								<th>Product Name</th>
-
 								<th>Price</th>
-								<!-- <th>Remove</th> -->
+								<th>Remove</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -47,6 +46,15 @@
 										 <div class="close1"> </div>
 									</div>
 								</td>	 -->
+								<td class="invert">
+									<div class="rem">
+										<a
+										href="/removeFromcart/<%= user._id %>"
+										class="btn btn-dark"
+										onclick="return confirm('Do you want to delete <%=user.name %> ?')"
+									  >Remove</a>
+									</div>
+								</td>
 							</tr>
 							<% }) %> 
 						</tbody>

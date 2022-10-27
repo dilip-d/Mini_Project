@@ -12,10 +12,12 @@
           <input type="text" name="name" class="form-control" required/>
 
           <label for="">Category</label>
-          <select id="category" name="category">
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-          </select>
+          <select class="form-select" name="category" aria-label="Default select example"> 
+            <option  selected><%= result.category %> </option>
+            <% for(let i=0;i<category.length ;i++){ %>  
+                <option value="<%= category[i].category  %> "><%= category[i].category %> </option> 
+                <% } %> 
+          </select> 
           <!-- <input type="text" name="category" class="form-control" required/>
 
           <select id="cars" name="cars">

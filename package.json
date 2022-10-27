@@ -29,6 +29,7 @@
     "npm": "^8.19.2",
     "twilio": "^3.82.2",
     "uuid": "^9.0.0",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "js-image-zoom": "^0.7.0"
   }
 }

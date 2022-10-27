@@ -13,8 +13,7 @@
                             <th>Product</th>
                             <!-- <th>Quantity</th> -->
                             <th>Product Name</th>
-
-                            <!-- <th>Price</th> -->
+                            <th>Move to Cart</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -39,12 +38,27 @@
                                 </div>
                             </td> -->
                             
-
                             <!-- <td class="invert">&#x20B9; <%= (user.price * user.count) %></td> -->
                             <td class="invert">
+                                <!-- <div class="rem">
+                                    <a
+                                    href="/addToCart/<%= user._id %>"
+                                    class="btn btn-dark"
+                                  >Move to Cart</a>
+                                </div> -->
+                                <form action="/addToCart" method="post">
+                                    <input type="hidden" name="id" value="<%= user._id %>">   
+                                    <button type="submit" name="submit" value="Move to cart" class="btn btn-dark" >
+                                    Move to Cart</button>  
+                                </form>
+                            </td>	
+                            <td class="invert">
                                 <div class="rem">
-                                    <i class='fa fa-trash-o'></i>
-                                     <!-- <div class="close1"> </div> -->
+                                    <a
+                                    href="/removeFromWishlist/<%= user._id %>"
+                                    class="btn btn-dark"
+                                    onclick="return confirm('Do you want to remove <%=user.name %> ?')"
+                                  >Remove</a>
                                 </div>
                             </td>	
                         </tr>

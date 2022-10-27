@@ -106,7 +106,7 @@ span.sub {
 h1.logo-w3layouts a.navbar-brand {
     font-size: 1.5em;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.26);
-    color: #454546;
+    color: rgb(255, 153, 0);
     margin: 0;
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
@@ -226,7 +226,7 @@ h1.logo-w3layouts a.navbar-brand {
 label.top-log {
     width: 45%;
     height: 1px;
-    background: #d7d7da;
+    /* background: #d7d7da; */
     display: block;
     margin-bottom: 10px;
 }
@@ -1307,9 +1307,9 @@ a.popup-with-zoom-anim {
 
 .inner-testimonials img {
     /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); */
-    -o-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    -ms-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --o-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --moz-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --ms-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     background: #eee;
     padding: 6px;
 }
@@ -1366,7 +1366,7 @@ h4.payment-head {
     float: left;
     font-size: 0.9em;
     border-color: #CCC;
-    -webkit-appearance: none;
+    --webkit-appearance: none;
     letter-spacing: 1px;
     letter-spacing: 1px;
     border-radius: 4px;
@@ -1456,7 +1456,7 @@ input#datepicker {
     -moz-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-    -webkit-appearance: none;
+    --webkit-appearance: none;
     outline: none;
     letter-spacing: 1px;
     text-decoration: none;
@@ -1492,7 +1492,7 @@ input#datepicker {
     -webkit-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;
-    moz-background-size: cover;
+    -moz-background-size: cover;
     min-height: 180px;
 }
 
@@ -1934,7 +1934,7 @@ ul.links li a:hover {
         -webkit-background-size: cover;
         -o-background-size: cover;
         -ms-background-size: cover;
-        moz-background-size: cover;
+        -moz-background-size: cover;
         min-height: 159px;
     }
     ul.short {
@@ -2098,7 +2098,7 @@ ul.links li a:hover {
         -webkit-background-size: cover;
         -o-background-size: cover;
         -ms-background-size: cover;
-        moz-background-size: cover;
+        -moz-background-size: cover;
         min-height: 133px;
     }
     ul.short {
@@ -2292,7 +2292,7 @@ ul.links li a:hover {
         label.top-log {
         width: 92%;
         height: 1px;
-        background: #d7d7da;
+        /* background: #d7d7da; */
         display: block;
         margin: 10px 0;
     }
