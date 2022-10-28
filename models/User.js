@@ -15,7 +15,7 @@ const cartSchema = new mongoose.Schema({
     image: {type: String},
     stock: {type: String},
     count:{type:Number}
-})
+},{timestamps:true})
 
 const wishlistSchema = new mongoose.Schema({
     name: {type: String},
@@ -25,7 +25,23 @@ const wishlistSchema = new mongoose.Schema({
     image: {type: String},
     stock: {type: String},
     count:{type:Number}
-})
+},{timestamps:true})
+
+const orderSchema = new mongoose.Schema({
+    name: {type: String},
+    price: {type: String},
+    description: {type: String},
+    category: {type: String},
+    image: {type: String},
+    stock: {type: String},
+    count:{type:Number},
+    croppedImage: {type: String},
+    offer: {type: String},
+    paymentOption: {type: String},
+    address: {type: String},
+    unique: {type: String},
+    orderStatus: {type: String, default:'Under process'}
+},{timestamps: true})
 
 const userSchema = mongoose.Schema({
     fname : {
@@ -88,7 +104,10 @@ const userSchema = mongoose.Schema({
     wishlist:{
         type: [wishlistSchema],
         default:[]
-
+    }, 
+    order:{
+        type: [orderSchema],
+        default:[]
     }, 
     isVerified :{
         type : Boolean,

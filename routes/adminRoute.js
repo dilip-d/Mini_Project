@@ -29,11 +29,14 @@ router.get('/adminSignup',adminauthController.adminSignup_get)
 router.post('/adminSignup',adminauthController.adminSignup_post);
 router.get('/adminLogin',adminAuthMiddleware.requireAdminAuth,adminauthController.adminLogin_get);
 router.post('/adminLogin',adminauthController.adminLogin_post);
-router.get('/adminLogout',adminauthController.adminlogout_get); 
+router.get('/adminLogout',adminauthController.adminlogout_get);
 
 //category management
 router.get('/category-management',adminauthController.category)
 router.post('/admin-panel/category',adminauthController.addCategory)
-router.post('/admin/delete-category',adminauthController.deleteCategory )
+router.post('/admin/delete-category',adminauthController.deleteCategory)
+
+//banner management
+router.get('/bannerManage',adminauthController.banner_get)
 
 module.exports = router;

@@ -185,26 +185,6 @@ module.exports.addToCart_post = async (req, res) => {
     }
 }
 
-module.exports.checkout_get = async (req, res) => {
-    console.log('checkouttttt');
-    try {
-        let Curuser = req.user.id
-        const users = await User.findById({ _id: Curuser })
-        
-        const sum = function(items,p1,p2){
-            return items.reduce(function (a,b){
-                return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
-            },0)
-        }
-        const total = sum(users.cart,'price','count')
-
-        res.render('./user/checkout.ejs', { user: users.cart, totals:total, layout: './layout/layout.ejs' ,title:'checkout', admin : false})
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 module.exports.addToCart = async (req, res) => {
 
     const prodId = req.params.id
@@ -409,3 +389,43 @@ module.exports.editProfile_post = async(req,res)=>{
     }
 
 }
+let total;
+
+module.exports.checkout_get = async (req, res) => {
+    console.log('checkoutttt');
+    try {
+        let id = req.user.id
+        const users = await User.findById({ _id: id })
+        const sum = function(items,p1,p2){
+            return items.reduce(function (a,b){
+                return parseInt(a)+(parseInt(b[p1])*parseInt(b[p2]))
+            },0)
+        }
+        total = sum(users.cart,'price','count')
+        const thisuser = users;
+
+        res.render('./user/checkout.ejs', { user: users.cart, totals:total, profile :thisuser ,layout: './layouts/layout.ejs' ,title:'checkout', admin : false})
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.orderStatus_get = async (req, res) => {
+    console.log('order placed');
+        res.render('./user/orderStatus.ejs', {layout: './layouts/layout.ejs' ,title:'Order status', admin : false})
+}
+
+module.exports.checkout_post = async (req, res) => {
+    console.log('order save');
+    console.log(req.body);
+
+
+}
+
+module.exports.orderDetails_get = async (req, res) => {
+    console.log('order details');
+
+    res.render('./user/orderDetails.ejs', {layout: './layouts/layout.ejs' ,title:'Order details', admin : false})
+}
+

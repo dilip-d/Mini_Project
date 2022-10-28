@@ -77,8 +77,8 @@ module.exports.category = (req,res)=>{
     .then((result)=>{
     res.render('admin/category',{result, layout: 'layouts/adminlayout',title:'Category', admin: true })
     }).catch((err)=>console.log(err))
-
 }
+
 module.exports.addCategory = async (req,res)=> {
 
     try{
@@ -104,3 +104,8 @@ module.exports.deleteCategory = (req,res) => {
             console.log(err)
         })
     }
+// banner
+module.exports.banner_get = (req,res)=>{
+
+     res.render('admin/bannerManage',{ layout:'layouts/adminlayout',title:'Banner', admin: true })
+}
