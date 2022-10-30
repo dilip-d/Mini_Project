@@ -15,7 +15,7 @@
           <select class="form-select" name="category" aria-label="Default select example"> 
             <option  selected><%= result.category %> </option>
             <% for(let i=0;i<category.length ;i++){ %>  
-                <option value="<%= category[i].category  %> "><%= category[i].category %> </option> 
+                <option value="<%= category[i].category  %>"><%= category[i].category %> </option> 
                 <% } %> 
           </select> 
           <!-- <input type="text" name="category" class="form-control" required/>
@@ -38,6 +38,15 @@
 
           <label for="">Image</label>
           <input type="file" name="image" class="form-control" required/>
+
+          <label for="">Image 1</label>
+          <input type="file" name="image1" class="form-control" required/>
+
+          <label for="">Image 2</label>
+          <input type="file" name="image2" class="form-control" required/>
+
+          <label for="">Image 3</label>
+          <input type="file" name="image3" class="form-control" required/>
 
           <button type="submit" class="btn btn-success mt-4" style="background-color: orange;">Submit</button>
         </form>

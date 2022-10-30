@@ -21,16 +21,26 @@ const productSchema = mongoose.Schema({
     },
     category : {
         type : String,
+        trim : true,
         required : true
     },
     subCategory :{
         type:String,
     },
     stock : {
-        type : String,
+        type : Number,
         required : true
     }, 
     image : {
+        type : String,
+    },
+    image1 : {
+        type : String,
+    },
+    image2: {
+        type : String,
+    },
+    image3 : {
         type : String,
     }, 
     description : {

@@ -71,7 +71,6 @@ module.exports.adminlogout_get = (req,res)=>{
     }
    
 // category
-
 module.exports.category = (req,res)=>{
     Category.find()
     .then((result)=>{
@@ -83,7 +82,6 @@ module.exports.addCategory = async (req,res)=> {
 
     try{
         let category = req.body.category
-
         const cat = await Category.create({category})
         res.redirect('/category-management')
 
@@ -93,19 +91,21 @@ module.exports.addCategory = async (req,res)=> {
 }
 
 module.exports.deleteCategory = (req,res) => {
-
         newcat = req.query.id
-        // console.log(newcat)
         Category.deleteOne({_id:newcat})
         .then((result)=>{
-            // console.log(result)
             res.redirect('/category-management')
         }).catch((err)=>{
             console.log(err)
         })
     }
+
 // banner
 module.exports.banner_get = (req,res)=>{
-
      res.render('admin/bannerManage',{ layout:'layouts/adminlayout',title:'Banner', admin: true })
+}
+
+module.exports.viewOrder_get = (req,res)=>{
+    console.log('order view');
+    res.render('admin/viewOrder',{ layout:'layouts/adminlayout',title:'Orders', admin: true })
 }

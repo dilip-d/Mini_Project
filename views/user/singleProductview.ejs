@@ -3,14 +3,18 @@
 		<div class="row g-0">
 			<div class="col-md-6 border-end">
 				<div class="d-flex flex-column justify-content-center">
-					<div class="main_image"> <img src="./image/<%= product._id %>.jpeg" data-imagezoom="true" id="main_product_image"
-							width="350"> </div>
+					<div class="main_image"> <img src="./image/<%= product._id %>.jpeg" data-imagezoom="true"
+							id="main_product_image" width="280" height="320"> </div>
 					<div class="thumbnail_images">
 						<ul id="thumbnail">
-							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>.jpeg" data-imagezoom="true" width="70"></li>
-							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>.jpeg" data-imagezoom="true" width="70"></li>
-							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>.jpeg" data-imagezoom="true" width="70"></li>
-							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>.jpeg" data-imagezoom="true" width="70"></li>
+							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>.jpeg"
+									 width="60"></li>
+							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>1.jpeg"
+									 width="60"></li>
+							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>2.jpeg"
+									 width="60"></li>
+							<li><img onclick="changeImage(this)" src="./image/<%= product._id %>3.jpeg"
+									 width="60"></li>
 						</ul>
 					</div>
 				</div>
@@ -18,12 +22,17 @@
 			<div class="col-md-6">
 				<div class="p-3 right-side">
 					<div class="d-flex justify-content-between align-items-center">
-						<h3><%=product.name %></h3> <span class="heart"><i class='bx bx-heart'></i></span>
+						<h3>
+							<%=product.name %>
+						</h3> <span class="heart"><i class='bx bx-heart'></i></span>
 					</div>
 					<div class="description mt-2">
-						<p><%=product.description %></p>
+						<p>
+							<%=product.description %>
+						</p>
 					</div>
-					<h3>Rs.<%=product.price %></h3>
+					<h3>Rs.<%=product.price %>
+					</h3>
 					<div class="ratings d-flex flex-row align-items-center">
 						<div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
 								class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i> </div>
@@ -40,13 +49,21 @@
 							</ul>
 						</div>
 					</div>
-					<div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark">Buy
-							Now</button> <button class="btn btn-dark">Add to Cart</button> </div>
+					<div class="buttons d-flex flex-row mt-5 gap-3">
+						<form action="/addToWishlist" method="post">
+							<input type="hidden" name="id" value="<%= product._id %>">
+						 <button class="btn btn-outline-danger">Add to Wishlist 🤍 </button>
+						</form> 
+						<form action="/addToCart" method="post">
+							<input type="hidden" name="id" value="<%= product._id %>">
+							<button class="btn btn-dark btn">Add to Cart</button>
+						</form>
+					</div>
 					<!-- <div class="search-option"> <i class='bx bx-search-alt-2 first-search'></i>
 						<div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i> -->
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>

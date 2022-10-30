@@ -40,7 +40,12 @@ router.post('/editProfile/:id',authController.editProfile_post);
 //checkout and order details
 router.get('/checkout',authController.checkout_get);
 router.post('/checkout',authController.checkout_post);
+router.get('/saveOrder',authController.saveOrder);
+
 router.get('/orderStatus',authController.orderStatus_get);
 router.get('/orderDetails',authController.orderDetails_get);
+
+//razorpay
+router.post('/verifyPaymentRazorpay',authController.verifyPaymentRazorpay);
 
 module.exports = router;

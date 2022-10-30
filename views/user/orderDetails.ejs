@@ -18,16 +18,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                     
                         <tr class="rem1">
 
                             <td class="invert">1</td>
                             <td class="invert-image">
                                 <a href="single.html">
-                                    <img src="" alt=" " class="img-responsive">
+                                    <img src="./image/<%= profile._id %>.jpeg" alt=" " class="img-responsive">
                                 </a>
                             </td>
-                            <td class="invert">name</td>
+                            <td class="invert"><%=profile.order[0].name %></td>
                             <!-- <td class="invert">
                                 <div class="quantity">
                                     <div class="quantity-select">
@@ -46,17 +46,18 @@
                                     class="btn btn-dark"
                                   >Move to Cart</a>
                                 </div> -->
-                            <td class="invert">status</td>
+                            <td class="invert"><%=profile.order[0].orderStatus %></td>
                             <td class="invert">
                                 <div class="rem">
                                     <a
                                     href=""
                                     class="btn btn-dark"
-                                    onclick="return confirm('Do you want to Cancel ?')"
+                                    onclick="return confirm('Do you want to Cancel <%=profile.order[0].name %> ?')"
                                   >Cancel</a>
                                 </div>
                             </td>	
                         </tr>
+                        
                         
                     </tbody>
                 </table>

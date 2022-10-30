@@ -36,6 +36,9 @@ router.get('/category-management',adminauthController.category)
 router.post('/admin-panel/category',adminauthController.addCategory)
 router.post('/admin/delete-category',adminauthController.deleteCategory)
 
+//order management
+router.get('/viewOrder',adminauthController.viewOrder_get)
+
 //banner management
 router.get('/bannerManage',adminauthController.banner_get)
 

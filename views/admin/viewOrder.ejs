@@ -1,0 +1,63 @@
+<div class="btn-group btn-group-toggle" id="selection" data-toggle="buttons" style="margin-left: 35rem;margin-top: 3rem;">
+    <label class="btn btn-secondary ">
+        <input type="radio" name="options" id="option1" autocomplete="off"><a href="/admin-order"><button
+                class="button">New</button></a>
+    </label>
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option2" autocomplete="off"><a href="/admin-order/comfirm"><button
+                class="button">confirmed</button></a>
+    </label>
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option3" autocomplete="off"><a href="/admin-order/delivered"><button
+                class="button">delivered</button></a>
+    </label>
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option3" autocomplete="off"><a href="/admin-order/cancel-order"><button
+                class="button">Canceled</button></a>
+    </label>
+</div>
+
+<table class="table" id="myTable" style="width:80%;border: 2em,thin; margin-left: 100px;">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">amount</th>
+            <th scope="col">date</th>
+            <th scope="col">payment</th>
+            <!-- <th scope="col">Action</th>
+            <th scope="col">Cancel</th> -->
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+     
+            <tr>
+                <th scope="row">
+                   
+                </th>
+                <td>₹ 
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                   
+                </td>
+               
+                    <td><a href="/admin-order/orderconfirmed?id="><button type="button"
+                                class="btn btn-outline-success">Confirm</button></a></td>
+                                <td><a href="/admin-order/cancelOrder?id= "><button type="button"
+                                    class="btn btn-outline-success">Cancel</button></a></td>
+
+
+                   
+
+                        <td><a href="/admin-order/deliverorder?id= "><button type="button"
+                                    class="btn btn-outline-success">delivered</button></a></td>
+                      
+                            <td><a href="/admin-order/view-products?id= "><button type="button"
+                                        class="btn btn-outline-success">View</button></a></td>
+
+            </tr>
+         
+    </tbody>
