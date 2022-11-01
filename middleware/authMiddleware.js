@@ -10,18 +10,19 @@ const requireAuth = (req,res,next)=>{
         jwt.verify(token, 'the secret',(err,decodedToken)=>{
             if(err){
                 console.log(err.message);
-                // res.redirect('/userLogin');
-                next();
+                res.redirect('/userLogin');
+                // next();
             }else{
                 console.log(decodedToken);
-                res.redirect('/');
-                // next();
+                // res.redirect('/');
+                next();
             }
         })
     }else{
         console.log('no token');
+        res.render('./user/userLogin.ejs', { title: 'login' });
         // res.redirect('/userLogin');
-        next();
+        // next();
     }
 }
 

@@ -99,9 +99,9 @@ module.exports.userSignup_post = async (req, res) => {
     }
 }
 
-module.exports.userLogin_get = (req, res) => {
-    res.render('./user/userLogin.ejs', { title: 'login' });
-}
+// module.exports.userLogin_get = (req, res) => {
+//     res.render('./user/userLogin.ejs', { title: 'login' });
+// }
 
 module.exports.userLogin_post = async (req, res) => {
     console.log(req.body);
@@ -561,13 +561,80 @@ module.exports.orderDetails_get = async (req, res) => {
         const profile = await User.findById({ _id: user })
 
         const result = profile.order
-        console.log(result);
+        // console.log(result);
 
-        res.render('./user/orderDetails.ejs', { result, layout: './layouts/layout.ejs', title: 'Order details', admin: false })
+        res.render('./user/orderDetails.ejs', { user, result, layout: './layouts/layout.ejs', title: 'Order details', admin: false })
     } catch (err) {
         res.status(500).json(err);
     }
 }
+
+module.exports.cancelOrder = (req, res) => {
+    console.log('cancelling in order');
+    const user = req.user.id;
+    // a=user.cart
+    console.log(user);
+     uniqueId = req.params.id;
+    console.log(uniqueId);
+    if (user) {
+        console.log('after unique iddddddd');
+        User.findOne({user:uniqueId })
+            .then((result) => {
+                // console.log(result)
+
+                const orders = result.order
+                console.log(orders)
+
+                for (let order of orders) {  
+                    order = order.toJSON();
+                    console.log('order of ordersss');
+                    if (order.unique === uniqueId) {
+                        console.log('going for update');
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count } }))])
+                            .then((result) => {
+                                res.redirect('/orderDetails')
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+            })
+        } else {
+            res.redirect('/userLogin')
+    }
+}
+
+//copy
+// const cancelOrderGet = (req, res) => {
+//     session = req.session;
+//     uniqueId = req.params.id;
+//     if (session.userId) {
+//         User.findOne({ _id: session.uid })
+//             .then((result) => {
+//                 // console.log(result)
+
+//                 const orders = result.order
+
+//                 console.log(orders)
+
+//                 for (let order of orders) {
+//                     order = order.toJSON();
+//                     if (order.unique === uniqueId) {
+//                         Promise.all([(User.updateOne({ "name": session.userId, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
+//                             .then((result) => {
+//                                 res.redirect('/order')
+//                             })
+//                             .catch((err) => {
+//                                 console.log(err)
+//                             })
+//                     }
+//                 }
+//             })
+//     } else {
+//         res.redirect('/login')
+//     }
+// }
 
 // const { paypalClientid, paypalClientsecret } = process.env;
 module.exports.paymentPaypal = async (req, res) => {

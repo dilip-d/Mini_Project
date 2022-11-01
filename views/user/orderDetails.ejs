@@ -18,17 +18,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <% for(let i=0;i<result.length;i++){ %>
-                        <tr class="rem1">
-                            <td class="invert"><%= i+1  %> </td>
-                            <!-- <td class="invert-image">
+                        <% for(let i=0;i<result.length;i++){ %>
+                            <tr class="rem1">
+                                <td class="invert">
+                                    <%= i+1 %>
+                                </td>
+                                <!-- <td class="invert-image">
                                 <a href="single.html">
                                     <img src="./image/<%= result._id %>.jpeg" alt=" " class="img-responsive">
                                 </a>
                             </td> -->
-                            <td class="invert"><%= result[i].name %></td>
-                            <td class="invert"><%= result[i].createdAt %></td>     
-                            <!-- <td class="invert">
+                                <td class="invert">
+                                    <%= result[i].name %>
+                                </td>
+                                <td class="invert">
+                                    <%= result[i].createdAt %>
+                                </td>
+                                <!-- <td class="invert">
                                 <div class="quantity">
                                     <div class="quantity-select">
                                         <a href="/removeFromcart/<%=user._id%>"><div class="entry value-minus">&nbsp;</div></a>
@@ -37,30 +43,30 @@
                                     </div>
                                 </div>
                             </td> -->
-                            
-                            <!-- <td class="invert">&#x20B9; <%= (user.price * user.count) %></td> -->
-                            <!-- <td class="invert"> -->
+
+                                <!-- <td class="invert">&#x20B9; <%= (user.price * user.count) %></td> -->
+                                <!-- <td class="invert"> -->
                                 <!-- <div class="rem">
                                     <a
                                     href="/addToCart/<%= user._id %>"
                                     class="btn btn-dark"
                                   >Move to Cart</a>
                                 </div> -->
-                            <td class="invert"><%= result[i].orderStatus %></td>
-                            <td class="invert">
-                                <div class="rem">
-                                    <a
-                                    href=""
-                                    class="btn btn-danger"
-                                    onclick="return confirm('Do you want to Cancel ?')"
-                                  >Cancel</a>
-                                </div>
-                            </td>	
-                        </tr>
-                        <% } %>
-                       
-                        
-                        
+                                <td class="invert">
+                                    <%= result[i].orderStatus %>
+                                </td>
+                                <td class="invert">
+                                    <div class="rem">
+                                        <% if( result[i].orderStatus=='Order cancelled' ) { %>
+                                            <p class="btn btn-dark">Cancelled</p>
+                                            <% } else { %>
+                                                <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                    onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
+                                                <% } %>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
                     </tbody>
                 </table>
             </div>

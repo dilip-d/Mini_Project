@@ -6,7 +6,6 @@ mongoose.connect('mongodb://localhost:27017/Admin-user-db',{
 })
 
 
-
 const productSchema = mongoose.Schema({
     name : {
         type : String,
@@ -46,6 +45,9 @@ const productSchema = mongoose.Schema({
     description : {
         type : String,
         required : true
+    },
+    sales :{
+        type : Number 
     }
 },{timestamps:true})
 
