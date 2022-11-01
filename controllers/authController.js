@@ -8,6 +8,10 @@ const client = require('twilio')(process.env.accountSid, process.env.authToken);
 const { v4: uuidv4 } = require('uuid');
 const Razorpay = require('razorpay');
 
+//paypal
+const fetch = require('node-fetch')
+const base = "https://api-m.sandbox.paypal.com";
+
 var instance = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
@@ -150,13 +154,14 @@ module.exports.userCart_get = async (req, res) => {
     try {
         let Curuser = req.user.id
         const users = await User.findById({ _id: Curuser })
+        let a = users
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
                 return parseInt(a) + (parseInt(b[p1]) * parseInt(b[p2]))
             }, 0)
         }
         const total = sum(users.cart, 'price', 'count')
-        res.render('./user/cart.ejs', { user: users.cart, totals: total, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
+        res.render('./user/cart.ejs', { user: users.cart, totals: total, b: a, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
         console.log(err);
@@ -192,7 +197,7 @@ module.exports.addToCart_post = async (req, res) => {
     }
 }
 
-module.exports.addToCart = async (req, res) => {
+module.exports.incrementCartCount = async (req, res) => {
     console.log('increment');
     const prodId = req.params.id
     let product = await Product.findById(prodId)
@@ -218,28 +223,46 @@ module.exports.addToCart = async (req, res) => {
     }
 }
 
+module.exports.decrementCartCount = async (req, res) => {
+    console.log('decrement');
+    let prodId = req.params.id
+    let product = await Product.findById(prodId)
+    let userr = req.user.id
+    const userid = await User.findById({ _id: userr })
+    try {
+
+        const checks = userid.cart;
+        let n = 0;
+        for (const check of checks) {
+            if (check._id == prodId && check.count > 1) {
+                await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                    { $inc: { "cart.$.count": -1 } })
+                n++
+            }
+        }
+        if (n > 0) {
+            res.redirect('back')
+        }
+        else {
+            await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
+        }
+        res.redirect('/userCart')
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports.removeFromCart = async (req, res) => {
 
     let prodId = req.params.id
     let product = await Product.findById(prodId)
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
-
-    const checks = userid.cart;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == prodId && check.count > 1) {
-            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
-                { $inc: { "cart.$.count": -1 } })
-            n++
-        }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
+    try {
         await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
         res.redirect('/userCart')
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -258,6 +281,39 @@ module.exports.userWishlist_get = async (req, res) => {
         const total = sum(users.wishlist, 'price', 'count')
         res.render('./user/wishlist.ejs', { user: users.wishlist, totals: total, layout: './layouts/layout.ejs', title: 'Wishlist', admin: false })
 
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.moveToCart = async (req, res) => {
+    console.log('moving to cart');
+    const prodId = req.params.id
+    let product = await Product.findById(prodId)
+
+    let userr = req.user.id
+    const userid = await User.findById({ _id: userr })
+
+    try {
+        const checks = userid.cart;
+        let n = 0;
+        for (const check of checks) {
+            if (check._id == prodId) {
+                await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                    { $inc: { "cart.$.count": 1 } })
+                n++
+            }
+        }
+        if (n > 0) {
+            res.redirect('back')
+        }
+        else {
+            product = product.toJSON()
+            product.count = 1;
+            const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+        }
+        await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
+        res.redirect('/userWishlist')
     } catch (err) {
         console.log(err);
     }
@@ -323,21 +379,11 @@ module.exports.removeFromWishlist = async (req, res) => {
     let product = await Product.findById(prodId)
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
-    const checks = userid.wishlist;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == prodId && check.count > 1) {
-            await User.updateOne({ _id: userr, 'wishlist._id': req.params.id },
-                { $inc: { "wishlist.$.count": -1 } })
-            n++
-        }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
+    try {
         await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -387,7 +433,6 @@ module.exports.editProfile_post = async (req, res) => {
                 phonenumber: result.phonenumber
             }
         })
-        console.log('dfdfsds');
         res.redirect('/userProfile');
 
     } catch (err) {
@@ -438,9 +483,14 @@ module.exports.checkout_post = async (req, res) => {
         console.log(typeof amount);
 
         instance.orders.create({ amount, currency }, (err, order) => {
-        // console.log(order);
-         res.json(order)
+            // console.log(order);
+            res.json(order)
         })
+    } else if (payment == 'Paypal') {
+        console.log('in paypal');
+        const order = { id: 'Paypal' };
+        console.log(order);
+        res.json(order);
     } else {
         res.redirect('/saveOrder')
     }
@@ -485,7 +535,7 @@ module.exports.verifyPaymentRazorpay = async (req, res) => {
 
     //creating hmac object
     const crypto = require("crypto");
-    let hmac = crypto.createHmac('sha256', process.env.key_secret );
+    let hmac = crypto.createHmac('sha256', process.env.key_secret);
 
     //Passing the data to be hashed
     hmac.update(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id);
@@ -510,8 +560,100 @@ module.exports.orderDetails_get = async (req, res) => {
     try {
         const profile = await User.findById({ _id: user })
 
-        res.render('./user/orderDetails.ejs', { profile, layout: './layouts/layout.ejs', title: 'Order details', admin: false })
+        const result = profile.order
+        console.log(result);
+
+        res.render('./user/orderDetails.ejs', { result, layout: './layouts/layout.ejs', title: 'Order details', admin: false })
     } catch (err) {
         res.status(500).json(err);
     }
 }
+
+// const { paypalClientid, paypalClientsecret } = process.env;
+module.exports.paymentPaypal = async (req, res) => {
+    console.log('in payment paypal');
+    console.log(req.body);
+    const { amount, currency } = req.body;
+    let orderAmt = amount / 80
+    let orderAmount = (Math.round(orderAmt * 100) / 100).toFixed(2);
+    console.log(orderAmount)
+    const order = await createOrder(orderAmount);
+    console.log(order);
+    console.log(order.id);
+    res.json(order);
+}
+
+// capture payment & store order information or fullfill order
+module.exports.verifyPaymentPaypal = async (req, res) => {
+    console.log('in verify payment paypal');
+    console.log(req.params)
+    const orderID = req.params.id;
+    console.log(orderID)
+    const captureData = await capturePayment(orderID);
+    // TODO: store payment information such as the transaction ID
+    res.json(captureData);
+};
+
+//////////////////////
+// PayPal API helpers
+//////////////////////
+
+// use the orders api to create an order
+async function createOrder(orderAmount) {
+
+    console.log('in create Order paypal');
+    const accessToken = await generateAccessToken();
+    const url = `${base}/v2/checkout/orders`;
+    const response = await fetch(url, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+            intent: "CAPTURE",
+            purchase_units: [
+                {
+                    amount: {
+                        currency_code: "USD",
+                        value: orderAmount,
+                    },
+                },
+            ],
+        }),
+    });
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
+
+// use the orders api to capture payment for an order
+async function capturePayment(orderId) {
+    const accessToken = await generateAccessToken();
+    const url = `${base}/v2/checkout/orders/${orderId}/capture`;
+    const response = await fetch(url, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    const data = await response.json();
+    return data;
+}
+
+// generate an access token using client id and app secret
+async function generateAccessToken() {
+    console.log('in generate token');
+    const auth = Buffer.from(process.env.paypalClientid + ":" + process.env.paypalClientsecret).toString("base64")
+    const response = await fetch(`${base}/v1/oauth2/token`, {
+        method: "post",
+        body: "grant_type=client_credentials",
+        headers: {
+            Authorization: `Basic ${auth}`,
+        },
+    });
+    const data = await response.json();
+    return data.access_token;
+}
+// -------------------------------------------

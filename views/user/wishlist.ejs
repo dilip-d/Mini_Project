@@ -23,7 +23,7 @@
 
                             <td class="invert"><%= index+1 %></td>
                             <td class="invert-image">
-                                <a href="single.html">
+                                <a href="/singleProductView?id=<%= user._id %>">
                                     <img src="./image/<%= user._id %>.jpeg" alt=" " class="img">
                                 </a>
                             </td>
@@ -40,17 +40,17 @@
                             
                             <!-- <td class="invert">&#x20B9; <%= (user.price * user.count) %></td> -->
                             <td class="invert">
-                                <!-- <div class="rem">
+                                <div class="rem">
                                     <a
-                                    href="/addToCart/<%= user._id %>"
+                                    href="/moveToCart/<%= user._id %>"
                                     class="btn btn-dark"
                                   >Move to Cart</a>
-                                </div> -->
-                                <form action="/addToCart" method="post">
+                                </div>
+                                <!-- <form action="/moveToCart" method="post">
                                     <input type="hidden" name="id" value="<%= user._id %>">   
                                     <button type="submit" name="submit" value="Move to cart" class="btn btn-dark" >
                                     Move to Cart</button>  
-                                </form>
+                                </form> -->
                             </td>	
                             <td class="invert">
                                 <div class="rem">

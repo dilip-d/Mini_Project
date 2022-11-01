@@ -10,24 +10,24 @@
                     <thead>
                         <tr>
                             <th>SL No.</th>
-                            <th>Product</th>
-                            <!-- <th>Quantity</th> -->
                             <th>Product Name</th>
+                            <th>Time</th>
+                            <!-- <th>Quantity</th> -->
                             <th>Order Status</th>
                             <th>Cancel</th>
                         </tr>
                     </thead>
                     <tbody>
-                     
+                            <% for(let i=0;i<result.length;i++){ %>
                         <tr class="rem1">
-
-                            <td class="invert">1</td>
-                            <td class="invert-image">
+                            <td class="invert"><%= i+1  %> </td>
+                            <!-- <td class="invert-image">
                                 <a href="single.html">
-                                    <img src="./image/<%= profile._id %>.jpeg" alt=" " class="img-responsive">
+                                    <img src="./image/<%= result._id %>.jpeg" alt=" " class="img-responsive">
                                 </a>
-                            </td>
-                            <td class="invert"><%=profile.order[0].name %></td>
+                            </td> -->
+                            <td class="invert"><%= result[i].name %></td>
+                            <td class="invert"><%= result[i].createdAt %></td>     
                             <!-- <td class="invert">
                                 <div class="quantity">
                                     <div class="quantity-select">
@@ -46,17 +46,19 @@
                                     class="btn btn-dark"
                                   >Move to Cart</a>
                                 </div> -->
-                            <td class="invert"><%=profile.order[0].orderStatus %></td>
+                            <td class="invert"><%= result[i].orderStatus %></td>
                             <td class="invert">
                                 <div class="rem">
                                     <a
                                     href=""
-                                    class="btn btn-dark"
-                                    onclick="return confirm('Do you want to Cancel <%=profile.order[0].name %> ?')"
+                                    class="btn btn-danger"
+                                    onclick="return confirm('Do you want to Cancel ?')"
                                   >Cancel</a>
                                 </div>
                             </td>	
                         </tr>
+                        <% } %>
+                       
                         
                         
                     </tbody>

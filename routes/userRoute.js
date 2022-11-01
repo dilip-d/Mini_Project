@@ -24,13 +24,16 @@ router.get('/singleProductView',authController.singleProductView_get);
 router.get('/userCart',authController.userCart_get);
 router.post('/addToCart',authController.addToCart_post);
 router.get('/removeFromcart/:id',authController.removeFromCart);
-router.get('/addtoCart/:id',authController.addToCart);
+router.get('/decrementCartCount/:id',authController.decrementCartCount);
+router.get('/incrementCartCount/:id',authController.incrementCartCount);
 
 //wishlist
 router.get('/userWishlist',authController.userWishlist_get);
 router.post('/addToWishlist',authController.addToWishlist_post);
 router.get('/removeFromWishlist/:id',authController.removeFromWishlist);
 router.get('/addtoWishlist/:id',authController.addToWishlist);
+router.get('/moveToCart/:id',authController.moveToCart);
+
 
 //user side profile management
 router.get('/userProfile',authController.userProfile_get);
@@ -41,11 +44,16 @@ router.post('/editProfile/:id',authController.editProfile_post);
 router.get('/checkout',authController.checkout_get);
 router.post('/checkout',authController.checkout_post);
 router.get('/saveOrder',authController.saveOrder);
-
 router.get('/orderStatus',authController.orderStatus_get);
+
+//orderdetails
 router.get('/orderDetails',authController.orderDetails_get);
 
 //razorpay
 router.post('/verifyPaymentRazorpay',authController.verifyPaymentRazorpay);
+
+//paypal
+router.post('/paymentPaypal',authController.paymentPaypal);
+router.post('/verifyPaymentPaypal/:id/capture',authController.verifyPaymentPaypal);
 
 module.exports = router;
