@@ -24,7 +24,7 @@ router.get('/editproduct/:id',productController.editproduct_get)
 router.post('/editproduct/:id',productController.editproduct_post)
 
 //admin signup and login
-router.get('/admin',adminAuthMiddleware.checkAdmin,adminauthController.adminHome_get)
+router.get('/admin',adminAuthMiddleware.requireAdminAuth,adminauthController.adminHome_get)
 router.get('/adminSignup',adminauthController.adminSignup_get)
 router.post('/adminSignup',adminauthController.adminSignup_post);
 router.get('/adminLogin',adminAuthMiddleware.requireAdminAuth,adminauthController.adminLogin_get);
@@ -38,6 +38,7 @@ router.post('/admin/delete-category',adminauthController.deleteCategory)
 
 //order management
 router.get('/viewOrder',adminauthController.viewOrder_get)
+router.get('/adminCancelOrder/:id',adminauthController.adminCancelOrder);
 
 //banner management
 router.get('/bannerManage',adminauthController.banner_get)

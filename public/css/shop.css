@@ -132,11 +132,12 @@ div#my-cart-modal .close:hover,
 
 button.top_googles_cart {
     text-align: center;
-    background: none;
+    background: orange;
     letter-spacing: 2px;
     color: #454546;
     cursor: pointer;
     border: 1px solid #dde2e6;
+	border-radius:5px ;
     padding: 0.5em 1em;
 }
 

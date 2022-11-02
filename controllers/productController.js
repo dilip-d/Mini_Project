@@ -21,12 +21,12 @@ module.exports.addproduct_post = async (req,res) =>{
     try{
        let image = req.files.image;
        image.mv('./public/image/'+product._id+".jpeg");
-       let image1 = req.files.image1;
-       image.mv('./public/image/'+product._id+"1.jpeg");
-       let image2 = req.files.image2;
-       image.mv('./public/image/'+product._id+"2.jpeg");
-       let image3 = req.files.image3;
-       image.mv('./public/image/'+product._id+"3.jpeg");
+    //    let image1 = req.files.image1;
+    //    image.mv('./public/image/'+product._id+"1.jpeg");
+    //    let image2 = req.files.image2;
+    //    image.mv('./public/image/'+product._id+"2.jpeg");
+    //    let image3 = req.files.image3;
+    //    image.mv('./public/image/'+product._id+"3.jpeg");
         // res.status(200).json()
         res.redirect('/addproduct');
     }
@@ -84,8 +84,7 @@ module.exports.editproduct_post = async (req,res)=>{
                 description : req.body.description,
                 stock : req.body.stock,
                 image : req.body.image,
-            }
-            
+            }     
         })
         console.log('dfdfsds');
         res.redirect('/viewproduct');

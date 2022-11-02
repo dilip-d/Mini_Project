@@ -1,4 +1,8 @@
-$(document).ready(function () {
-    $('#dtBasicExample').DataTable();
-    $('.dataTables_length').addClass('bs-select');
-    });
+$(document).ready(function() {
+    $('#example').DataTable( {
+        // dom: 'Bfrtip',
+        // buttons: [
+        //     'copy', 'csv', 'excel', 'pdf', 'print'
+        // ]
+    } );
+} );
