@@ -1676,8 +1676,8 @@ a.b-home:hover {
     -o-background-size: cover;
     -moz-background-size: cover;
     -ms-background-size: cover;
-    min-height: 400px;
     padding: 3em 0 0 0;
+    height: 300px;
 }
 
 .owl-carousel.owl-theme.row.owl-loaded.owl-drag {

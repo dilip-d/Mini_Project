@@ -1,6 +1,5 @@
 <div class="container rounded bg-white mt-5">
     <div class="row">
-
         <div class="col-md-8">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -11,28 +10,25 @@
                       >&#8592; Back to Profile</a>
                     
                     </div>
-                    <h2 class="text-center text-primary">Edit Profile</h2>
+                    <h2 class="text-center text-primary">Add Address</h2>
                 </div>
-                <form action="/editProfile/<%= profile._id %>" method="post">
-
-                    <label for="">First name</label>
-                    <input type="text" name="fname" class="form-control" value="<%= profile.fname %>" />
-
-                    <label for="">Last name</label>
-                    <input type="text" name="lname" class="form-control" value="<%= profile.lname %>" />
-
-                    <label for="">Email</label>
-                    <input type="text" name="email" class="form-control" value="<%= profile.email %>" />
-
-                    <label for="">Phone Number</label>
-                    <input type="text" name="phonenumber" class="form-control" value="<%= profile.phonenumber %>" />
+                <form action="/addAddress/<%= profile._id %>" method="post">
                    
                     <label for="">Address</label>
                     <textarea  type="text-field" name="address" class="form-control" value=""  rows="4" cols="50"></textarea>
                     <!-- <input type="text" name="address" class="form-control" value="" /> -->
-                    
+
                     <label for="">Zipcode</label>
                     <input type="text" name="zip" class="form-control" value="" />
+
+                    <label for="">Country</label>
+                    <input type="text" name="fname" class="form-control" value="" />
+
+                    <label for="">State</label>
+                    <input type="text" name="lname" class="form-control" value="" />
+
+                    <label for="">City</label>
+                    <input type="text" name="email" class="form-control" value="" />
                    
                     <button type="submit" class="btn btn-success mt-4" style="background-color: orange;">Submit</button>
                 </form>

@@ -1,56 +1,56 @@
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/Admin-user-db',{
-    useNewUrlParser : true,
-    useUnifiedTopology : true
+mongoose.connect('mongodb://localhost:27017/Admin-user-db', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 
 
 const productSchema = mongoose.Schema({
-    name : {
-        type : String,
-        required : [true,'Please add all the details about your product']
+    name: {
+        type: String,
+        required: [true, 'Please add all the details about your product']
     },
-    price : {
-        type : String,
-        required : true
-     },
-    offer : {
-        type : String,
+    price: {
+        type: Number,
+        required: true
     },
-    category : {
-        type : String,
-        trim : true,
-        required : true
+    offer: {
+        type: String,
     },
-    subCategory :{
-        type:String,
+    category: {
+        type: String,
+        trim: true,
+        required: true
     },
-    stock : {
-        type : Number,
-        required : true
-    }, 
-    image : {
-        type : String,
+    subCategory: {
+        type: String,
     },
-    image1 : {
-        type : String,
+    stock: {
+        type: Number,
+        required: true
+    },
+    image: {
+        type: String,
+    },
+    image1: {
+        type: String,
     },
     image2: {
-        type : String,
+        type: String,
     },
-    image3 : {
-        type : String,
-    }, 
-    description : {
-        type : String,
-        required : true
+    image3: {
+        type: String,
     },
-    sales :{
-        type : Number 
+    description: {
+        type: String,
+        required: true
+    },
+    sales: {
+        type: Number
     }
-},{timestamps:true})
+}, { timestamps: true })
 
-const productModel = mongoose.model('product',productSchema);
+const productModel = mongoose.model('product', productSchema);
 
 module.exports = productModel;

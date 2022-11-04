@@ -12,6 +12,8 @@
             <th>Quantity</th>
             <th>Order Status</th>
             <th>Time</th>
+            <th>Payment Mode</th>
+            <th>Total</th>
             <th>Cancel</th>
           </tr>
         </thead>
@@ -23,10 +25,12 @@
             <td><%=order.count %></td>
             <td><%=order.orderStatus %></td>
             <td><%=order.createdAt.toLocaleString() %></td>
+            <td><%=order.paymentOption %></td>
+            <td><%= (order.price * order.count) %></td>
             <td class="invert">
               <div class="rem">
                   <% if( order.orderStatus=='Order cancelled' ) { %>
-                      <p class="btn btn-dark">Cancelled</p>
+                      <p class="" style="color: red;">Cancelled</p>
                       <% } else { %>
                           <a href="/adminCancelOrder/<%= order.unique %>" class="btn btn-danger"
                               onclick="return confirm('Do you want to Cancel ?')">Cancel</a>

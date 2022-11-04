@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Product = require('../models/productSchema');
+const Coupon = require("../models/couponSchema");
 const jwt = require('jsonwebtoken');
 const { handleErrors } = require('../middleware/errHandlingMiddleware');
 const { loginerrorhandler } = require('../middleware/errHandlingMiddleware');
@@ -29,7 +30,7 @@ module.exports.homepage_get = async (req, res) => {
     try {
         const products = await Product.find({});
         console.log('found');
-        res.render('./user/index', { product: products, layout: "./layouts/layout.ejs", title: 'home page', admin: false })
+        res.render('./user/index', { product: products, layout: "./layouts/layout.ejs", title: 'Home page', admin: false })
 
     } catch (err) {
         res.status(500).json(err);
@@ -414,6 +415,40 @@ module.exports.editProfile_get = async (req, res) => {
     res.render('./user/editProfile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
 }
 
+module.exports.addAddress = async (req, res) => {
+    console.log('add address');
+    let user = req.user.id
+    console.log(user);
+    const profile = await User.findById({ _id: user })
+
+    res.render('./user/addAddress.ejs', { profile, layout: "./layouts/layout.ejs", title: 'Add Address', admin: false })
+}
+
+module.exports.addAddress_post = async (req, res) => {
+
+    try {
+        const user = req.user.id;
+        const result = req.body;
+        const userid = await User.findById({ _id: user })
+
+        await User.updateOne({ _id: user },
+            {
+                $push: {
+                    address: {
+                        address: result.address,
+                        city: result.city,
+                        country: result.country,
+                        state: result.state,
+                        zip: result.zip,
+                    }
+                }
+            })
+        res.redirect('/userProfile')
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports.editProfile_post = async (req, res) => {
     const user = req.params.id
     console.log('edit profile post');
@@ -444,6 +479,7 @@ module.exports.checkout_get = async (req, res) => {
     console.log('checkoutttt');
     try {
         let id = req.user.id
+        const coupon = await Coupon.find()
         const users = await User.findById({ _id: id })
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
@@ -453,7 +489,7 @@ module.exports.checkout_get = async (req, res) => {
         total = sum(users.cart, 'price', 'count')
         const thisuser = users;
 
-        res.render('./user/checkout.ejs', { user: users.cart, totals: total, profile: thisuser, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
+        res.render('./user/checkout.ejs', {coupon, user: users.cart, totals: total, profile: thisuser, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
         console.log(err);
@@ -465,11 +501,14 @@ module.exports.orderStatus_get = async (req, res) => {
     res.render('./user/orderStatus.ejs', { layout: './layouts/layout.ejs', title: 'Order status', admin: false })
 }
 
+let address;
+let payment;
+
 module.exports.checkout_post = async (req, res) => {
     console.log('checkout submit');
     console.log(req.body);
-    var address = req.body.address;
-    var payment = req.body.payment;
+    address = req.body.address;
+    payment = req.body.payment;
     let id = req.user.id;
 
     const result = await User.findOne({ _id: id });
@@ -499,12 +538,14 @@ module.exports.checkout_post = async (req, res) => {
 module.exports.saveOrder = async (req, res) => {
     console.log('save order');
     let id = req.user.id;
-    const address = req.body.address;
-    const payment = req.body.payment;
+    // address = req.body.address;
+    // payment = req.body.payment;
 
     try {
         const result = await User.findOne({ _id: id });
-        const cartItems = result.cart;
+        let cartItems = result.cart;
+
+        // console.log(result);
 
         for (let cartItem of cartItems) {
             cartItem = cartItem.toJSON()
@@ -574,23 +615,23 @@ module.exports.cancelOrder = (req, res) => {
     const user = req.user.id;
     // a=user.cart
     console.log(user);
-     uniqueId = req.params.id;
+    uniqueId = req.params.id;
     console.log(uniqueId);
     if (user) {
         console.log('after unique iddddddd');
-        User.findOne({user:uniqueId })
+        User.findOne({ user: uniqueId })
             .then((result) => {
                 // console.log(result)
 
                 const orders = result.order
                 console.log(orders)
 
-                for (let order of orders) {  
+                for (let order of orders) {
                     order = order.toJSON();
                     console.log('order of ordersss');
                     if (order.unique === uniqueId) {
                         console.log('going for update');
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count } }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count ,"sales": (order.count * -1)} }))])
                             .then((result) => {
                                 res.redirect('/orderDetails')
                             })
@@ -600,8 +641,8 @@ module.exports.cancelOrder = (req, res) => {
                     }
                 }
             })
-        } else {
-            res.redirect('/userLogin')
+    } else {
+        res.redirect('/userLogin')
     }
 }
 

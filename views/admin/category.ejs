@@ -11,19 +11,18 @@
                     <div class="form-outline"> 
                       <input type="text" name="category" id="form3Example1" class="form-control" placeholder="Category" required/> 
                     </div> 
-                    
-                      <!-- <b><p class="mt-2 fw-bold" style="color: red;">Already Added</p></b> -->
-                    
+                    <% if(validation.category){ %>
+                      <b><p class="mt-2 fw-bold" style="color: red;">Already Added</p></b>
+                      <% } %>  
                   </div> 
                 <!-- Submit button --> 
                 <button type="submit" class="btn btn-primary btn-block mb-4"> 
                   Add Category 
                 </button> 
-              </form> 
-             
+              </form>           
 </section> 
     <table class="table table-hover"> 
-        <thead> 
+        <thead style="background-color: rgb(22, 22, 22);"> 
             <tr> 
               <th scope="col">No.</th> 
               <th scope="col">Categories</th> 

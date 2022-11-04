@@ -58,7 +58,7 @@
                                 <td class="invert">
                                     <div class="rem">
                                         <% if( result[i].orderStatus=='Order cancelled' ) { %>
-                                            <p class="btn btn-dark">Cancelled</p>
+                                            <p class="" style="color :red">Cancelled</p>
                                             <% } else { %>
                                                 <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
                                                     onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
