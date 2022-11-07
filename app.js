@@ -7,6 +7,7 @@ const adminRoute = require("./routes/adminRoute");
 const nocache = require('nocache');
 const fileUpload = require('express-fileupload')
 const { checkUser } = require('./middleware/authMiddleware');
+const db = require('./database/connection')
 
 app.set('layout', './layouts/layout.ejs', './layouts/adminlayout.ejs');
 //set templating engine
@@ -24,6 +25,14 @@ app.use(fileUpload())
 app.use('*', checkUser);
 app.use('/', userRoute)
 app.use('/', adminRoute)
+
+db.connectToDb((err)=>{
+  if(!err){
+      app.listen(PORT,() => {
+          console.log(`listening to port ${PORT}`)
+      })
+  }
+})
 
 app.use(function (req, res, next) {
   res.status(404).send("<h1>Sorry can't find that!</h1>");

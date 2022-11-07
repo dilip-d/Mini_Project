@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const { isEmail } = require('validator');
 
-mongoose.connect('mongodb://localhost:27017/Admin-user-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
 const cartSchema = new mongoose.Schema({
     name: { type: String },
     price: { type: Number },
@@ -39,6 +34,9 @@ const orderSchema = new mongoose.Schema({
     offer: { type: String },
     paymentOption: { type: String },
     address: { type: String },
+    zip: { type: String },
+    state: { type: String },
+    country: { type: String },
     unique: { type: String },
     orderStatus: { type: String, default: 'Under process' }
 }, { timestamps: true })

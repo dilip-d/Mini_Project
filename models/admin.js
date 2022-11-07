@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
-mongoose.connect('mongodb://localhost:27017/Admin-user-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
 const adminSchema = mongoose.Schema({
 
     username: {

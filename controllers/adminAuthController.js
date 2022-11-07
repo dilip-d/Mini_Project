@@ -39,39 +39,39 @@ module.exports.adminHome_get = async (req, res) => {
             // console.log(result)
             let sums;
             n = results.length;
-            console.log(`n:${n}`);
+            // console.log(`n:${n}`);
 
             for (result of results) {
                 k++;
-                console.log(`k:${k}`);
+                // console.log(`k:${k}`);
                 const orders = result.order
                 m.push(orders.length);
-                console.log(`m:${m}`);
+                // console.log(`m:${m}`);
 
                 console.log(`sums:${sums}`)
 
                 for (let order of orders) {
                     l++;
-                    console.log(`l:${l}`);
+                    // console.log(`l:${l}`);
                     sums = m.reduce((partialSum, a) => partialSum + a, 0);
                     order = order.toJSON();
 
                     if (order.orderStatus !== "Order cancelled") {
-                        console.log(order.count);
-                        console.log(order.price);
+                        // console.log(order.count);
+                        // console.log(order.price);
                         sales.push(order.count * order.price);
-                        console.log(sales);
+                        // console.log(sales);
                         timeOfSale.push(order.createdAt.toISOString().substring(0, 10));
-                        console.log(timeOfSale);
+                        // console.log(timeOfSale);
                     }
                 }
                 if (l === sums && k === n) {
 
-                    console.log(sales);
-                    console.log(typeof (sales[0]));
+                    // console.log(sales);
+                    // console.log(typeof (sales[0]));
 
-                    console.log(timeOfSale);
-                    console.log(typeof (timeOfSale[0]));
+                    // console.log(timeOfSale);
+                    // console.log(typeof (timeOfSale[0]));
                     Product.find({})
                         .then((result) => {
                             const sum = function (items, prop1, prop2) {
@@ -80,10 +80,10 @@ module.exports.adminHome_get = async (req, res) => {
                                 }, 0);
                             };
 
-                            const total = sum(result, 'price', 'sales');
-                            console.log(total);
+                            const totals = sum(result, 'price', 'sales');
+                            // console.log(totals);
 
-                            res.render('admin/index', { productCount, result, total: total, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
+                            res.render('admin/index', { productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
                         }).catch((err) => {
                             console.log(err)
                         })

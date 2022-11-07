@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="zxx">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%- title %></title>
-    <script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico"/> 
+	<title>
+		<%- title %>
+	</title>
+	<script>
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
 		}, false);
@@ -15,737 +19,252 @@
 		}
 	</script>
 
-<link href="css/bootstrapcopy.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/stylecopy.css" rel="stylesheet" type="text/css" media="all" />
-<!-- font-awesome icons -->
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all" /> 
-<!-- //font-awesome icons -->
+	<link href="css/bootstrapcopy.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/stylecopy.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- font-awesome icons -->
+	<link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- //font-awesome icons -->
 
-<link href='//fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
-<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic'
+		rel='stylesheet' type='text/css'>
+	<link
+		href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+		rel='stylesheet' type='text/css'>
 
-	
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/style6.css">
+
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/style6.css">
 	<link rel="stylesheet" href="css/singleview.css" type='text/css'>
-	<link href="css/checkout.css" rel='stylesheet' type='text/css' >
-	<link href="css/admin.css" rel='stylesheet' type='text/css' >
-	<link href="css/contact.css" rel='stylesheet' type='text/css' >
-	<link href="css/creditly.css" rel='stylesheet' type='text/css' >
-	<link href="css/flexslider.css" rel='stylesheet' type='text/css' >
-    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' >
-	<link href="css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' >
-	<link href="css/simplyCountdown.css" rel='stylesheet' type='text/css' >
-	<link href="css/jquery-ui1.css" rel='stylesheet' type='text/css' >
-	<link href="css/login_overlay.css" rel='stylesheet' type='text/css' >
-	<link href="css/style6.css" rel='stylesheet' type='text/css' >
-	<link rel="stylesheet" href="css/shop.css" type="text/css" >
+	<link href="css/checkout.css" rel='stylesheet' type='text/css'>
+	<link href="css/admin.css" rel='stylesheet' type='text/css'>
+	<link href="css/contact.css" rel='stylesheet' type='text/css'>
+	<link href="css/creditly.css" rel='stylesheet' type='text/css'>
+	<link href="css/flexslider.css" rel='stylesheet' type='text/css'>
+	<link href="css/bootstrap.css" rel='stylesheet' type='text/css'>
+	<link href="css/easy-responsive-tabs.css" rel='stylesheet' type='text/css'>
+	<link href="css/simplyCountdown.css" rel='stylesheet' type='text/css'>
+	<link href="css/jquery-ui1.css" rel='stylesheet' type='text/css'>
+	<link href="css/login_overlay.css" rel='stylesheet' type='text/css'>
+	<link href="css/style6.css" rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/shop.css" type="text/css">
 	<link rel="stylesheet" href="/public/css/shop.css" type="text/css" media="all">
 	<link rel="stylesheet" href="css/owl.theme.css" type="text/css" media="all">
 	<link href="css/style.css" rel='stylesheet' type='text/css'>
 	<link href="css/fontawesome-all.css" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
-	<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
-	    rel="stylesheet">
+	<link
+		href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+		rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	
 </head>
+
 <body>
-        <%- include('../partials/header.ejs')%>
-		
-            <%- body %>
-		
-        <%- include('../partials/footer.ejs')%>
+	<%- include('../partials/header.ejs')%>
 
-<!-- js -->
-<script src="js/imagezoom.js"></script>
-<script src="js/singleview.js"></script>
-<script src="js/jquery-1.11.1.min.js"></script>
-<!-- easy-responsive-tabs -->    
-<link rel="stylesheet" type="text/css" href="css/easy-responsive-tabs.css " />
-<script src="js/easyResponsiveTabs.js"></script>
-<!-- //easy-responsive-tabs --> 
-	<script type="text/javascript">
-    $(document).ready(function() {
-        //Horizontal Tab
-        $('#parentHorizontalTab').easyResponsiveTabs({
-            type: 'default', //Types: default, vertical, accordion
-            width: 'auto', //auto or any width like 600px
-            fit: true, // 100% fit in a container
-            tabidentify: 'hor_1', // The tab groups identifier
-            activate: function(event) { // Callback function if tab is switched
-                var $tab = $(this);
-                var $info = $('#nested-tabInfo');
-                var $name = $('span', $info);
-                $name.text($tab.text());
-                $info.show();
-            }
-        });
-    });
-</script>
-<!-- credit-card -->
-		<script type="text/javascript" src="js/creditlycopy.js"></script>
-        <link rel="stylesheet" href="css/creditlycopy.css" type="text/css" media="all" />
+		<%- body %>
 
-		<script type="text/javascript">
-			$(function() {
-			  var creditly = Creditly.initialize(
-				  '.creditly-wrapper .expiration-month-and-year',
-				  '.creditly-wrapper .credit-card-number',
-				  '.creditly-wrapper .security-code',
-				  '.creditly-wrapper .card-type');
+			<%- include('../partials/footer.ejs')%>
 
-			  $(".creditly-card-form .submit").click(function(e) {
-				e.preventDefault();
-				var output = creditly.validate();
-				if (output) {
-				  // Your validated credit card output
-				  console.log(output);
-				}
-			  });
-			});
-		</script>
-	<!-- //credit-card -->
+				<!-- js -->
+				<script src="js/singleview.js"></script>
+				<!-- <script src="js/jquery-1.11.1.min.js"></script> -->
+				<!-- <script src="js/jquery-2.2.3.min.js"></script> -->
+				<!--search jQuery-->
+				<script src="js/modernizr-2.6.2.min.js"></script>
+				<script src="js/classie-search.js"></script>
+				<script src="js/demo1-search.js"></script>
+				<!--//search jQuery-->
+				<script src="js/easy-responsive-tabs.js"></script>
+				<script>
+					$(document).ready(function () {
+						$('#horizontalTab').easyResponsiveTabs({
+							type: 'default', //Types: default, vertical, accordion           
+							width: 'auto', //auto or any width like 600px
+							fit: true, // 100% fit in a container
+							closed: 'accordion', // Start closed if in accordion view
+							activate: function (event) { // Callback function if tab is switched
+								var $tab = $(this);
+								var $info = $('#tabInfo');
+								var $name = $('span', $info);
+								$name.text($tab.text());
+								$info.show();
+							}
+						});
+						$('#verticalTab').easyResponsiveTabs({
+							type: 'vertical',
+							width: 'auto',
+							fit: true
+						});
+					});
+				</script>
+				
+				<!--jQuery-->
+				<!-- <script src="js/jquery-2.2.3.min.js"></script> -->
+				<script src="js/jquery-ui.js"></script>
+				<script>
+					//<![CDATA[ 
+					$(window).load(function () {
+						$("#slider-range").slider({
+							range: true,
+							min: 0,
+							max: 9000,
+							values: [50, 6000],
+							slide: function (event, ui) {
+								$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+							}
+						});
+						$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
 
-<!-- //js -->
-<!-- script-for sticky-nav -->
-	<script>
-	$(document).ready(function() {
-		 var navoffeset=$(".agileits_header").offset().top;
-		 $(window).scroll(function(){
-			var scrollpos=$(window).scrollTop(); 
-			if(scrollpos >=navoffeset){
-				$(".agileits_header").addClass("fixed");
-			}else{
-				$(".agileits_header").removeClass("fixed");
-			}
-		 });
-		 
-	});
-	</script>
-<!-- //script-for sticky-nav -->
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="js/move-topcopy.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
-			event.preventDefault();
-			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-		});
-	});
-</script>
-<!-- start-smoth-scrolling -->
-<!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function(){
-    $(".dropdown").hover(            
-        function() {
-            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
-            $(this).toggleClass('open');        
-        },
-        function() {
-            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
-            $(this).toggleClass('open');       
-        }
-    );
-});
-</script>
-<!-- here stars scrolling icon -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-			*/
-								
-			$().UItoTop({ easingType: 'easeOutQuart' });
-								
-			});
-	</script>
-<!-- //here ends scrolling icon -->
-<script src="js/minicart.js"></script>
-<script>
-		paypal.minicart.render();
+					}); //]]>
+				</script>
+				<!-- //price range (top products) -->
 
-		paypal.minicart.cart.on('checkout', function (evt) {
-			var items = this.items(),
-				len = items.length,
-				total = 0,
-				i;
+				<script src="js/owl.carousel.js"></script>
+				<script>
+					$(document).ready(function () {
+						$('.owl-carousel').owlCarousel({
+							loop: true,
+							margin: 10,
+							responsiveClass: true,
+							responsive: {
+								0: {
+									items: 1,
+									nav: true
+								},
+								600: {
+									items: 2,
+									nav: false
+								},
+								900: {
+									items: 3,
+									nav: false
+								},
+								1000: {
+									items: 4,
+									nav: true,
+									loop: false,
+									margin: 20
+								}
+							}
+						})
+					})
+				</script>
+				<!-- //end-smooth-scrolling -->
+				<!-- FlexSlider -->
+				<!-- <script src="js/jquery.flexslider.js"></script> -->
+				<script>
+					// Can also be used with $(document).ready()
+					$(window).load(function () {
+						$('.flexslider1').flexslider({
+							animation: "slide",
+							controlNav: "thumbnails"
+						});
+					});
+				</script>
+				<!-- //FlexSlider-->
 
-			// Count the number of each item in the cart
-			for (i = 0; i < len; i++) {
-				total += items[i].get('quantity');
-			}
+				<script src="js/bootstrap.js"></script>
+				<!-- js file -->
+				<!-- Checkout script end-->
+				<!-- <script src="js/jquery-2.2.3.min.js"></script> -->
+				<script>
+					$(document).ready(function () {
+						$("#myModal").modal();
+					});
+				</script>
+				<!-- // modal -->
+				<!-- Count-down -->
+				<script src="js/simplyCountdown.js"></script>
+				<link href="css/simplyCountdown.css" rel='stylesheet' type='text/css' />
+				<script>
+					var d = new Date();
+					simplyCountdown('simply-countdown-custom', {
+						year: d.getFullYear(),
+						month: d.getMonth() + 2,
+						day: 25
+					});
+				</script>
+				<!--// Count-down -->
+				<script src="js/owl.carousel.js"></script>
+				<script>
+					$(document).ready(function () {
+						$('.owl-carousel').owlCarousel({
+							loop: true,
+							margin: 10,
+							responsiveClass: true,
+							responsive: {
+								0: {
+									items: 1,
+									nav: true
+								},
+								600: {
+									items: 2,
+									nav: false
+								},
+								900: {
+									items: 3,
+									nav: false
+								},
+								1000: {
+									items: 4,
+									nav: true,
+									loop: false,
+									margin: 20
+								}
+							}
+						})
+					})
+				</script>
+				<!-- //end-smooth-scrolling -->
+				<!-- dropdown nav -->
+				<script>
+					$(document).ready(function () {
+						$(".dropdown").hover(
+							function () {
+								$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+								$(this).toggleClass('open');
+							},
+							function () {
+								$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+								$(this).toggleClass('open');
+							}
+						);
+					});
+				</script>
+				<!-- //dropdown nav -->
+				<script src="js/move-top.js"></script>
+				<script src="js/easing.js"></script>
+				<script>
+					jQuery(document).ready(function ($) {
+						$(".scroll").click(function (event) {
+							event.preventDefault();
+							$('html,body').animate({
+								scrollTop: $(this.hash).offset().top
+							}, 900);
+						});
+					});
+				</script>
+				<script>
+					$(document).ready(function () {
 
-			if (total < 3) {
-				alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-				evt.preventDefault();
-			}
-		});
+						$().UItoTop({
+							easingType: 'easeOutQuart'
+						});
 
-	</script>
+					});
+				</script>
+				// end-smoth-scrolling
 
-<!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function(){
-    $(".dropdown").hover(            
-        function() {
-            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
-            $(this).toggleClass('open');        
-        },
-        function() {
-            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
-            $(this).toggleClass('open');       
-        }
-    );
-});
-</script>
-<!-- here stars scrolling icon -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-			*/
-								
-			$().UItoTop({ easingType: 'easeOutQuart' });
-								
-			});
-	</script>
-<!-- //here ends scrolling icon -->
-<script src="js/minicartcopy.js"></script>
-<script>
-		paypal.minicart.render();
-
-		paypal.minicart.cart.on('checkout', function (evt) {
-			var items = this.items(),
-				len = items.length,
-				total = 0,
-				i;
-
-			// Count the number of each item in the cart
-			for (i = 0; i < len; i++) {
-				total += items[i].get('quantity');
-			}
-
-			if (total < 3) {
-				alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-				evt.preventDefault();
-			}
-		});
-
-	</script>
-<!-- vishnu fresh cart -->
-<!-- payment script start -->
-<!--jQuery-->
-<script src="js/jquery-2.2.3.min.js"></script>
-<!-- newsletter modal -->
-<!--search jQuery-->
-<script src="js/modernizr-2.6.2.min.js"></script>
-<script src="js/classie-search.js"></script>
-<script src="js/demo1-search.js"></script>
-<!--//search jQuery-->
-<!-- cart-js -->
-<script src="js/minicart.js"></script>
-<script>
-	googles.render();
-
-	googles.cart.on('googles_checkout', function (evt) {
-		var items, len, i;
-
-		if (this.subtotal() > 0) {
-			items = this.items();
-
-			for (i = 0, len = items.length; i < len; i++) {}
-		}
-	});
-</script>
-<!-- //cart-js -->
-<script>
-	$(document).ready(function () {
-		$(".button-log a").click(function () {
-			$(".overlay-login").fadeToggle(200);
-			$(this).toggleClass('btn-open').toggleClass('btn-close');
-		});
-	});
-	$('.overlay-close1').on('click', function () {
-		$(".overlay-login").fadeToggle(200);
-		$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
-		open = false;
-	});
-</script>
-<!-- carousel -->
-<!-- easy-responsive-tabs -->
-<script src="js/easy-responsive-tabs.js"></script>
-<script>
-	$(document).ready(function () {
-		$('#horizontalTab').easyResponsiveTabs({
-			type: 'default', //Types: default, vertical, accordion           
-			width: 'auto', //auto or any width like 600px
-			fit: true, // 100% fit in a container
-			closed: 'accordion', // Start closed if in accordion view
-			activate: function (event) { // Callback function if tab is switched
-				var $tab = $(this);
-				var $info = $('#tabInfo');
-				var $name = $('span', $info);
-				$name.text($tab.text());
-				$info.show();
-			}
-		});
-		$('#verticalTab').easyResponsiveTabs({
-			type: 'vertical',
-			width: 'auto',
-			fit: true
-		});
-	});
-</script>
-
-<!-- credit-card -->
-<script type="text/javascript" src="js/creditly.js"></script>
-<link rel="stylesheet" href="css/creditly.css" type="text/css" media="all" />
-
-<script type="text/javascript">
-	$(function () {
-		var creditly = Creditly.initialize(
-			'.creditly-wrapper .expiration-month-and-year',
-			'.creditly-wrapper .credit-card-number',
-			'.creditly-wrapper .security-code',
-			'.creditly-wrapper .card-type');
-
-		$(".creditly-card-form .submit").click(function (e) {
-			e.preventDefault();
-			var output = creditly.validate();
-			if (output) {
-				// Your validated credit card output
-				console.log(output);
-			}
-		});
-	});
-</script>
-<!-- //credit-card -->
-<!-- dropdown nav -->
-<script>
-	$(document).ready(function () {
-		$(".dropdown").hover(
-			function () {
-				$('.dropdown-menu', this).stop(true, true).slideDown("fast");
-				$(this).toggleClass('open');
-			},
-			function () {
-				$('.dropdown-menu', this).stop(true, true).slideUp("fast");
-				$(this).toggleClass('open');
-			}
-		);
-	});
-</script>
-<!-- //dropdown nav -->
-<script src="js/move-top.js"></script>
-<script src="js/easing.js"></script>
-<script>
-jQuery(document).ready(function($) {
-	$(".scroll").click(function(event) {
-		event.preventDefault();
-		$('html,body').animate({
-			scrollTop: $(this.hash).offset().top
-		}, 900);
-	});
-});
-</script>
-<script>
-$(document).ready(function() {
-	/*
-							var defaults = {
-								  containerID: 'toTop', // fading element id
-								containerHoverID: 'toTopHover', // fading element hover id
-								scrollSpeed: 1200,
-								easingType: 'linear' 
-							 };
-							*/
-
-	$().UItoTop({
-		easingType: 'easeOutQuart'
-	});
-
-});
-</script>
-<!--// end-smoth-scrolling -->
-
-
-<!-- //smooth-scrolling-of-move-up -->
-<script src="js/bootstrap.js"></script>
-<!-- js file -->
-<!-- payment script end -->
-<!-- Checkout script start-->
-<!--jQuery-->
-<script src="js/jquery-2.2.3.min.js"></script>
-<!-- newsletter modal -->
-<!--search jQuery-->
-<script src="js/modernizr-2.6.2.min.js"></script>
-<script src="js/classie-search.js"></script>
-<script src="js/demo1-search.js"></script>
-<!--//search jQuery-->
-<!-- cart-js -->
-<script src="js/minicart.js"></script>
-<script>
-	googles.render();
-
-	googles.cart.on('googles_checkout', function (evt) {
-		var items, len, i;
-
-		if (this.subtotal() > 0) {
-			items = this.items();
-
-			for (i = 0, len = items.length; i < len; i++) {}
-		}
-	});
-</script>
-<!-- //cart-js -->
-<script>
-	$(document).ready(function () {
-		$(".button-log a").click(function () {
-			$(".overlay-login").fadeToggle(200);
-			$(this).toggleClass('btn-open').toggleClass('btn-close');
-		});
-	});
-	$('.overlay-close1').on('click', function () {
-		$(".overlay-login").fadeToggle(200);
-		$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
-		open = false;
-	});
-</script>
-<!-- carousel -->
-<!-- price range (top products) -->
-<script src="js/jquery-ui.js"></script>
-<script>
-	//<![CDATA[ 
-	$(window).load(function () {
-		$("#slider-range").slider({
-			range: true,
-			min: 0,
-			max: 9000,
-			values: [50, 6000],
-			slide: function (event, ui) {
-				$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-			}
-		});
-		$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-	}); //]]>
-</script>
-<!-- //price range (top products) -->
-
-<script src="js/owl.carousel.js"></script>
-<script>
-	$(document).ready(function () {
-		$('.owl-carousel').owlCarousel({
-			loop: true,
-			margin: 10,
-			responsiveClass: true,
-			responsive: {
-				0: {
-					items: 1,
-					nav: true
-				},
-				600: {
-					items: 2,
-					nav: false
-				},
-				900: {
-					items: 3,
-					nav: false
-				},
-				1000: {
-					items: 4,
-					nav: true,
-					loop: false,
-					margin: 20
-				}
-			}
-		})
-	})
-</script>
-
-<!-- //end-smooth-scrolling -->
-
-<!-- single -->
-<script src="js/imagezoom.js"></script>
-<!-- single -->
-<!-- script for responsive tabs -->
-<script src="js/easy-responsive-tabs.js"></script>
-<script>
-	$(document).ready(function () {
-		$('#horizontalTab').easyResponsiveTabs({
-			type: 'default', //Types: default, vertical, accordion           
-			width: 'auto', //auto or any width like 600px
-			fit: true, // 100% fit in a container
-			closed: 'accordion', // Start closed if in accordion view
-			activate: function (event) { // Callback function if tab is switched
-				var $tab = $(this);
-				var $info = $('#tabInfo');
-				var $name = $('span', $info);
-				$name.text($tab.text());
-				$info.show();
-			}
-		});
-		$('#verticalTab').easyResponsiveTabs({
-			type: 'vertical',
-			width: 'auto',
-			fit: true
-		});
-	});
-</script>
-<!-- FlexSlider -->
-<script src="js/jquery.flexslider.js"></script>
-<script>
-	// Can also be used with $(document).ready()
-	$(window).load(function () {
-		$('.flexslider1').flexslider({
-			animation: "slide",
-			controlNav: "thumbnails"
-		});
-	});
-</script>
-<!-- //FlexSlider-->
-
-<!-- dropdown nav -->
-<script>
-	$(document).ready(function () {
-		$(".dropdown").hover(
-			function () {
-				$('.dropdown-menu', this).stop(true, true).slideDown("fast");
-				$(this).toggleClass('open');
-			},
-			function () {
-				$('.dropdown-menu', this).stop(true, true).slideUp("fast");
-				$(this).toggleClass('open');
-			}
-		);
-	});
-</script>
-<!-- //dropdown nav -->
-<script src="js/move-top.js"></script>
-<script src="js/easing.js"></script>
-<script>
-jQuery(document).ready(function($) {
-	$(".scroll").click(function(event) {
-		event.preventDefault();
-		$('html,body').animate({
-			scrollTop: $(this.hash).offset().top
-		}, 900);
-	});
-});
-</script>
-<script>
-$(document).ready(function() {
-	/*
-							var defaults = {
-								  containerID: 'toTop', // fading element id
-								containerHoverID: 'toTopHover', // fading element hover id
-								scrollSpeed: 1200,
-								easingType: 'linear' 
-							 };
-							*/
-
-	$().UItoTop({
-		easingType: 'easeOutQuart'
-	});
-
-});
-</script>
-<!--// end-smoth-scrolling -->
-
-
-<script src="js/bootstrap.js"></script>
-<!-- js file -->
-<!-- Checkout script end-->
-
-	<!-- </div>
-    jQuery-->
-	<script src="js/jquery-2.2.3.min.js"></script>
-	<!-- newsletter modal -->
-	<!-- Modal -->
-	<!-- Modal -->
-	<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header"> -->
-
-					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div> -->
-				<!-- <div class="modal-body text-center p-5 mx-auto mw-100">
-					<h6>Join our newsletter and get</h6>
-					<h3>50% Off for your first Pair of Eye wear</h3>
-					<div class="login newsletter">
-						<form action="#" method="post">
-							<div class="form-group">
-								<label class="mb-2">Email address</label>
-								<input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="" required="">
-							</div>
-							<button type="submit" class="btn btn-primary submit mb-4">Get 50% Off</button>
-						</form>
-						<p class="text-center">
-							<a href="#">No thanks I want to pay full Price</a>
-						</p>
-					</div>
-				</div> -->
-
-			</div>
-		</div>
-	</div>
-	<script>
-		$(document).ready(function () {
-			$("#myModal").modal();
-		});
-	</script>
-	<!-- // modal -->
-
-	<!--search jQuery-->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<script src="js/classie-search.js"></script>
-	<script src="js/demo1-search.js"></script>
-	<!--//search jQuery-->
-	<!-- cart-js -->
-	<script src="js/minicart.js"></script>
-	<script>
-		googles.render();
-
-		googles.cart.on('googles_checkout', function (evt) {
-			var items, len, i;
-
-			if (this.subtotal() > 0) {
-				items = this.items();
-
-				for (i = 0, len = items.length; i < len; i++) {}
-			}
-		});
-	</script>
-	<!-- //cart-js -->
-	<script>
-		$(document).ready(function () {
-			$(".button-log a").click(function () {
-				$(".overlay-login").fadeToggle(200);
-				$(this).toggleClass('btn-open').toggleClass('btn-close');
-			});
-		});
-		$('.overlay-close1').on('click', function () {
-			$(".overlay-login").fadeToggle(200);
-			$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
-			open = false;
-		});
-	</script>
-	<!-- carousel -->
-	<!-- Count-down -->
-	<script src="js/simplyCountdown.js"></script>
-	<link href="css/simplyCountdown.css" rel='stylesheet' type='text/css' />
-	<script>
-		var d = new Date();
-		simplyCountdown('simply-countdown-custom', {
-			year: d.getFullYear(),
-			month: d.getMonth() + 2,
-			day: 25
-		});
-	</script>
-	<!--// Count-down -->
-	<script src="js/owl.carousel.js"></script>
-	<script>
-		$(document).ready(function () {
-			$('.owl-carousel').owlCarousel({
-				loop: true,
-				margin: 10,
-				responsiveClass: true,
-				responsive: {
-					0: {
-						items: 1,
-						nav: true
-					},
-					600: {
-						items: 2,
-						nav: false
-					},
-					900: {
-						items: 3,
-						nav: false
-					},
-					1000: {
-						items: 4,
-						nav: true,
-						loop: false,
-						margin: 20
-					}
-				}
-			})
-		})
-	</script>
-
-	<!-- //end-smooth-scrolling -->
-
-
-	<!-- dropdown nav -->
-	<script>
-		$(document).ready(function () {
-			$(".dropdown").hover(
-				function () {
-					$('.dropdown-menu', this).stop(true, true).slideDown("fast");
-					$(this).toggleClass('open');
-				},
-				function () {
-					$('.dropdown-menu', this).stop(true, true).slideUp("fast");
-					$(this).toggleClass('open');
-				}
-			);
-		});
-	</script>
-	<!-- //dropdown nav -->
-  <script src="js/move-top.js"></script>
-    <script src="js/easing.js"></script>
-    <script>
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 900);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            /*
-            						var defaults = {
-            							  containerID: 'toTop', // fading element id
-            							containerHoverID: 'toTopHover', // fading element hover id
-            							scrollSpeed: 1200,
-            							easingType: 'linear' 
-            						 };
-            						*/
-
-            $().UItoTop({
-                easingType: 'easeOutQuart'
-            });
-
-        });
-    </script>
-    <!--// end-smoth-scrolling -->
-
-	<script src="js/bootstrap.js"></script>
-	<!-- js file -->
+				<script src="js/bootstrap.js"></script>
+				<script src="js/imagezoom.js"></script>
+				<!-- js file -->
 </body>
+
 </html>

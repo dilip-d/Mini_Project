@@ -106,20 +106,30 @@
 						Please enter a valid phone number for shipping updates.
 					</div>
 				</div>
+				<% if(profile.address.length > 0) { %>	
+				<div class="mb-3">
+					<label for="address">Address</label>
+					<select class="form-select" name="addressOption" aria-label="Default select example">
+					<% for(let i=0;i<profile.address.length ;i++){ %>
+						<option value="<%=profile.address[i].address %>"><%= profile.address[i].address %></option> 
+						<% } %> 
+				  </select>
+				  </div> 
+				  <% } %>
 
 				<div class="mb-3">
 					<label for="address">Address</label>
-					<input type="text" class="form-control" name="address" value="<%= profile.address[0].address %>"
+					<input type="text" class="form-control" name="address" value=""
 						placeholder="1234 Main St" required>
 					<div class="invalid-feedback">
 						Please enter your shipping address.
 					</div>
 				</div>
-
-				<div class="mb-3">
+				
+				<!-- <div class="mb-3">
 					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
 					<input type="text" class="form-control" name="address2" placeholder="Apartment or suite">
-				</div>
+				</div> -->
 
 				<div class="row">
 					<div class="col-md-5 mb-3">
@@ -142,7 +152,7 @@
 					</div>
 					<div class="col-md-3 mb-3">
 						<label for="zip">Zip</label>
-						<input type="text" class="form-control" name="zip" value="<%= profile.address[0].zip %>"
+						<input type="text" class="form-control" name="zip" value=""
 							placeholder="" required>
 						<div class="invalid-feedback">
 							Zip code required.
@@ -239,6 +249,7 @@
 
 <div id="paypal-button-container"></div>
 
+<script src="js/jquery-2.2.3.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 <script>
@@ -252,8 +263,16 @@
 		const lname = form.lname.value;
 		const email = form.email.value;
 		const phonenumber = form.phonenumber.value;
+		
 		const address = form.address.value;
+		
+		const addressOption = function(addressOption=""){
+			return addressOption = form.addressOption.value;		
+		}
+		const addressopt =addressOption();
+		
 		const country = form.country.value;
+		const state = form.state.value;
 		const zip = form.zip.value;
 		const payment = form.payment.value;
 		const currency = form.currency.value;
@@ -262,11 +281,12 @@
 		console.log(currency);
 		console.log(amount);
 		console.log(payment);
+		console.log(addressopt);
 
 		try {
 			let order = await fetch('/checkout', {
 				method: 'post',
-				body: JSON.stringify({ fname, lname, email, phonenumber, address, country, zip, payment, currency, amount }),
+				body: JSON.stringify({ fname, lname, email, phonenumber, address,addressopt, country, state, zip, payment, currency, amount }),
 				headers: { 'Content-Type': 'application/json' }
 			});
 			console.log(245465677678865);

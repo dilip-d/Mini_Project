@@ -1,4 +1,4 @@
-<body>
+
 <!-- register -->
 <div class="register">
     <div class="container">
@@ -42,7 +42,7 @@
         </div>
    
     </div>
-    <form id="otp" style="display: none;" class="col-md px-5">
+    <form id="otp" class="otpform pt-5" style="display: block;" class="col-md px-5">
         <div class="form-group">
             <input type="text" class="form-control" id="otpinp" placeholder="" name="otpvalue">
             <label class="mb-2 mt-2">Enter OTP for verification</label>
@@ -52,6 +52,7 @@
              <a href="#myModal" class="btn btn-danger" data-toggle="modal" id="otpbtn">verify</a>
         </div>
     </form>
+</div>
 </div>
 
 <div id ='myModal' class="modal fade">
@@ -72,7 +73,7 @@
     </div>
 </div> 
 <!-- //register -->
-
+<script src="js/jquery-2.2.3.min.js"></script>
 <script>
     const form = document.querySelector("#form");
     const btn = document.getElementById('subbtn')

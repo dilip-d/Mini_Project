@@ -393,7 +393,7 @@ module.exports.singleProductView_get = async (req, res) => {
     console.log(prodId);
     let product = await Product.findById(prodId)
 
-    res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single v', admin: false })
+    res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single view', admin: false })
 }
 
 // user Profile view edit
@@ -488,8 +488,7 @@ module.exports.checkout_get = async (req, res) => {
         }
         total = sum(users.cart, 'price', 'count')
         const thisuser = users;
-
-        res.render('./user/checkout.ejs', {coupon, user: users.cart, totals: total, profile: thisuser, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
+        res.render('./user/checkout.ejs', { coupon, user: users.cart, totals: total, profile: thisuser, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
         console.log(err);
@@ -503,13 +502,19 @@ module.exports.orderStatus_get = async (req, res) => {
 
 let address;
 let payment;
-
+let zip;
+let country;
+let state;
 module.exports.checkout_post = async (req, res) => {
     console.log('checkout submit');
     console.log(req.body);
-    address = req.body.address;
+    address = req.body.address|| req.body.addressopt;
     payment = req.body.payment;
+    zip = req.body.zip;
+    country = req.body.country;
+    state = req.body.state;
     let id = req.user.id;
+    console.log(zip,country,state);
 
     const result = await User.findOne({ _id: id });
     const cartItems = result.cart;
@@ -545,11 +550,12 @@ module.exports.saveOrder = async (req, res) => {
         const result = await User.findOne({ _id: id });
         let cartItems = result.cart;
 
-        // console.log(result);
-
         for (let cartItem of cartItems) {
             cartItem = cartItem.toJSON()
             cartItem.address = address
+            cartItem.zip = zip
+            cartItem.country = country
+            cartItem.state = state
             cartItem.paymentOption = payment
             cartItem.unique = uuidv4()
             cartItem.orderStatus = 'Order is under process'

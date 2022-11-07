@@ -6,14 +6,14 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Products</p>
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Products</p>
                 <h5 class="font-weight-bolder">
                   <%= productCount %>
                 </h5>
-                <p class="mb-0">
+                <!-- <p class="mb-0">
                   <span class="text-success text-sm font-weight-bolder">+55%</span>
-                  <!-- since yesterday -->
-                </p>
+                  since yesterday
+                </p> -->
               </div>
             </div>
             <div class="col-4 text-end">
@@ -35,10 +35,10 @@
                 <h5 class="font-weight-bolder">
                   <%= user %>
                 </h5>
-                <p class="mb-0">
+                <!-- <p class="mb-0">
                   <span class="text-success text-sm font-weight-bolder">+3%</span>
                   since last week
-                </p>
+                </p> -->
               </div>
             </div>
             <div class="col-4 text-end">
@@ -60,10 +60,10 @@
                 <h5 class="font-weight-bolder">
                   <%= totalSales %>
                 </h5>
-                <p class="mb-0">
+                <!-- <p class="mb-0">
                   <span class="text-success text-sm font-weight-bolder">+2%</span>
                   since last quarter
-                </p>
+                </p> -->
               </div>
             </div>
             <div class="col-4 text-end">
@@ -83,11 +83,11 @@
               <div class="numbers">
                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Revenue</p>
                 <h5 class="font-weight-bolder">
-                  <%= total %>
+                  Rs.<%=total %>
                 </h5>
-                <p class="mb-0">
+                <!-- <p class="mb-0">
                   <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
-                </p>
+                </p> -->
               </div>
             </div>
             <div class="col-4 text-end">
@@ -101,7 +101,7 @@
     </div>
   </div>
   <div class="row mt-4">
-    <div class="col-lg-7 mb-lg-0 mb-4">
+    <!-- <div class="col-lg-7 mb-lg-0 mb-4">
       <div class="card z-index-2 h-100">
         <div class="card-header pb-0 pt-3 bg-transparent">
           <h6 class="text-capitalize">Sales overview</h6>
@@ -116,7 +116,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <div id="tester" style="width:100%;"></div>
+  </div>
     <div class="col-lg-5">
 
       <div class="carousel-item h-100" style="background-image: url('./assets/img/carousel-3.jpg');
@@ -472,6 +474,43 @@
     </div>
   </div>
 </div>
+
+<!-- chart script new -->
+<script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+<script>
+  var getTest =[<%=sales%>];
+  var saletime = ['<%=timeOfSale%>']
+  console.log(saletime);
+  console.log(typeof saletime);
+  var xArray = saletime[0].split(',')
+  var barData = [{
+        x: xArray,
+        y: getTest,
+        mode: "lines",
+        type: "bar"
+    }];
+
+    var barLayout = {
+      xaxis:{
+        labels : [xArray],
+        title:'Date',
+           
+        },
+        yaxis:{
+          labels : [getTest],
+            title: "Sales"
+        },
+        title: "Sales Report"
+    };
+    console.log(xArray)
+  //  console.log(getTest);
+  //  console.log(saletime);
+	TESTER = document.getElementById('tester');
+	Plotly.newPlot( TESTER,barData,barLayout)
+
+</script>
+<!-- chart script end -->
+
 <!--   Core JS Files   -->
 <script src="./assets/js/core/popper.min.js"></script>
 <script src="./assets/js/core/bootstrap.min.js"></script>
@@ -501,7 +540,6 @@
         fill: true,
         data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
         maxBarThickness: 6
-
       }],
     },
     options: {

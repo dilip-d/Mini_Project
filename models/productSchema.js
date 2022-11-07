@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/Admin-user-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
-
 const productSchema = mongoose.Schema({
     name: {
         type: String,
@@ -47,7 +41,8 @@ const productSchema = mongoose.Schema({
         required: true
     },
     sales: {
-        type: Number
+        type: Number,
+        default : 0
     }
 }, { timestamps: true })
 
