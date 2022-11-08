@@ -484,14 +484,6 @@ module.exports.checkout_get = async (req, res) => {
         let id = req.user.id
         const coupon = await Coupon.find()
         console.log(coupon);
-        // let coupons;
-        // for(i=0;i<=coupon.length;i++){
-        //     if(coupon.minBill > 5000 && coupon.minBill < 8000 ){
-        //         coupons = couponValue[i];
-        //     }else if(coupon.minBill >8000){
-        //         coupons = couponValue[i];
-        //     }
-        // }
         const users = await User.findById({ _id: id })
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
@@ -517,6 +509,7 @@ let payment;
 let zip;
 let country;
 let state;
+
 module.exports.checkout_post = async (req, res) => {
     console.log('checkout submit');
     console.log(req.body);
@@ -631,12 +624,10 @@ module.exports.orderDetails_get = async (req, res) => {
 module.exports.cancelOrder = (req, res) => {
     console.log('cancelling in order');
     const user = req.user.id;
-    // a=user.cart
     console.log(user);
     uniqueId = req.params.id;
     console.log(uniqueId);
     if (user) {
-        console.log('after unique iddddddd');
         User.findOne({ user: uniqueId })
             .then((result) => {
                 // console.log(result)
@@ -646,9 +637,7 @@ module.exports.cancelOrder = (req, res) => {
 
                 for (let order of orders) {
                     order = order.toJSON();
-                    console.log('order of ordersss');
                     if (order.unique === uniqueId) {
-                        console.log('going for update');
                         Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count ,"sales": (order.count * -1)} }))])
                             .then((result) => {
                                 res.redirect('/orderDetails')
@@ -664,36 +653,37 @@ module.exports.cancelOrder = (req, res) => {
     }
 }
 
-//copy
-// const cancelOrderGet = (req, res) => {
-//     session = req.session;
-//     uniqueId = req.params.id;
-//     if (session.userId) {
-//         User.findOne({ _id: session.uid })
-//             .then((result) => {
-//                 // console.log(result)
+module.exports.returnOrder = (req, res) => {
+    console.log('returning order');
+    const user = req.user.id;
+    console.log(user);
+    uniqueId = req.params.id;
+    console.log(uniqueId);
+    if (user) {
+        User.findOne({ user: uniqueId })
+            .then((result) => {
+                // console.log(result)
 
-//                 const orders = result.order
+                const orders = result.order
+                console.log(orders)
 
-//                 console.log(orders)
-
-//                 for (let order of orders) {
-//                     order = order.toJSON();
-//                     if (order.unique === uniqueId) {
-//                         Promise.all([(User.updateOne({ "name": session.userId, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
-//                             .then((result) => {
-//                                 res.redirect('/order')
-//                             })
-//                             .catch((err) => {
-//                                 console.log(err)
-//                             })
-//                     }
-//                 }
-//             })
-//     } else {
-//         res.redirect('/login')
-//     }
-// }
+                for (let order of orders) {
+                    order = order.toJSON();
+                    if (order.unique === uniqueId) {
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Returned" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count ,"sales": (order.count * -1)} }))])
+                            .then((result) => {
+                                res.redirect('/orderDetails')
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+            })
+    } else {
+        res.redirect('/userLogin')
+    }
+}
 
 // const { paypalClientid, paypalClientsecret } = process.env;
 module.exports.paymentPaypal = async (req, res) => {
@@ -783,3 +773,21 @@ async function generateAccessToken() {
     return data.access_token;
 }
 // -------------------------------------------
+
+module.exports.applyCoupon_post = async (req, res) => {
+    console.log('in apply coupon');
+    console.log(req.body);
+    // try {
+    //     const { email, password } = req.body;
+    //     const user = await User.login(email, password);
+    //     const token = createToken(user._id);
+    //     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    //     res.status(200).json({ user });
+    //     console.log(user + "logged in");
+
+    // } catch (errors) {
+    //     console.log(errors);
+    //     const errorHandle = loginerrorhandler(errors);
+    //     res.status(400).json({ errorHandle });
+    // }
+}

@@ -14,7 +14,8 @@
             <th>Time</th>
             <th>Payment Mode</th>
             <th>Total</th>
-            <th>Cancel</th>
+            <th>Change Status</th>
+            <th>Update</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +28,47 @@
             <td><%=order.createdAt.toLocaleString() %></td>
             <td><%=order.paymentOption %></td>
             <td><%= (order.price * order.count) %></td>
+            <td>
+              <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
+                  <select class="form-select" name="status" aria-label="Default select example" required>
+                     <option selected> </option>
+                      <option value="Dispatched">Dispatched</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancel</option>     
+                  </select>
+                </td>
+                  <td>
+                    <% if(order.orderStatus === 'Order cancelled') { %>
+                  <button disabled class="btn btn-secondary">Update</button>
+                  <% }else{ %>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <% } %>
+                  </td>
+            
+                  <!-- <td class="invert">
+                    
+                        <% if( order.orderStatus=='Order cancelled' ) { %>
+                            <p class="" style="color: red;">Cancelled</p>
+                            <% } else { %>
+                                <a href="/adminCancelOrder/<%= order.unique %>" class="btn btn-danger"
+                                    onclick="return confirm('Do you want to Cancel ?')">Update</a>
+                                <% } %>
+                    
+                </td>  -->
+                
+              </form>
+            <!-- </td>
             <td class="invert">
+              <div class="rem">
+                  <% if( order.orderStatus=='Order cancelled' ) { %>
+                      <p class="" style="color: red;">Cancelled</p>
+                      <% } else { %>
+                          <a href="/adminCancelOrder/<%= order.unique %>" class="btn btn-secondary"
+                              onclick="return confirm('Do you want to Cancel ?')">Update</a>
+                          <% } %>
+              </div>
+          </td> -->
+            <!-- <td class="invert">
               <div class="rem">
                   <% if( order.orderStatus=='Order cancelled' ) { %>
                       <p class="" style="color: red;">Cancelled</p>
@@ -36,22 +77,11 @@
                               onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
                           <% } %>
               </div>
-          </td>
+          </td> -->
           </tr>
           <% }) %>
-          
-          
+                
         </tbody>
-        <!-- <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </tfoot> -->
       </table>
     </div>
   </div>

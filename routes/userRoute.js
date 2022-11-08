@@ -50,6 +50,7 @@ router.get('/orderStatus', authController.orderStatus_get);
 //orderdetails
 router.get('/orderDetails', authController.orderDetails_get);
 router.get('/cancelOrder/:id', authController.cancelOrder);
+router.get('/returnOrder/:id', authController.returnOrder);
 
 //razorpay
 router.post('/verifyPaymentRazorpay', authController.verifyPaymentRazorpay);
@@ -57,5 +58,8 @@ router.post('/verifyPaymentRazorpay', authController.verifyPaymentRazorpay);
 //paypal
 router.post('/paymentPaypal', authController.paymentPaypal);
 router.post('/verifyPaymentPaypal/:id/capture', authController.verifyPaymentPaypal);
+
+//coupon
+router.post('/applyCoupon', authController.applyCoupon_post);
 
 module.exports = router;

@@ -38,7 +38,7 @@ router.post('/admin/delete-category', adminauthController.deleteCategory)
 
 //order management
 router.get('/viewOrder', adminauthController.viewOrder_get)
-router.get('/adminCancelOrder/:id', adminauthController.adminCancelOrder);
+router.post('/adminUpdateOrder/:id', adminauthController.adminOrderStatus);
 
 //Coupon management
 router.get('/coupon', adminauthController.coupon_get)

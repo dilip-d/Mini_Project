@@ -57,7 +57,15 @@
                                     <div class="rem">
                                         <% if( result[i].orderStatus=='Order cancelled' ) { %>
                                             <p class="" style="color :red">Cancelled</p>
-                                            <% } else { %>
+                                            <% } else if( result[i].orderStatus=='Delivered' )  { %>
+                                                <a href="/returnOrder/<%= result[i].unique %>" class="btn btn-primary"
+                                                    onclick="return confirm('Do you want to return ?')">Return</a>
+                                                    <% } else if( result[i].orderStatus=='Order is under process' )  { %>
+                                                        <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                          onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
+                                                    <% } else if( result[i].orderStatus=='Returned' )  { %>
+                                                        <p class="" style="color :rgb(0, 47, 255)">Returned</p>
+                                                    <% }else { %>
                                                 <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
                                                     onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
                                                 <% } %>

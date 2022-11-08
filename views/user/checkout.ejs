@@ -1,6 +1,10 @@
+<style>
+	select {
+  width: 75%;
+}
+</style>
 <div class="container">
 	<div class="py-5 text-center">
-
 		<h1 style="color: rgb(71, 71, 172);">Checkout</h1>
 	</div>
 
@@ -25,13 +29,6 @@
 			</div>
 			<span class="text-muted">Rs.8</span>
 		  </li> -->
-				<!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-			<div>
-			  <h6 class="my-0">Third item</h6>
-			  <small class="text-muted">Brief description</small>
-			</div>
-			<span class="text-muted">RS.5</span>
-		  </li>  -->
 				<li class="list-group-item d-flex justify-content-between bg-light">
 					<div class="text-success">
 						<h6 class="my-0">Promo code</h6>
@@ -44,20 +41,18 @@
 					<strong>Rs.<%= totals %></strong>
 				</li>
 			</ul>
-		
-			<form class="card p-2">
+			<!-- coupon form -->
+			<form id="couponform" class="card p-2">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Promo code">
-					<% coupon.forEach(function(coupon) { %>
-					<div class="input-group-append pt-2">
-						<%= coupon.couponCode %>
-						
-						<button type="submit" class="btn btn-secondary">Redeem</button>
-					</div>
-					<% }) %>
+					<select class="form-select" name="coupon" aria-label="Default select example">
+						<% coupon.forEach(function(coupon) { %>
+							<option value="<%= coupon.couponCode %>"><%= coupon.couponCode %></option>
+							<% }) %>
+					</select>
+						<button type="submit" class="btn btn-primary">Redeem</button>
 				</div>
 			</form>
-			
+
 		</div>
 		<div class="col-md-8 order-md-1">
 			<h4 class="mb-3">Billing address</h4>
@@ -80,20 +75,6 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- <div class="mb-3">
-			<label for="username">Username</label>
-			<div class="input-group">
-			   <div class="input-group-prepend">
-				<span class="input-group-text">@</span>
-			  </div> 
-			  <input type="text" class="form-control" id="username" placeholder="Username" required>
-			  <div class="invalid-feedback" style="width: 100%;">
-				Your username is required.
-			  </div>
-			</div>
-		  </div>  -->
-
 				<div class="mb-3">
 					<label for="email">Email <span class="text-muted"></span></label>
 					<input type="email" class="form-control" name="email" value="<%= profile.email %>"
@@ -111,87 +92,91 @@
 						Please enter a valid phone number for shipping updates.
 					</div>
 				</div>
-				<% if(profile.address.length > 0) { %>	
-				<div class="mb-3">
-					<label for="address">Address</label>
-					<select class="form-select" name="addressOption" aria-label="Default select example">
-					<% for(let i=0;i<profile.address.length ;i++){ %>
-						<option value="<%=profile.address[i].address %>"><%= profile.address[i].address %></option> 
-						<% } %> 
-				  </select>
-				  </div> 
-				  <% } %>
-
-				<div class="mb-3">
-					<label for="address">Address</label>
-					<input type="text" class="form-control" name="address" value=""
-						placeholder="1234 Main St" required>
-					<div class="invalid-feedback">
-						Please enter your shipping address.
+				<% if(profile.address.length> 0) { %>
+					<div class="mb-3">
+						<label for="address">Address</label>
+						<br>
+						<select class="form-select" name="addressOption" aria-label="Default select example">
+							<% for(let i=0;i<profile.address.length ;i++){ %>
+								<option value="<%=profile.address[i].address %>">
+									<%= profile.address[i].address %>
+								</option>
+								<% } %>
+						</select>
 					</div>
-				</div>
-				
-				<!-- <div class="mb-3">
+					<% } %>
+
+						<div class="mb-3">
+							<label for="address">Address</label>
+							<input type="text" class="form-control" name="address" value="" placeholder="1234 Main St"
+								required>
+							<div class="invalid-feedback">
+								Please enter your shipping address.
+							</div>
+						</div>
+
+						<!-- <div class="mb-3">
 					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
 					<input type="text" class="form-control" name="address2" placeholder="Apartment or suite">
 				</div> -->
 
-				<div class="row">
-					<div class="col-md-5 mb-3">
-						<label for="country">Country</label>
-						<select class="form-select w-100" name="country" required>
-							<option value="India">India</option>
-						</select>
-						<div class="invalid-feedback">
-							Please select a valid country.
+						<div class="row">
+							<div class="col-md-5 mb-3">
+								<label for="country">Country</label>
+								<select class="form-select w-100" name="country" required>
+									<option value="India">India</option>
+								</select>
+								<div class="invalid-feedback">
+									Please select a valid country.
+								</div>
+							</div>
+							<div class="col-md-4 mb-3">
+								<label for="state">State</label>
+								<select class="form-select w-100" name="state" required>
+									<option value="Kerala">Kerala</option>
+								</select>
+								<div class="invalid-feedback">
+									Please provide a valid state.
+								</div>
+							</div>
+							<div class="col-md-3 mb-3">
+								<label for="zip">Zip</label>
+								<input type="text" class="form-control" name="zip" value="" placeholder="" required>
+								<div class="invalid-feedback">
+									Zip code required.
+								</div>
+							</div>
+							<input type="hidden" class="form-control" name="currency" value="INR">
+							<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
 						</div>
-					</div>
-					<div class="col-md-4 mb-3">
-						<label for="state">State</label>
-						<select class="form-select w-100" name="state" required>
-							<option value="Kerala">Kerala</option>
-						</select>
-						<div class="invalid-feedback">
-							Please provide a valid state.
+						<hr class="mb-4">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="same-address">
+							<label class="custom-control-label" for="same-address">Shipping address is the same as my
+								billing
+								address</label>
 						</div>
-					</div>
-					<div class="col-md-3 mb-3">
-						<label for="zip">Zip</label>
-						<input type="text" class="form-control" name="zip" value=""
-							placeholder="" required>
-						<div class="invalid-feedback">
-							Zip code required.
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="save-info">
+							<label class="custom-control-label" for="save-info">Save this information for next
+								time</label>
 						</div>
-					</div>
-					<input type="hidden" class="form-control" name="currency" value="INR">
-					<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
-				</div>
-				<hr class="mb-4">
-				<div class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" id="same-address">
-					<label class="custom-control-label" for="same-address">Shipping address is the same as my billing
-						address</label>
-				</div>
-				<div class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" id="save-info">
-					<label class="custom-control-label" for="save-info">Save this information for next time</label>
-				</div>
-				<hr class="mb-4">
+						<hr class="mb-4">
 
-				<h4 class="mb-3">Payment</h4>
-				<div class="row">
-					<div class="col-md-5 mb-3">
-						<select class="form-select w-100" name="payment" required>
-							<option value="COD">Cash On delivery</option>
-							<option value="Razorpay">Razorpay</option>
-							<option value="Paypal">Paypal</option>
-						</select>
-						<div class="invalid-feedback">
-							Please select a valid payment.
+						<h4 class="mb-3">Payment</h4>
+						<div class="row">
+							<div class="col-md-5 mb-3">
+								<select class="form-select w-100" name="payment" required>
+									<option value="COD">Cash On delivery</option>
+									<option value="Razorpay">Razorpay</option>
+									<option value="Paypal">Paypal</option>
+								</select>
+								<div class="invalid-feedback">
+									Please select a valid payment.
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<!-- 
+						<!-- 
 				<div class="d-block my-3">
 					<div class="custom-control custom-radio">
 						<input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
@@ -211,7 +196,7 @@
 						<label class="custom-control-label" for="paypal">PayPal</label>
 					</div>
 				</div> -->
-				<!-- <div class="row">
+						<!-- <div class="row">
 					<div class="col-md-6 mb-3">
 						<label for="cc-name">Name on card</label>
 						<input type="text" class="form-control" id="cc-name" placeholder="" required>
@@ -244,8 +229,8 @@
 						</div>
 					</div>
 				</div> -->
-				<hr class="mb-4">
-				<button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+						<hr class="mb-4">
+						<button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
 			</form>
 		</div>
 	</div>
@@ -257,6 +242,7 @@
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+
 <script>
 	const form = document.querySelector("#form");
 
@@ -268,14 +254,14 @@
 		const lname = form.lname.value;
 		const email = form.email.value;
 		const phonenumber = form.phonenumber.value;
-		
+
 		const address = form.address.value;
-		
-		const addressOption = function(addressOption=""){
-			return addressOption = form.addressOption.value;		
+
+		const addressOption = function (addressOption = "") {
+			return addressOption = form.addressOption.value;
 		}
-		const addressopt =addressOption();
-		
+		const addressopt = addressOption();
+
 		const country = form.country.value;
 		const state = form.state.value;
 		const zip = form.zip.value;
@@ -291,7 +277,7 @@
 		try {
 			let order = await fetch('/checkout', {
 				method: 'post',
-				body: JSON.stringify({ fname, lname, email, phonenumber, address,addressopt, country, state, zip, payment, currency, amount }),
+				body: JSON.stringify({ fname, lname, email, phonenumber, address, addressopt, country, state, zip, payment, currency, amount }),
 				headers: { 'Content-Type': 'application/json' }
 			});
 			console.log(245465677678865);

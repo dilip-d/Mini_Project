@@ -31,8 +31,12 @@
 							<%=product.description %>
 						</p>
 					</div>
-					<h3>Rs.<%=product.price %>
+					<h3 style="color: orangered;">Rs.<%=product.price %>
 					</h3>
+					<s><h3>Rs.<%=product.originalPrice %></s>
+					</h3>
+					<h4 style="color: orangered;"><%=product.offer %> %Off
+					</h4>
 					<div class="ratings d-flex flex-row align-items-center">
 						<div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
 								class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i> </div>

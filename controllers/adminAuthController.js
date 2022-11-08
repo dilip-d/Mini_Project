@@ -202,39 +202,73 @@ module.exports.viewOrder_get = async (req, res) => {
     for (item of result) {
         orders = orders.concat(item.order)
     }
-    console.log(orders);
+
     // const ans = orders.reverse()
     // orders.sort((a, b) => {
     //     return b.createdAt - a.createdAt;
     // });
-    console.log(orders);
 
     res.render('admin/viewOrder', { order: orders, layout: 'layouts/adminlayout', title: 'Orders', admin: true })
 
 }
 
-module.exports.adminCancelOrder = async (req, res) => {
+// module.exports.adminCancelOrder = async (req, res) => {
 
-    console.log('cancelling in order');
-    const user = req.user.id;
+//     console.log('cancelling in order');
+//     const user = req.user.id;
+//     // console.log(user);
+//     uniqueId = req.params.id;
+//     console.log(uniqueId);
+//     if (user) {
+//         console.log('after unique id');
+//         User.findOne({ user: uniqueId })
+//             .then((result) => {
+//                 // console.log(result)
+
+//                 const orders = result.order
+//                 console.log(orders)
+
+//                 for (let order of orders) {
+//                     order = order.toJSON();
+//                     console.log('order of orders');
+//                     if (order.unique === uniqueId) {
+//                         console.log('going for update');
+//                         Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count } }))])
+//                             .then((result) => {
+//                                 res.redirect('/viewOrder')
+//                             })
+//                             .catch((err) => {
+//                                 console.log(err)
+//                             })
+//                     }
+//                 }
+//             })
+//         //     } else {
+//         //         res.redirect('/admin')
+//     }
+// }
+
+module.exports.adminOrderStatus =  (req, res) => {
+    console.log('in admin order status');
+    // const user = req.user.id
     // console.log(user);
-    uniqueId = req.params.id;
-    console.log(uniqueId);
-    if (user) {
-        console.log('after unique id');
-        User.findOne({ user: uniqueId })
-            .then((result) => {
-                // console.log(result)
+  
+    uniqueid = req.params.id;
+    console.log(uniqueid);
 
-                const orders = result.order
-                console.log(orders)
+    User.findOne({uniqueid})
+        .then((result) =>{
+            // console.log(result);
+            const user = result._id;
+            const orders = result.order
 
-                for (let order of orders) {
+            // console.log(orders); 
+            if(req.body.status =='Delivered') {
+
+                    for (let order of orders) {
                     order = order.toJSON();
-                    console.log('order of orders');
-                    if (order.unique === uniqueId) {
-                        console.log('going for update');
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count } }))])
+                    if (order.unique === uniqueid) {
+                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Delivered" } }))])
                             .then((result) => {
                                 res.redirect('/viewOrder')
                             })
@@ -243,10 +277,36 @@ module.exports.adminCancelOrder = async (req, res) => {
                             })
                     }
                 }
-            })
-        //     } else {
-        //         res.redirect('/admin')
-    }
+            } else if(req.body.status == 'Dispatched')  {
+                for (let order of orders) {
+                    order = order.toJSON();
+                    if (order.unique === uniqueid) {
+                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Dispatched" } }))])
+                            .then((result) => {
+                                res.redirect('/viewOrder')
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+                
+            } else if(req.body.status =='Cancelled'){
+
+                for (let order of orders) {
+                    order = order.toJSON();
+                    if (order.unique === uniqueid) {
+                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count,"sales":(order.count*-1) } }))])
+                            .then((result) => {
+                                res.redirect('/viewOrder')
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+            }
+        })
 }
 
 module.exports.coupon_get = (req, res) => {
