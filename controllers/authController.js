@@ -153,6 +153,9 @@ module.exports.womensWatch_get = async (req, res) => {
 module.exports.userCart_get = async (req, res) => {
     console.log('in cart');
     try {
+        const coupon = await Coupon.find()
+        console.log(coupon);
+
         let Curuser = req.user.id
         const users = await User.findById({ _id: Curuser })
         let a = users
@@ -162,7 +165,7 @@ module.exports.userCart_get = async (req, res) => {
             }, 0)
         }
         const total = sum(users.cart, 'price', 'count')
-        res.render('./user/cart.ejs', { user: users.cart, totals: total, b: a, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
+        res.render('./user/cart.ejs', { coupon, user: users.cart, totals: total, b: a, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
         console.log(err);
@@ -480,6 +483,15 @@ module.exports.checkout_get = async (req, res) => {
     try {
         let id = req.user.id
         const coupon = await Coupon.find()
+        console.log(coupon);
+        // let coupons;
+        // for(i=0;i<=coupon.length;i++){
+        //     if(coupon.minBill > 5000 && coupon.minBill < 8000 ){
+        //         coupons = couponValue[i];
+        //     }else if(coupon.minBill >8000){
+        //         coupons = couponValue[i];
+        //     }
+        // }
         const users = await User.findById({ _id: id })
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {

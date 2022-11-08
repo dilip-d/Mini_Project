@@ -2663,6 +2663,12 @@ ul.links li a:hover {
 
     .grid-price {
         margin: 0 !important;
+        display: inline-block;
+        padding: 0;
+    }
+
+    .grid-price span {
+        display: inline-block;
     }
 
     .nav-mega .dropdown-menu.mega-menu {

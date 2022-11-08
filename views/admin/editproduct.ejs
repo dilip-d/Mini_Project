@@ -14,7 +14,17 @@
             <input type="text" name="category" class="form-control" value="<%= product.category %>"/>
   
             <label for="">Price</label>
-            <input type="text" name="price" class="form-control" value="<%= product.price %>"/>
+            <input type="text" name="originalPrice" class="form-control" value="<%= product.originalPrice %>" required/>
+
+            <label for="">Offer</label>
+            <select class="form-select" name="offer" aria-label="Default select example"> 
+              <option value="1" selected> </option> 
+                  <option value="5">5%</option> 
+                  <option value="10">10%</option>
+                  <option value="15">15%</option>
+                  <option value="20">20%</option>
+                  <option value="25">25%</option>
+            </select> 
   
             <label for="">Description</label>
             <input type="text" name="description" class="form-control" value="<%= product.description %>"/>

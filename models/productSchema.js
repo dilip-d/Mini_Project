@@ -9,8 +9,12 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    originalPrice: {
+        type: Number,
+        required: true
+    },
     offer: {
-        type: String,
+        type: Number,
     },
     category: {
         type: String,

@@ -10,14 +10,27 @@ module.exports.addproduct_get = (req, res) => {
 }
 
 module.exports.addproduct_post = async (req, res) => {
+
+    // function formatAsPercent(num) {
+    //     return `${parseFloat(num).toFixed(2)}%`;
+    //   }
+
     console.log(req.body);
     const name = req.body.name;
     const category = req.body.category;
-    const price = req.body.price;
+    const originalPrice = req.body.originalPrice;
+    const discount = req.body.originalPrice / 100 * req.body.offer;
+    const price = req.body.originalPrice - discount;
+    const offer = req.body.offer;
     const description = req.body.description;
     const stock = req.body.stock;
 
-    const product = await Product.create({ name, category, price, description, stock });
+    console.log(discount);
+    console.log(price);
+    console.log(offer);
+    console.log(originalPrice);
+
+    const product = await Product.create({ name, category, price, originalPrice, offer, description, stock });
     try {
         let image = req.files.image;
         image.mv('./public/image/' + product._id + ".jpeg");
@@ -74,21 +87,30 @@ module.exports.editproduct_get = async (req, res) => {
 module.exports.editproduct_post = async (req, res) => {
     const proId = req.params.id
     console.log('edit product post');
+    console.log(req.body);
+    const name = req.body.name;
+    const category = req.body.category;
+    const originalPrice = req.body.originalPrice;
+    const discount = req.body.originalPrice / 100 * req.body.offer;
+    const price = req.body.originalPrice - discount;
+    const offer = req.body.offer;
+    const description = req.body.description;
+    const stock = req.body.stock;
     try {
         await Product.updateOne({ _id: proId }, {
 
             $set: {
                 name: req.body.name,
                 category: req.body.category,
-                price: req.body.price,
+                price: price,
+                originalPrice: req.body.originalPrice,
+                offer: req.body.offer,
                 description: req.body.description,
                 stock: req.body.stock,
                 image: req.body.image,
             }
         })
-        console.log('dfdfsds');
         res.redirect('/viewproduct');
-
     } catch (err) {
         console.log(err);
     }

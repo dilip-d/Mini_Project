@@ -213,7 +213,12 @@
                                                                 </h4>
                                                                 <div class="grid-price mt-2">
                                                                     <span class="money ">
-                                                                        <%=product.price %>
+                                                                        Rs.<%=product.price %>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="grid-price mt-2">
+                                                                    <span class="">
+                                                                       <s>Rs.<%=product.originalPrice %></s>
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -270,6 +275,15 @@
                                                                         style="font-size:25px;color:rgb(46, 46, 133)"></i>
                                                                 </button>
                                                             </form>
+                                                            <div class="grid-price mt-2">
+                                                                <span class="money">
+                                                                    <%=product.offer %>%
+                                                                </span>
+                                                               
+                                                            </div>
+                                                            <span class="money">
+                                                                Offer
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>

@@ -28,7 +28,17 @@
           </select> -->
 
           <label for="">Price</label>
-          <input type="text" name="price" class="form-control" required/>
+          <input type="text" name="originalPrice" class="form-control" required/>
+
+          <label for="">Offer</label>
+          <select class="form-select" name="offer" aria-label="Default select example"> 
+            <option value="1" selected> </option> 
+                <option value="5">5%</option> 
+                <option value="10">10%</option>
+                <option value="15">15%</option>
+                <option value="20">20%</option>
+                <option value="25">25%</option>
+          </select> 
 
           <label for="">Description</label>
           <textarea  type="text-field" name="description" class="form-control" required rows="4" cols="50"></textarea>
@@ -47,7 +57,7 @@
           <input type="file" name="image2" class="form-control" required/>
 
           <label for="">Image 3</label>
-          <input type="file" name="image3" class="form-control" required/> 
+          <input type="file" name="image3" class="form-control" required/>
 
           <button type="submit" class="btn btn-success mt-4" style="background-color: orange;">Submit</button>
         </form>

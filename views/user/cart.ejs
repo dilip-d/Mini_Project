@@ -87,6 +87,17 @@
 							<% }) %>
 							<li>Total <i>-</i> <span>&#x20B9; <%=totals%></span></li>
 						</ul>
+						<form class="card p-2">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Promo code">
+								<% coupon.forEach(function(coupon) { %>
+								<div class="input-group-append pt-2">
+									<%= coupon.couponCode %>	
+									<button type="submit" class="btn btn-secondary">Redeem</button>
+								</div>
+								<% }) %>
+							</div>
+						</form>
 					</div>
 					<div class="col-md-8 address_form">
 						<!-- <h4>Add a new Details</h4>
