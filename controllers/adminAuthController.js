@@ -6,6 +6,7 @@ const Category = require('../models/categorySchema');
 const User = require('../models/User');
 const Product = require('../models/productSchema');
 const Coupon = require("../models/couponSchema");
+const Banner = require("../models/bannerSchema")
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -18,10 +19,15 @@ let validation = {
     category: false
 }
 
+let bannerValidation = {
+    banner: false
+}
+
 module.exports.adminHome_get = async (req, res) => {
 
     const user = await User.count()
     const productCount = await Product.count()
+    const productList = await Product.find({})
 
     let Sales = await Product.aggregate([{ $group: { _id: null, sum_val: { $sum: "$sales" } } }])
     let totalSales = (Sales[0].sum_val);
@@ -48,7 +54,7 @@ module.exports.adminHome_get = async (req, res) => {
                 m.push(orders.length);
                 // console.log(`m:${m}`);
 
-                console.log(`sums:${sums}`)
+                // console.log(`sums:${sums}`)
 
                 for (let order of orders) {
                     l++;
@@ -83,7 +89,7 @@ module.exports.adminHome_get = async (req, res) => {
                             const totals = sum(result, 'price', 'sales');
                             // console.log(totals);
 
-                            res.render('admin/index', { productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
+                            res.render('admin/index', { productList, productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
                         }).catch((err) => {
                             console.log(err)
                         })
@@ -91,7 +97,6 @@ module.exports.adminHome_get = async (req, res) => {
             }
         })
 }
-
 
 module.exports.adminSignup_get = (req, res) => {
     console.log('hai');
@@ -187,27 +192,66 @@ module.exports.deleteCategory = (req, res) => {
         })
 }
 
-// banner
 module.exports.banner_get = (req, res) => {
-    res.render('admin/bannerManage', { layout: 'layouts/adminlayout', title: 'Banner', admin: true })
+    Banner.find()
+        .then((result) => {
+            res.render('admin/bannerManage', { result, bannerValidation, layout: 'layouts/adminlayout', title: 'Banner', admin: true })
+            bannerValidation.banner = false
+        }).catch((err) => console.log(err))
 }
 
+module.exports.banner_post = async (req, res) => {
+    let newname = req.body.name
+    await Banner.findOne({ name: newname })
+        .then((result) => {
+            if (result) {
+                bannerValidation.banner = true
+                res.redirect('/bannerManage')
+            } else {
+                console.log('creating banner');
+                let banner = new Banner({
+                    name: newname
+                })
+                banner.save()
+                    .then(() => {
+                        try {
+                            let image = req.files.image;
+                            image.mv('./public/banner/' + banner._id + ".jpeg");
+                            // res.status(200).json()
+                        }
+                        catch (err) {
+                            console.log(err);
+                        }
+                        res.redirect('/bannerManage')
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+            }
+        })
+}
+
+module.exports.deleteBanner = (req, res) => {
+    let newBanner = req.query.id
+    Banner.deleteOne({ _id: newBanner })
+        .then((result) => {
+            res.redirect('/bannerManage')
+        }).catch((err) => {
+            console.log(err)
+        })
+}
 
 module.exports.viewOrder_get = async (req, res) => {
 
     const result = await User.find({})
     // console.log(result)
-
     let orders = []
     for (item of result) {
         orders = orders.concat(item.order)
     }
-
     // const ans = orders.reverse()
     // orders.sort((a, b) => {
     //     return b.createdAt - a.createdAt;
     // });
-
     res.render('admin/viewOrder', { order: orders, layout: 'layouts/adminlayout', title: 'Orders', admin: true })
 
 }
@@ -248,27 +292,27 @@ module.exports.viewOrder_get = async (req, res) => {
 //     }
 // }
 
-module.exports.adminOrderStatus =  (req, res) => {
+module.exports.adminOrderStatus = (req, res) => {
     console.log('in admin order status');
-    // const user = req.user.id
+    const user = req.user.id
     // console.log(user);
-  
+
     uniqueid = req.params.id;
     console.log(uniqueid);
 
-    User.findOne({uniqueid})
-        .then((result) =>{
+    User.findOne({ _id: user })
+        .then((result) => {
             // console.log(result);
             const user = result._id;
             const orders = result.order
 
             // console.log(orders); 
-            if(req.body.status =='Delivered') {
+            if (req.body.status == 'Delivered') {
 
-                    for (let order of orders) {
+                for (let order of orders) {
                     order = order.toJSON();
                     if (order.unique === uniqueid) {
-                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Delivered" } }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Delivered" } }))])
                             .then((result) => {
                                 res.redirect('/viewOrder')
                             })
@@ -277,11 +321,11 @@ module.exports.adminOrderStatus =  (req, res) => {
                             })
                     }
                 }
-            } else if(req.body.status == 'Dispatched')  {
+            } else if (req.body.status == 'Dispatched') {
                 for (let order of orders) {
                     order = order.toJSON();
                     if (order.unique === uniqueid) {
-                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Dispatched" } }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Dispatched" } }))])
                             .then((result) => {
                                 res.redirect('/viewOrder')
                             })
@@ -290,13 +334,12 @@ module.exports.adminOrderStatus =  (req, res) => {
                             })
                     }
                 }
-                
-            } else if(req.body.status =='Cancelled'){
+            } else if (req.body.status == 'Cancelled') {
 
                 for (let order of orders) {
                     order = order.toJSON();
                     if (order.unique === uniqueid) {
-                        Promise.all([(User.updateOne({ "_id":user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count,"sales":(order.count*-1) } }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueid }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
                             .then((result) => {
                                 res.redirect('/viewOrder')
                             })
@@ -345,4 +388,3 @@ module.exports.deleteCoupon = (req, res) => {
             res.redirect('/coupon')
         })
 }
-

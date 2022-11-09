@@ -78,7 +78,7 @@
 				<div class="mb-3">
 					<label for="email">Email <span class="text-muted"></span></label>
 					<input type="email" class="form-control" name="email" value="<%= profile.email %>"
-						placeholder="you@example.com">
+						placeholder="you@example.com" required>
 					<div class="invalid-feedback">
 						Please enter a valid email address for shipping updates.
 					</div>
@@ -87,7 +87,7 @@
 				<div class="mb-3">
 					<label for="email">Phone Number <span class="text-muted"></span></label>
 					<input type="text" class="form-control" name="phonenumber" value="<%= profile.phonenumber %>"
-						placeholder="123...">
+						placeholder="123..." required>
 					<div class="invalid-feedback">
 						Please enter a valid phone number for shipping updates.
 					</div>
@@ -98,6 +98,7 @@
 						<br>
 						<select class="form-select" name="addressOption" aria-label="Default select example">
 							<% for(let i=0;i<profile.address.length ;i++){ %>
+								<!-- <input type="radio" name="addressOption" value="<%=profile.address[i].address %>"> -->
 								<option value="<%=profile.address[i].address %>">
 									<%= profile.address[i].address %>
 								</option>
@@ -149,7 +150,7 @@
 							<input type="hidden" class="form-control" name="currency" value="INR">
 							<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
 						</div>
-						<hr class="mb-4">
+						<!-- <hr class="mb-4">
 						<div class="custom-control custom-checkbox">
 							<input type="checkbox" class="custom-control-input" id="same-address">
 							<label class="custom-control-label" for="same-address">Shipping address is the same as my
@@ -161,7 +162,7 @@
 							<label class="custom-control-label" for="save-info">Save this information for next
 								time</label>
 						</div>
-						<hr class="mb-4">
+						<hr class="mb-4"> -->
 
 						<h4 class="mb-3">Payment</h4>
 						<div class="row">

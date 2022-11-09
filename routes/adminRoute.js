@@ -47,5 +47,6 @@ router.post('/deleteCoupon',adminauthController.deleteCoupon)
 
 //banner management
 router.get('/bannerManage', adminauthController.banner_get)
-
+router.post('/addBanner', adminauthController.banner_post)
+router.post('/admin/delete-banner',adminauthController.deleteBanner)
 module.exports = router;

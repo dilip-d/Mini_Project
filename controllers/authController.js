@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Product = require('../models/productSchema');
 const Coupon = require("../models/couponSchema");
+const Banner = require("../models/bannerSchema")
 const jwt = require('jsonwebtoken');
 const { handleErrors } = require('../middleware/errHandlingMiddleware');
 const { loginerrorhandler } = require('../middleware/errHandlingMiddleware');
@@ -28,9 +29,10 @@ const createToken = (id) => {
 module.exports.homepage_get = async (req, res) => {
     console.log('find product for user');
     try {
+        const banner = await Banner.find({});
         const products = await Product.find({});
         console.log('found');
-        res.render('./user/index', { product: products, layout: "./layouts/layout.ejs", title: 'Home page', admin: false })
+        res.render('./user/index', { banner, product: products, layout: "./layouts/layout.ejs", title: 'Home page', admin: false })
 
     } catch (err) {
         res.status(500).json(err);
@@ -154,7 +156,7 @@ module.exports.userCart_get = async (req, res) => {
     console.log('in cart');
     try {
         const coupon = await Coupon.find()
-        console.log(coupon);
+        // console.log(coupon);
 
         let Curuser = req.user.id
         const users = await User.findById({ _id: Curuser })
@@ -624,16 +626,16 @@ module.exports.orderDetails_get = async (req, res) => {
 module.exports.cancelOrder = (req, res) => {
     console.log('cancelling in order');
     const user = req.user.id;
-    console.log(user);
+    // console.log(user);
     uniqueId = req.params.id;
     console.log(uniqueId);
     if (user) {
-        User.findOne({ user: uniqueId })
+        User.findOne({_id: user})
             .then((result) => {
                 // console.log(result)
 
                 const orders = result.order
-                console.log(orders)
+                // console.log(orders)
 
                 for (let order of orders) {
                     order = order.toJSON();
@@ -656,16 +658,16 @@ module.exports.cancelOrder = (req, res) => {
 module.exports.returnOrder = (req, res) => {
     console.log('returning order');
     const user = req.user.id;
-    console.log(user);
+    // console.log(user);
     uniqueId = req.params.id;
     console.log(uniqueId);
     if (user) {
-        User.findOne({ user: uniqueId })
+        User.findOne({ _id: user })
             .then((result) => {
                 // console.log(result)
 
                 const orders = result.order
-                console.log(orders)
+                // console.log(orders)
 
                 for (let order of orders) {
                     order = order.toJSON();

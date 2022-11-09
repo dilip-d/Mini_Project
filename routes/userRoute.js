@@ -63,3 +63,5 @@ router.post('/verifyPaymentPaypal/:id/capture', authController.verifyPaymentPayp
 router.post('/applyCoupon', authController.applyCoupon_post);
 
 module.exports = router;
+
+{/* <img class="carousel-item active" src="./banner/<%= banner._id %>.jpeg" alt=""> */}

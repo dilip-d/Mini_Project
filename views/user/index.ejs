@@ -8,38 +8,46 @@
                 <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
-                <div class="carousel-item active">
+                <% banner.slice(0,1).forEach(function(banner) { %>
+                <div class="carousel-item active" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                    <% }) %>
                     <div class="carousel-caption text-center">
                         <h3>Men’s Watches
                             <span>Cool summer sale 50% off</span>
                         </h3>
-                        <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                        <a href="/mensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                     </div>
                 </div>
-                <div class="carousel-item item2">
+                <% banner.slice(1,2).forEach(function(banner) { %>
+                <div class="carousel-item item2" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                    <% }) %>
                     <div class="carousel-caption text-center">
                         <h3>Women’s Watches
                             <span>Want to Look Your Best?</span>
                         </h3>
-                        <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                        <a href="/womensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
 
                     </div>
                 </div>
-                <div class="carousel-item item3">
+                <% banner.slice(2,3).forEach(function(banner) { %>
+                <div class="carousel-item item3" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                    <% }) %>
                     <div class="carousel-caption text-center">
                         <h3>Men’s Watches
                             <span>Cool summer sale 50% off</span>
                         </h3>
-                        <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                        <a href="/mensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
 
                     </div>
                 </div>
-                <div class="carousel-item item4">
+                <% banner.slice(3,4).forEach(function(banner) { %>
+                <div class="carousel-item item4" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                    <% }) %>
                     <div class="carousel-caption text-center">
                         <h3>Women’s Watches
                             <span>Want to Look Your Best?</span>
                         </h3>
-                        <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                        <a href="womensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                     </div>
                 </div>
             </div>

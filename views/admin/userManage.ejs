@@ -1,10 +1,6 @@
-<section style="margin-top: 200px;">
+<section style="margin-top: 210px;">
     <div class="container">
-      <div class="row mt-4">
-        <div class="d-flex justify-content-between">
-        </div>
-      </div>
-      <table class="table mt-5">
+      <table id="example" class="table mt-5">
         <thead style="background-color: rgb(22, 22, 22);">
           <tr>
             <th scope="col">No</th>
@@ -32,3 +28,14 @@
       </table>
     </div>
   </section>
+
+  <script>
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        // dom: 'Bfrtip',
+        // buttons: [
+        //     'copy', 'csv', 'excel', 'pdf', 'print'
+        // ]
+    } );
+} );
+  </script>

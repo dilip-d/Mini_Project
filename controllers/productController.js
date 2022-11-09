@@ -1,5 +1,6 @@
 const Product = require('../models/productSchema');
 const Category = require('../models/categorySchema');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 module.exports.addproduct_get = (req, res) => {
@@ -99,7 +100,7 @@ module.exports.editproduct_post = async (req, res) => {
     try {
         await Product.updateOne({ _id: proId }, {
 
-            $set: {
+            $set: { 
                 name: req.body.name,
                 category: req.body.category,
                 price: price,
@@ -110,9 +111,45 @@ module.exports.editproduct_post = async (req, res) => {
                 image: req.body.image,
             }
         })
-        res.redirect('/viewproduct');
     } catch (err) {
         console.log(err);
     }
+
+    //--------------------------------
+    try {
+        const results = await User.find({})
+        for (result of results) {
+            carts = result.cart
+            for (let cart of carts) {
+                cartId = "" + cart._id
+                if (cartId === proId) {
+                    result2 = await User.updateOne({ "_id": result._id, "cart._id": proId }, { $set: { "cart.$.price": price } })
+                }
+            }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+    //-----------------------------------
+
+    //--------------------------------
+    try {
+        const results = await User.find({})
+        for (result of results) {
+            wishlists = result.wishlist
+            for (let wishlist of wishlists) {
+                wishlistId = "" + wishlist._id
+                if (wishlistId === proId) {
+                    result2 = await User.updateOne({ "_id": result._id, "wishlist._id": proId }, { $set: { "wishlist.$.price": price } })
+                }
+            }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+    res.redirect('/viewproduct');
+    //-----------------------------------
 }
 

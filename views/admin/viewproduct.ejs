@@ -3,7 +3,7 @@
       <div class="row mt-2">
         <h2 class="" style="margin-left:20rem ;">Product List</h2>
       </div>
-      <table class="table mt-5">
+      <table id="example" class="table mt-5">
         <thead style="background-color: rgb(22, 22, 22);">
           <tr>
             <th scope="col">Name</th>
@@ -44,3 +44,14 @@
       </table>
     </div>
   </section>
+
+  <script>
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        // dom: 'Bfrtip',
+        // buttons: [
+        //     'copy', 'csv', 'excel', 'pdf', 'print'
+        // ]
+    } );
+} );
+  </script>
