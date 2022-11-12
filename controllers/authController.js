@@ -11,7 +11,8 @@ const { v4: uuidv4 } = require('uuid');
 const Razorpay = require('razorpay');
 
 //paypal
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
+const { log } = require('console');
 const base = "https://api-m.sandbox.paypal.com";
 
 var instance = new Razorpay({
@@ -459,31 +460,110 @@ module.exports.addAddress_post = async (req, res) => {
     }
 }
 
-module.exports.editProfile_post = async (req, res) => {
-    const user = req.params.id
-    console.log('edit profile post');
-    const result = req.body;
+module.exports.editAddress_get = async (req, res) => {
+    console.log('edit address get');
+    const addressId = req.query.id
+    let user = req.user.id
+    // console.log(user);
+    console.log(addressId);
+    const profile = await User.findById({ _id: user })
+    // console.log(profile.address);
+
+    let address;
+    let checks = profile.address;
+    for (let check of checks) {
+        if (check._id == addressId) {
+            address = check;
+            console.log(address);
+        }
+    }
+
+    res.render('./user/editAddress.ejs', { address, layout: "./layouts/layout.ejs", title: 'Edit Address', admin: false })
+}
+
+module.exports.editAddress_post = async (req, res) => {
+
+    console.log(req.body);
+    console.log('in edit address post');
+
+    const addressid = req.params.id;
+    console.log(addressid);
 
     try {
-        await User.updateOne({ _id: user }, {
+        const user = req.user.id;
+        const checks = req.body;
 
-            $set: {
-                address: {
-                    address: result.address,
-                    zip: result.zip
-                },
-                fname: result.fname,
-                lname: result.lname,
-                email: result.email,
-                phonenumber: result.phonenumber
-            }
-        })
-        res.redirect('/userProfile');
+        await User.updateOne({ _id: user, "address._id": addressid },
+            {
+                $set: {
+                    'address.$.address': checks.address,
+                    'address.$.city': checks.city,
+                    'address.$.country': checks.country,
+                    'address.$.state': checks.state,
+                    'address.$.zip': checks.zip
+                }
+            })
+        res.redirect('/userProfile')
 
     } catch (err) {
         console.log(err);
     }
 }
+
+module.exports.editProfile_post = async (req, res) => {
+
+    try {
+        const user = req.params.id;
+        const checks = req.body;
+
+        await User.updateOne({ _id: user },
+            {
+                $set: {
+                    // address: {
+                    //     address: checks.address,
+                    //     city: checks.city,
+                    //     country: checks.country,
+                    //     state: checks.state,
+                    //     zip: checks.zip,
+                    // },
+                    fname: checks.fname,
+                    lname: checks.lname,
+                    email: checks.email,
+                    phonenumber: checks.phonenumber
+                }
+            })
+        res.redirect('/userProfile')
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// module.exports.editProfile_post = async (req, res) => {
+//     const user = req.params.id
+//     console.log('edit profile post');
+//     const result = req.body;
+
+//     try {
+//         await User.updateOne({ _id: user }, {
+
+//             $set: {
+//                 address: {
+//                     address: result.address,
+//                     zip: result.zip
+//                 },
+//                 fname: result.fname,
+//                 lname: result.lname,
+//                 email: result.email,
+//                 phonenumber: result.phonenumber
+//             }
+//         })
+//         res.redirect('/userProfile');
+
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
 
 module.exports.checkout_get = async (req, res) => {
     console.log('in checkout');
@@ -517,7 +597,7 @@ let zip;
 let country;
 let state;
 
-let discountedTotal=0;
+let discountedTotal = 0;
 let paymentPaypalAmount;
 
 module.exports.checkout_post = async (req, res) => {
@@ -539,11 +619,11 @@ module.exports.checkout_post = async (req, res) => {
 
         let { amount, currency } = req.body;
 
-        if(discountedTotal == 0){
-             amount = total;
-         }else{
+        if (discountedTotal == 0) {
+            amount = total;
+        } else {
             amount = discountedTotal;
-         }
+        }
         console.log(amount);
         amount = amount * 100;
         console.log(amount);
@@ -558,9 +638,9 @@ module.exports.checkout_post = async (req, res) => {
         console.log('in paypal');
         // discountedTotal = req.body.discountedTotal;
 
-        if(discountedTotal == 0){
+        if (discountedTotal == 0) {
             paymentPaypalAmount = total;
-        }else{
+        } else {
             paymentPaypalAmount = discountedTotal;
         }
         const order = { id: 'Paypal' };
@@ -819,17 +899,25 @@ module.exports.applyCoupon_post = async (req, res) => {
     if (coupondata.users.length !== 0) {
         console.log('users in coupon');
 
-        const isExisting = coupondata.users.findIndex(users => users == req.user.id)
+        const isExisting = await coupondata.users.findIndex(users => users == req.user.id)
         console.log(isExisting)
         if (total >= coupondata.minBill && isExisting === -1) {
 
-        //     await Coupon.updateOne({ couponCode: coupon }, {
-        //         $push: { users: req.user.id }
-        //     })
-        //     await User.updateOne({ _id: curUser }, { $inc: { total: coupondata.couponValue * -1 } })
+            console.log('not existing');
 
-        //     const tot = parseInt(total) + coupondata.couponValue * -1
-        //     res.json({ tot })
+            discountedTotal = total - coupondata.couponValue
+            let couponValue = coupondata.couponValue
+            console.log(discountedTotal);
+            console.log(couponValue);
+            res.json({ discountedTotal, couponValue, total })
+
+            //     await Coupon.updateOne({ couponCode: coupon }, {
+            //         $push: { users: req.user.id }
+            //     })
+            //     await User.updateOne({ _id: curUser }, { $inc: { total: coupondata.couponValue * -1 } })
+
+            //     const tot = parseInt(total) + coupondata.couponValue * -1
+            //     res.json({ tot })
         } else {
             res.json({ error: true, msg: 'already used this coupon' })
             console.log('already used this coupon')
@@ -846,11 +934,11 @@ module.exports.applyCoupon_post = async (req, res) => {
             console.log(discountedTotal);
             console.log(couponValue);
 
-        //     const tot = parseInt(total) + coupondata.couponValue * -1
-            res.json({ discountedTotal,couponValue,total})
+            //     const tot = parseInt(total) + coupondata.couponValue * -1
+            res.json({ discountedTotal, couponValue, total })
         } else {
             res.json({ error: true, msg: 'purchase amount is not enough' })
-        //     console.log('purchase amount is not enough')
+            //     console.log('purchase amount is not enough')
         }
     }
 }

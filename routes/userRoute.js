@@ -40,6 +40,8 @@ router.get('/editProfile', authController.editProfile_get);
 router.post('/editProfile/:id', authController.editProfile_post);
 router.get('/addAddress', authController.addAddress);
 router.post('/addAddress/:id', authController.addAddress_post);
+router.get('/editAddress', authController.editAddress_get);
+router.post('/editAddress/:id', authController.editAddress_post);
 
 //checkout and order details
 router.get('/checkout', authController.checkout_get);
@@ -64,4 +66,4 @@ router.post('/applyCoupon', authController.applyCoupon_post);
 
 module.exports = router;
 
-{/* <img class="carousel-item active" src="./banner/<%= banner._id %>.jpeg" alt=""> */}
+{/* <img class="carousel-item active" src="./banner/<%= banner._id %>.jpeg" alt=""> */ }

@@ -277,16 +277,18 @@
 			console.log(couponVal);
 			console.log(coupon.msg);
 
-			// if(coupon.msg == 'already used this coupon'){
-			// 	document.getElementById('success').innerHTML = "Already Applied"
-			// 	document.getElementById("p1").innerHTML = total;
-			// }else{
+			if(coupon.msg == 'already used this coupon'){
+				document.getElementById('success').innerHTML = "Already Applied"
+				document.getElementById("p1").innerHTML = total;
+			}else if(coupon.msg == 'purchase amount is not enough'){
+				document.getElementById('success').innerHTML = "Amount is not enough"
+				document.getElementById("p1").innerHTML = total;
+			}else{
 			document.getElementById("p1").innerHTML = "Rs."+ newTotal;
 			document.getElementById("p2").innerHTML = "Rs."+ couponVal;
 			document.getElementById("newTotal").value = newTotal;
 			document.getElementById('success').innerHTML = "Coupon Applied";
-			}
-			
+			}			
 		} catch (err) {
 			console.log(err);
 		}

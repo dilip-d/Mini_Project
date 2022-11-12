@@ -58,8 +58,8 @@
                                           <h6 class="text f-w-400"><%= profile.address[i].state%></h6>
                                             <h6 class="text f-w-400"><%= profile.address[i].country%></h6>
                                             <h6 class="text f-w-400"><%= profile.address[i].zip%></h6>
-                                           <!-- <a href="/editProfile"> <i class='fa fa-edit' style='color: rgb(47, 0, 255)' ></i></a>
-                                            <a href="/deleteAddress"><i  class="fa fa-trash-o p-3" style='color: red' ></i></a> -->
+                                           <a href="/editAddress?id=<%= profile.address[i]._id %>"> <i class='fa fa-edit' style='color: rgb(47, 0, 255)' ></i></a>
+                                            <a href="/deleteAddress"><i  class="fa fa-trash-o p-3" style='color: red' ></i></a>
                                         
                                           </div>
                                          
