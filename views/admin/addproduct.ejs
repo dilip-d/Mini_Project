@@ -13,7 +13,7 @@
 
           <label for="">Category</label>
           <select class="form-select" name="category" aria-label="Default select example"> 
-            <option  selected><%= result.category %> </option>
+            <option selected disabled>Choose...</option>
             <% for(let i=0;i<category.length ;i++){ %>  
                 <option value="<%= category[i].category  %>"><%= category[i].category %> </option> 
                 <% } %> 

@@ -18,6 +18,11 @@
                             </div>
                         </div>
                         <div class="col-sm-8">
+                            <div class="p-2">
+                                <a href="/editProfile" class="btn btn-primary">Edit Profile</a>
+                                <a href="/addAddress" class="btn btn-info mx-5">Add Address</a>
+                                <a href="/orderDetails" class="btn btn-dark mx-3">Orders</a>
+                            </div>
                             <div class="card-block">
                                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
                                 <div class="row">
@@ -53,7 +58,11 @@
                                           <h6 class="text f-w-400"><%= profile.address[i].state%></h6>
                                             <h6 class="text f-w-400"><%= profile.address[i].country%></h6>
                                             <h6 class="text f-w-400"><%= profile.address[i].zip%></h6>
+                                           <!-- <a href="/editProfile"> <i class='fa fa-edit' style='color: rgb(47, 0, 255)' ></i></a>
+                                            <a href="/deleteAddress"><i  class="fa fa-trash-o p-3" style='color: red' ></i></a> -->
+                                        
                                           </div>
+                                         
                                           <% } %>
                                     <!-- <% if(!profile) { %>
                                     <div class="col-sm-6">
@@ -71,11 +80,6 @@
                                     </div>
                                     <% }else{ %>
                                         <% } %> -->
-                                        <div>
-                                    <a href="/editProfile" class="btn btn-primary">Edit Profile</a>
-                                    <a href="/addAddress" class="btn btn-info mx-5">Add Address</a>
-                                    <a href="/orderDetails" class="btn btn-dark mx-3">Orders</a>
-                                </div>
                                 </div>
                             </div>
                         </div>

@@ -2463,10 +2463,11 @@ table.timetable_sub {
 .timetable_sub td {
 	border:1px solid #CDCDCD;
 }
-td.invert-image a img {
-    width:30%;
+/* td.invert-image img {
+   
     margin: 0 auto;
-}
+} */
+
 .rem{
 	position:relative;
 }

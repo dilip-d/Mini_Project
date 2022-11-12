@@ -295,12 +295,12 @@ module.exports.viewOrder_get = async (req, res) => {
 module.exports.adminOrderStatus = (req, res) => {
     console.log('in admin order status');
     const user = req.user.id
-    // console.log(user);
+    console.log(user);
 
     uniqueid = req.params.id;
     console.log(uniqueid);
 
-    User.findOne({ _id: user })
+    User.findOne({ _id: user})
         .then((result) => {
             // console.log(result);
             const user = result._id;

@@ -35,7 +35,9 @@ db.connectToDb((err)=>{
 })
 
 app.use(function (req, res, next) {
-  res.status(404).send("<h1>Sorry can't find that!</h1>");
+  res.render('./user/error',{ title: 'Not found',layout:false})
+  next()
+  // res.status(404).send("<h1>Sorry can't find that!</h1>");
 });
 
 //const port = process.env.PORT || 3000

@@ -1674,7 +1674,7 @@ a.b-home:hover {
 
 /*-- //error --*/
 .middle-text-info {
-    background: url(../images/banner-mid.jpg) no-repeat 0px 0px;
+    background:  no-repeat 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;

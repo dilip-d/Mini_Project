@@ -77,7 +77,7 @@
                     <div class="product-googles-info googles">
                         <div class="men-pro-item">
                             <div class="men-thumb-item">
-                                <img src="./image/<%= product._id %>.jpeg" class="img-home" alt="img">
+                                <img src="./image/<%= product._id %>.jpeg" class="img-shop" alt="img">
                                 <div class="men-cart-pro">
                                     <div class="inner-men-cart-pro">
                                         <a href="/mensWatch" class="link-product-add-cart">Shop Now</a>
@@ -227,8 +227,9 @@
             <!--/meddle-->
             <div class="row">
                 <div class="col-md-12 middle-slider my-4">
-                    <div class="col-md-12 middle-text-info ">
-
+                    <% banner.slice(4,5).forEach(function(banner) { %>
+                    <div class="col-md-12 middle-text-info "style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                        <% }) %>
                         <h3 class="tittle-w3layouts two text-center my-lg-4 mt-3">Summer Flash sale</h3>
                         <div class="simply-countdown-custom" id="simply-countdown-custom"></div>
 
@@ -289,7 +290,9 @@
             <div class="row galsses-grids pt-lg-5 pt-3">
                 <div class="col-lg-6 galsses-grid-left">
                     <figure class="effect-lexi">
-                        <img src="images/banner5.jpg" alt="" class="img-home">
+                        <% banner.slice(5,6).forEach(function(banner) { %>
+                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-home">
+                        <% }) %>
                         <figcaption>
                             <h3>Editor's
                                 <span>Pick</span>
@@ -300,7 +303,9 @@
                 </div>
                 <div class="col-lg-6 galsses-grid-left">
                     <figure class="effect-lexi">
-                        <img src="images/banner.jpg" alt="" class="img-home">
+                        <% banner.slice(0,1).forEach(function(banner) { %>
+                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-home">
+                        <% }) %>
                         <figcaption>
                             <h3>Editor's
                                 <span>Pick</span>
@@ -399,6 +404,7 @@
     </div>
 </section>
 <!-- about -->
+
 
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>

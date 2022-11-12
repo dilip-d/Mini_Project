@@ -24,7 +24,6 @@
 						
 							<% user.forEach(function(user , index) { %>
 							<tr class="rem1">
-
 								<td class="invert"><%= index+1 %></td>
 								<td class="invert-image">
 									<a href="/singleProductView?id=<%= user._id %>">
@@ -43,12 +42,7 @@
 								<td class="invert"><%=user.name %></td>
 
 								<td class="invert">&#x20B9; <%= (user.price * user.count) %></td>
-								<!-- <td class="invert">
-									<div class="rem">
-										<i class='fa fa-trash-o'></i>
-										 <div class="close1"> </div>
-									</div>
-								</td>	 -->
+							
 								<td class="invert">
 									<div class="rem">
 										<a

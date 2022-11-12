@@ -1,8 +1,8 @@
 <body>
   <div class="container">
-    <div style="margin: 72px;">
-      <h1 style="color: white; padding-left: 10rem;">Order Management</h1>
-    </div>
+   <br><br><br>
+      <h1 class="text-center text-white">Order Management</h1>
+      <br><br><br><br>
     <div class="row">
       <table id="example" class="display nowrap" style="width:100%">
         <thead style="background-color: black;">
@@ -31,7 +31,7 @@
             <td>
               <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
                   <select class="form-select" name="status" aria-label="Default select example" required>
-                     <option selected> </option>
+                     <option selected disabled><%=order.orderStatus %> </option>
                       <option value="Dispatched">Dispatched</option>
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancel</option>     

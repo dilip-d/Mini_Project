@@ -51,11 +51,11 @@ table.timetable_sub {
 .timetable_sub td {
 	border: 1px solid #CDCDCD;
 }
-
+/* 
 td.invert-image a img {
 	width: 30%;
 	margin: 0 auto;
-}
+} */
 
 .rem {
 	position: relative;

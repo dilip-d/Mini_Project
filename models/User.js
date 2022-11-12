@@ -9,7 +9,8 @@ const cartSchema = new mongoose.Schema({
     category: { type: String },
     image: { type: String },
     stock: { type: Number },
-    count: { type: Number }
+    count: { type: Number },
+    total: { type: Number }
 }, { timestamps: true })
 
 const wishlistSchema = new mongoose.Schema({
@@ -31,7 +32,7 @@ const orderSchema = new mongoose.Schema({
     stock: { type: Number },
     count: { type: Number },
     croppedImage: { type: String },
-    offer: { type: String },
+    offer: { type: Number },
     paymentOption: { type: String },
     address: { type: String },
     zip: { type: String },

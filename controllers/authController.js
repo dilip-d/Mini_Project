@@ -394,11 +394,16 @@ module.exports.removeFromWishlist = async (req, res) => {
 }
 
 module.exports.singleProductView_get = async (req, res) => {
-    let prodId = req.query.id
-    console.log(prodId);
-    let product = await Product.findById(prodId)
+    try {
+        let prodId = req.query.id
+        console.log(prodId);
+        let product = await Product.findById(prodId)
 
-    res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single view', admin: false })
+        res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single view', admin: false })
+    } catch (err) {
+        console.log(err);
+        res.render('./user/error', { title: 'Not found', layout: false })
+    }
 }
 
 // user Profile view edit
@@ -481,11 +486,11 @@ module.exports.editProfile_post = async (req, res) => {
 }
 
 module.exports.checkout_get = async (req, res) => {
-    console.log('checkoutttt');
+    console.log('in checkout');
     try {
         let id = req.user.id
         const coupon = await Coupon.find()
-        console.log(coupon);
+        // console.log(coupon);
         const users = await User.findById({ _id: id })
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
@@ -512,22 +517,34 @@ let zip;
 let country;
 let state;
 
+let discountedTotal=0;
+let paymentPaypalAmount;
+
 module.exports.checkout_post = async (req, res) => {
     console.log('checkout submit');
     console.log(req.body);
-    address = req.body.address|| req.body.addressopt;
+    address = req.body.address || req.body.addressopt;
     payment = req.body.payment;
     zip = req.body.zip;
     country = req.body.country;
     state = req.body.state;
+    discountedTotal = req.body.discountedTotal;
     let id = req.user.id;
-    console.log(zip,country,state);
 
     const result = await User.findOne({ _id: id });
-    const cartItems = result.cart;
+    // const cartItems = result.cart;
 
     if (payment == 'Razorpay') {
+        console.log('in razor pay');
+
         let { amount, currency } = req.body;
+
+        if(discountedTotal == 0){
+             amount = total;
+         }else{
+            amount = discountedTotal;
+         }
+        console.log(amount);
         amount = amount * 100;
         console.log(amount);
         console.log(currency);
@@ -539,6 +556,13 @@ module.exports.checkout_post = async (req, res) => {
         })
     } else if (payment == 'Paypal') {
         console.log('in paypal');
+        // discountedTotal = req.body.discountedTotal;
+
+        if(discountedTotal == 0){
+            paymentPaypalAmount = total;
+        }else{
+            paymentPaypalAmount = discountedTotal;
+        }
         const order = { id: 'Paypal' };
         console.log(order);
         res.json(order);
@@ -550,8 +574,6 @@ module.exports.checkout_post = async (req, res) => {
 module.exports.saveOrder = async (req, res) => {
     console.log('save order');
     let id = req.user.id;
-    // address = req.body.address;
-    // payment = req.body.payment;
 
     try {
         const result = await User.findOne({ _id: id });
@@ -575,6 +597,10 @@ module.exports.saveOrder = async (req, res) => {
             await User.findOneAndUpdate({ _id: id }, { $set: { cart: [] } })
 
             await Product.findOneAndUpdate({ "_id": stockId }, { $inc: { "stock": removeCount, "sales": salesCount } })
+
+            await Coupon.updateOne({ couponCode: coupon }, {
+                $push: { users: req.user.id }
+            })
 
             res.status(200).json({ success: 'true' });
         }
@@ -630,7 +656,7 @@ module.exports.cancelOrder = (req, res) => {
     uniqueId = req.params.id;
     console.log(uniqueId);
     if (user) {
-        User.findOne({_id: user})
+        User.findOne({ _id: user })
             .then((result) => {
                 // console.log(result)
 
@@ -640,7 +666,7 @@ module.exports.cancelOrder = (req, res) => {
                 for (let order of orders) {
                     order = order.toJSON();
                     if (order.unique === uniqueId) {
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count ,"sales": (order.count * -1)} }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
                             .then((result) => {
                                 res.redirect('/orderDetails')
                             })
@@ -672,7 +698,7 @@ module.exports.returnOrder = (req, res) => {
                 for (let order of orders) {
                     order = order.toJSON();
                     if (order.unique === uniqueId) {
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Returned" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count ,"sales": (order.count * -1)} }))])
+                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Returned" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
                             .then((result) => {
                                 res.redirect('/orderDetails')
                             })
@@ -692,7 +718,7 @@ module.exports.paymentPaypal = async (req, res) => {
     console.log('in payment paypal');
     console.log(req.body);
     const { amount, currency } = req.body;
-    let orderAmt = amount / 80
+    let orderAmt = paymentPaypalAmount / 80
     let orderAmount = (Math.round(orderAmt * 100) / 100).toFixed(2);
     console.log(orderAmount)
     const order = await createOrder(orderAmount);
@@ -741,6 +767,7 @@ async function createOrder(orderAmount) {
         }),
     });
     const data = await response.json();
+    console.log('at the end of create order');
     console.log(data)
     return data;
 }
@@ -776,20 +803,54 @@ async function generateAccessToken() {
 }
 // -------------------------------------------
 
-module.exports.applyCoupon_post = async (req, res) => {
-    console.log('in apply coupon');
-    console.log(req.body);
-    // try {
-    //     const { email, password } = req.body;
-    //     const user = await User.login(email, password);
-    //     const token = createToken(user._id);
-    //     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    //     res.status(200).json({ user });
-    //     console.log(user + "logged in");
+let total;
+let coupon;
 
-    // } catch (errors) {
-    //     console.log(errors);
-    //     const errorHandle = loginerrorhandler(errors);
-    //     res.status(400).json({ errorHandle });
-    // }
+module.exports.applyCoupon_post = async (req, res) => {
+
+    coupon = req.body.couponCode
+    total = req.body.total;
+    console.log(coupon)
+    console.log(total);
+
+    const coupondata = await Coupon.findOne({ couponCode: coupon })
+    console.log(coupondata)
+
+    if (coupondata.users.length !== 0) {
+        console.log('users in coupon');
+
+        const isExisting = coupondata.users.findIndex(users => users == req.user.id)
+        console.log(isExisting)
+        if (total >= coupondata.minBill && isExisting === -1) {
+
+        //     await Coupon.updateOne({ couponCode: coupon }, {
+        //         $push: { users: req.user.id }
+        //     })
+        //     await User.updateOne({ _id: curUser }, { $inc: { total: coupondata.couponValue * -1 } })
+
+        //     const tot = parseInt(total) + coupondata.couponValue * -1
+        //     res.json({ tot })
+        } else {
+            res.json({ error: true, msg: 'already used this coupon' })
+            console.log('already used this coupon')
+        }
+    } else {
+        if (total >= coupondata.minBill) {
+            console.log('new user for coupon');
+
+            // await Coupon.updateOne({ couponCode: coupon }, {
+            //     $push: { users: req.user.id }
+            // })
+            discountedTotal = total - coupondata.couponValue
+            let couponValue = coupondata.couponValue
+            console.log(discountedTotal);
+            console.log(couponValue);
+
+        //     const tot = parseInt(total) + coupondata.couponValue * -1
+            res.json({ discountedTotal,couponValue,total})
+        } else {
+            res.json({ error: true, msg: 'purchase amount is not enough' })
+        //     console.log('purchase amount is not enough')
+        }
+    }
 }

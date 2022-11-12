@@ -32,25 +32,31 @@
 				<li class="list-group-item d-flex justify-content-between bg-light">
 					<div class="text-success">
 						<h6 class="my-0">Promo code</h6>
-						<small>EXAMPLECODE</small>
+						<!-- <small>EXAMPLECODE</small> -->
 					</div>
-					<span class="text-success">-Rs.0</span>
+					<span id="p2" class="text-success">-Rs.0</span>
 				</li>
 				<li class="list-group-item d-flex justify-content-between">
 					<span>Total (Rs)</span>
-					<strong>Rs.<%= totals %></strong>
+					<strong id="p1">Rs.0</strong>
 				</li>
 			</ul>
 			<!-- coupon form -->
 			<form id="couponform" class="card p-2">
+				
 				<div class="input-group">
 					<select class="form-select" name="coupon" aria-label="Default select example">
+						<option selected disabled>Choose...</option>
 						<% coupon.forEach(function(coupon) { %>
-							<option value="<%= coupon.couponCode %>"><%= coupon.couponCode %></option>
+							<option value="<%= coupon.couponCode %>"><%= coupon.couponCode %></option>							
 							<% }) %>
 					</select>
+					<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
 						<button type="submit" class="btn btn-primary">Redeem</button>
 				</div>
+
+					<h5 class="text-success text-center" id="success" ></h5>
+					
 			</form>
 
 		</div>
@@ -94,9 +100,10 @@
 				</div>
 				<% if(profile.address.length> 0) { %>
 					<div class="mb-3">
-						<label for="address">Address</label>
+						<label for="address"> Choose Address</label>
 						<br>
 						<select class="form-select" name="addressOption" aria-label="Default select example">
+							<option selected disabled>Select address...</option>
 							<% for(let i=0;i<profile.address.length ;i++){ %>
 								<!-- <input type="radio" name="addressOption" value="<%=profile.address[i].address %>"> -->
 								<option value="<%=profile.address[i].address %>">
@@ -106,7 +113,6 @@
 						</select>
 					</div>
 					<% } %>
-
 						<div class="mb-3">
 							<label for="address">Address</label>
 							<input type="text" class="form-control" name="address" value="" placeholder="1234 Main St"
@@ -116,26 +122,23 @@
 							</div>
 						</div>
 
-						<!-- <div class="mb-3">
-					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-					<input type="text" class="form-control" name="address2" placeholder="Apartment or suite">
-				</div> -->
-
 						<div class="row">
 							<div class="col-md-5 mb-3">
 								<label for="country">Country</label>
-								<select class="form-select w-100" name="country" required>
+								<input type="text" class="form-control" name="country" value="" placeholder="" required>
+								<!-- <select class="form-select w-100" name="country" required>
 									<option value="India">India</option>
-								</select>
+								</select> -->
 								<div class="invalid-feedback">
 									Please select a valid country.
 								</div>
 							</div>
 							<div class="col-md-4 mb-3">
 								<label for="state">State</label>
-								<select class="form-select w-100" name="state" required>
+								<input type="text" class="form-control" name="state" value="" placeholder="" required>
+								<!-- <select class="form-select w-100" name="state" required>
 									<option value="Kerala">Kerala</option>
-								</select>
+								</select> -->
 								<div class="invalid-feedback">
 									Please provide a valid state.
 								</div>
@@ -148,7 +151,11 @@
 								</div>
 							</div>
 							<input type="hidden" class="form-control" name="currency" value="INR">
+
+							<input type="hidden" id="newTotal" class="form-control" name="discountedTotal" value="0">
+							
 							<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
+									
 						</div>
 						<!-- <hr class="mb-4">
 						<div class="custom-control custom-checkbox">
@@ -245,10 +252,51 @@
 <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 
 <script>
+
+	const couponform = document.getElementById('couponform');
+	couponform.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		const couponCode = couponform.coupon.value;
+		const total = couponform.amount.value;
+		
+		console.log(couponCode);
+		console.log(total);
+		try {
+			let coupon = await fetch('/applyCoupon', {
+				method: 'post',
+				body: JSON.stringify({ couponCode ,total}),
+				headers: { 'Content-Type': 'application/json' }
+			});
+			console.log('coupon applied');
+			coupon = await coupon.json();
+			console.log(coupon);
+			const newTotal = coupon.discountedTotal
+			const couponVal = coupon.couponValue
+			console.log(newTotal);
+			console.log(couponVal);
+			console.log(coupon.msg);
+
+			// if(coupon.msg == 'already used this coupon'){
+			// 	document.getElementById('success').innerHTML = "Already Applied"
+			// 	document.getElementById("p1").innerHTML = total;
+			// }else{
+			document.getElementById("p1").innerHTML = "Rs."+ newTotal;
+			document.getElementById("p2").innerHTML = "Rs."+ couponVal;
+			document.getElementById("newTotal").value = newTotal;
+			document.getElementById('success').innerHTML = "Coupon Applied";
+			}
+			
+		} catch (err) {
+			console.log(err);
+		}
+	})
+
 	const form = document.querySelector("#form");
 
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
+		console.log(11111);
 
 		//get the values
 		const fname = form.fname.value;
@@ -269,7 +317,9 @@
 		const payment = form.payment.value;
 		const currency = form.currency.value;
 		const amount = form.amount.value;
-
+		const discountedTotal = form.discountedTotal.value;
+		
+		console.log(discountedTotal);
 		console.log(currency);
 		console.log(amount);
 		console.log(payment);
@@ -278,7 +328,7 @@
 		try {
 			let order = await fetch('/checkout', {
 				method: 'post',
-				body: JSON.stringify({ fname, lname, email, phonenumber, address, addressopt, country, state, zip, payment, currency, amount }),
+				body: JSON.stringify({ fname, lname, email, phonenumber, address, addressopt, country, state, zip, payment, currency, amount, discountedTotal }),
 				headers: { 'Content-Type': 'application/json' }
 			});
 			console.log(245465677678865);
@@ -289,8 +339,9 @@
 				location.assign('/orderStatus');
 
 			} else if (order.id === 'Paypal') {
+				console.log('fetching');
 				paypal.Buttons({
-
+					
 					// Order is created on the server and the order id is returned
 					createOrder: (data, actions) => {
 						return fetch('/paymentPaypal', {
@@ -298,7 +349,7 @@
 							headers: {
 								'Content-Type': 'application/json',
 							},
-							body: JSON.stringify({ amount, currency, address, payment, order }),
+							body: JSON.stringify({ amount , currency, address, payment, order}),
 							// use the "body" param to optionally pass additional order information
 							// like product ids or amount
 						})
