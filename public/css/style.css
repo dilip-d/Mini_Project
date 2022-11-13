@@ -105,10 +105,7 @@ span.sub {
 h1.logo-w3layouts a.navbar-brand {
     font-size: 1.5em;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.26);
-    color: white;
-    background: rgb(139, 158, 179);
-    
-    background: linear-gradient(90deg, rgb(67, 67, 68) 26%, rgb(97, 43, 43) 50%, rgb(16, 7, 99) 76%);
+    color: #454546;
     margin: 0;
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
@@ -1565,7 +1562,7 @@ input#datepicker {
 /*-- //Popup-Box --*/
 
 .banner_inner {
-    background: url(../images/banner.jpg)no-repeat 0px -73px;
+    background: url(../images/b14.jpg)no-repeat 0px -73px;
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -1680,8 +1677,8 @@ a.b-home:hover {
     -o-background-size: cover;
     -moz-background-size: cover;
     -ms-background-size: cover;
+    min-height: 400px;
     padding: 3em 0 0 0;
-    height: 300px;
 }
 
 .owl-carousel.owl-theme.row.owl-loaded.owl-drag {
@@ -2038,7 +2035,7 @@ ul.links li a:hover {
 @media(max-width:1280px) {
 
     .banner_inner {
-        background: url(../images/banner.jpg)no-repeat 0px -55px;
+        background: url(../images/b9.jpg)no-repeat 0px -55px;
         background-size: cover;
         -webkit-background-size: cover;
         -o-background-size: cover;
@@ -2237,7 +2234,7 @@ ul.links li a:hover {
 
 @media(max-width:991px) {
     .banner_inner {
-        background: url(../images/banner.jpg)no-repeat 0px -20px;
+        background: url(../images/b9.jpg)no-repeat 0px -20px;
         background-size: cover;
         -webkit-background-size: cover;
         -o-background-size: cover;

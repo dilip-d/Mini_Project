@@ -1,5 +1,5 @@
 	<!-- banner -->
-    <div class="">
+    <div class="banner">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -18,7 +18,7 @@
                         <a href="/mensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                     </div>
                 </div>
-                <% banner.slice(1,2).forEach(function(banner) { %>
+                <% banner.slice(2,3).forEach(function(banner) { %>
                 <div class="carousel-item item2" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
                     <% }) %>
                     <div class="carousel-caption text-center">
@@ -29,7 +29,7 @@
 
                     </div>
                 </div>
-                <% banner.slice(2,3).forEach(function(banner) { %>
+                <% banner.slice(1,2).forEach(function(banner) { %>
                 <div class="carousel-item item3" style="background-image: url('./banner/<%= banner._id %>.jpeg');">
                     <% }) %>
                     <div class="carousel-caption text-center">
@@ -227,8 +227,8 @@
             <!--/meddle-->
             <div class="row">
                 <div class="col-md-12 middle-slider my-4">
-                    <% banner.slice(4,5).forEach(function(banner) { %>
-                    <div class="col-md-12 middle-text-info "style="background-image: url('./banner/<%= banner._id %>.jpeg');">
+                    <% banner.slice(5,6).forEach(function(banner) { %>
+                    <div class="middle-text-info img-fluid "style="background-image: url('./banner/<%= banner._id %>.jpeg');">
                         <% }) %>
                         <h3 class="tittle-w3layouts two text-center my-lg-4 mt-3">Summer Flash sale</h3>
                         <div class="simply-countdown-custom" id="simply-countdown-custom"></div>
@@ -248,7 +248,7 @@
                                     <h3>Anamaria
                                         <span>Customer</span>
                                     </h3>
-                                    <label>United States</label>
+                                    <label>India</label>
                                     <p>Maecenas interdum, metus vitae tincidunt porttitor, magna quam egestas sem, ac scelerisque nisl nibh vel lacus.
                                         Proin eget gravida odio. Donec ullamcorper est eu accumsan cursus.</p>
                                 </div>
@@ -258,7 +258,7 @@
                                     <h3>Esmeralda
                                         <span>Customer</span>
                                     </h3>
-                                    <label>United States</label>
+                                    <label>India</label>
                                     <p>Maecenas interdum, metus vitae tincidunt porttitor, magna quam egestas sem, ac scelerisque nisl nibh vel lacus.
                                         Proin eget gravida odio. Donec ullamcorper est eu accumsan cursus.</p>
                                 </div>
@@ -268,7 +268,7 @@
                                     <h3>Gretchen
                                         <span>Customer</span>
                                     </h3>
-                                    <label>United States</label>
+                                    <label>India</label>
                                     <p>Maecenas interdum, metus vitae tincidunt porttitor, magna quam egestas sem, ac scelerisque nisl nibh vel lacus.
                                         Proin eget gravida odio. Donec ullamcorper est eu accumsan cursus.</p>
                                 </div>
@@ -290,8 +290,8 @@
             <div class="row galsses-grids pt-lg-5 pt-3">
                 <div class="col-lg-6 galsses-grid-left">
                     <figure class="effect-lexi">
-                        <% banner.slice(5,6).forEach(function(banner) { %>
-                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-home">
+                        <% banner.slice(4,5).forEach(function(banner) { %>
+                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-fluid">
                         <% }) %>
                         <figcaption>
                             <h3>Editor's
@@ -303,8 +303,8 @@
                 </div>
                 <div class="col-lg-6 galsses-grid-left">
                     <figure class="effect-lexi">
-                        <% banner.slice(0,1).forEach(function(banner) { %>
-                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-home">
+                        <% banner.slice(6,7).forEach(function(banner) { %>
+                        <img src="./banner/<%= banner._id %>.jpeg" alt="" class="img-fluid">
                         <% }) %>
                         <figcaption>
                             <h3>Editor's
@@ -327,7 +327,7 @@
                         <h4 class="sub-tittle-w3layouts my-lg-4 my-3">Satisfaction Guaranteed</h4>
                         <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
                         <p>
-                            <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                            <a href="/mensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                         </p>
                     </div>
                     <!-- /.col-lg-4 -->
@@ -339,7 +339,7 @@
                         <h4 class="sub-tittle-w3layouts my-lg-4 my-3">Fast Shipping</h4>
                         <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
                         <p>
-                            <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                            <a href="/womensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                         </p>
                     </div>
                     <!-- /.col-lg-4 -->
@@ -351,7 +351,7 @@
                         <h4 class="sub-tittle-w3layouts my-lg-4 my-3">Genuine Products</h4>
                         <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
                         <p>
-                            <a href="shop.html" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
+                            <a href="mensWatch" class="btn btn-sm animated-button gibson-three mt-4">Shop Now</a>
                         </p>
                     </div>
                     <!-- /.col-lg-4 -->

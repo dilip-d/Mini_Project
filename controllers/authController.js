@@ -206,7 +206,7 @@ module.exports.addToCart_post = async (req, res) => {
 
 module.exports.incrementCartCount = async (req, res) => {
     console.log('increment');
-    const prodId = req.params.id
+    const prodId = req.params.id;
     let product = await Product.findById(prodId)
 
     let userr = req.user.id
@@ -252,8 +252,8 @@ module.exports.decrementCartCount = async (req, res) => {
         }
         else {
             await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
-        }
-        res.redirect('/userCart')
+            res.redirect('/userCart')
+        }   
     } catch (err) {
         console.log(err);
     }

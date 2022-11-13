@@ -1,51 +1,52 @@
-<header class="header" style="background-color: rgb(182, 179, 159);">
-    <div class="row">
-        <div class="col-lg-4 top-info text-left mt-lg-4">
-            <h6 style="color: black;">Need Help</h6>
-            <ul>
-                <li><i class='fa fa-phone' style="color: black;"> Call</i></li>
-                <li class="number-phone mt-3" style="color: black;">12345678099</li>
-            </ul>
-        </div>
-        <div class="col-lg-4 logo-w3layouts text-center">
-            <h1 class="logo-w3layouts">
-                <a class="navbar-brand" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
-                    href="/">
-                    Watch Store </a>
-            </h1>
-        </div>
-        <div class="col-lg-4 top-info-cart  mt-5">
-            <div class="d-flex justify-content-end">
-                <ul class="cart-inner-info" style="display:flex;">
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-mdb-toggle="dropdown" aria-expanded="false">
-                            👨🏻‍💼
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <% if(locals.user) { %>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                <li><a class="dropdown-item" href="/userWishlist">Wishlist🤍</a></li>
-                                <li><a class="dropdown-item" href="/userProfile">Profile 👨🏻‍💼</a></li>
-                                <% } else { %>
-                                    <li><a class="dropdown-item" href="/userLogin">Login</a></li>
-                                    <li><a class="dropdown-item" href="/userSignup">Register</a></li>
-                                    <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-                                    <% } %>
-                        </ul>
-                    </div>
-                    <div class="cart mx-4">     
-                        <button class="top_googles_cart" ><a  href="/userCart" style="color: black;">
-                                 My Cart
-                                <i class='fa fa-cart-arrow-down' style="font-size:20px;"></i>
-                            </a>
-                        </button>
-                    </div>
+<div class="banner-top container-fluid" id="home">
+    <header>
+        <div class="row">
+            <div class="col-md-3 top-info text-left mt-lg-4">
+                <h6 style="color: black;">Need Help</h6>
+                <ul>
+                    <li><i class='fa fa-phone' style="color: rgb(250, 112, 20);"> Call</i></li>
+                    <li class="number-phone mt-3" style="color: black;">12345678099</li>
                 </ul>
             </div>
+            <div class="col-md-6 logo-w3layouts d-flex align-items-center justify-content-center">
+                <h1 class="logo-w3layouts">
+                    <a class="navbar-brand"
+                        style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" href="/">
+                        Watch Store </a>
+                </h1>
+            </div>
+            <div class="col-md-3 top-info-cart text-right mt-lg-4">
+                <div class="d-flex justify-content-end">
+                    <ul class="cart-inner-info" style="display:flex;">
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-lg dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                👨🏻‍💼
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <% if(locals.user) { %>
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    <li><a class="dropdown-item" href="/userWishlist">Wishlist🤍</a></li>
+                                    <li><a class="dropdown-item" href="/userProfile">Profile 👨🏻‍💼</a></li>
+                                    <% } else { %>
+                                        <li><a class="dropdown-item" href="/userLogin">Login</a></li>
+                                        <li><a class="dropdown-item" href="/userSignup">Register</a></li>
+                                        <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                                        <% } %>
+                            </ul>
+                        </div>
+                        <div class="cart mx-4">
+                            <button class="top_googles_cart btn-lg"><a href="/userCart" style="color: black;">
+                                    My Cart
+                                    <i class='fa fa-cart-arrow-down' style="font-size:20px;"></i>
+                                </a>
+                            </button>
+                        </div>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- <div class="search">
+        <!-- <div class="search">
         <div class="mobile-nav-button">
             <button id="trigger-overlay" type="button">
                 <i class="fas fa-search"></i>
@@ -54,8 +55,8 @@
                   </button>
             </button>
         </div> -->
-    <!-- open/close -->
-    <!-- <div class="overlay overlay-door">
+        <!-- open/close -->
+        <div class="overlay overlay-door">
             <button type="button" class="overlay-close">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </button>
@@ -66,42 +67,40 @@
                 </button>
             </form>
 
-        </div> -->
-    <!-- open/close -->
-    </div>
-    <label class="top-log mx-auto"></label>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light top-header mb-2">
+        </div>
+        <!-- open/close -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light top-header mb-2">
 
-        <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">
+            <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">
 
-            </span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-mega mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link ml-lg-0" href="/">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">About
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/mensWatch">Men
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/womensWatch">Women
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <!-- <li class="nav-item dropdown">
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav nav-mega mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link ml-lg-0" href="/">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">About
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/mensWatch">Men
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/womensWatch">Women
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         Features
@@ -204,11 +203,11 @@
                         </li>
                     </ul>
                 </li> -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Contact</a>
-                </li>
-            </ul>
-            <!-- <div class="search">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Contact</a>
+                    </li>
+                </ul>
+                <!-- <div class="search">
 				<div class="mobile-nav-button">
 					<button id="trigger-overlay" type="button">
 						<i class="fas fa-search"></i>
@@ -216,7 +215,7 @@
 				</div>
 
 				 open/close -->
-            <!-- <div class="overlay overlay-door">
+                <!-- <div class="overlay overlay-door">
 					<button type="button" class="overlay-close">
 						<i class="fa fa-times" aria-hidden="true"></i>
 					</button>
@@ -230,14 +229,15 @@
 				</div>
 				open/close -->
 
-        </div>
-        <div class="nav-item-search">
+            </div>
+            <!-- <div class="nav-item-search">
             <div class="">
                 <input type="search" class="form" style="border-radius: 5px; border-width:7px;" placeholder="Search"
                     aria-label="Search" aria-describedby="search-addon" />
                 <button type="button" class="btn btn-dark">search</button>
             </div>
-        </div>
-    </nav>
-</header>
-<!-- //header -->
+        </div> -->
+        </nav>
+    </header>
+    <!-- //header -->
+</div>

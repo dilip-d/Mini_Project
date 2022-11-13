@@ -33,8 +33,8 @@ router.get('/adminLogout', adminauthController.adminlogout_get);
 
 //category management
 router.get('/category-management', adminauthController.category)
-router.post('/admin-panel/category', adminauthController.addCategory)
-router.post('/admin/delete-category', adminauthController.deleteCategory)
+router.post('/addCategory', adminauthController.addCategory)
+router.get('/deleteCategory', adminauthController.deleteCategory)
 
 //order management
 router.get('/viewOrder', adminauthController.viewOrder_get)
@@ -43,10 +43,11 @@ router.post('/adminUpdateOrder/:id', adminauthController.adminOrderStatus);
 //Coupon management
 router.get('/coupon', adminauthController.coupon_get)
 router.post('/addCoupon',adminauthController.addCoupon)
-router.post('/deleteCoupon',adminauthController.deleteCoupon)
+router.get('/deleteCoupon',adminauthController.deleteCoupon)
 
 //banner management
 router.get('/bannerManage', adminauthController.banner_get)
 router.post('/addBanner', adminauthController.banner_post)
-router.post('/admin/delete-banner',adminauthController.deleteBanner)
+router.get('/deleteBanner',adminauthController.deleteBanner)
+
 module.exports = router;

@@ -62,38 +62,6 @@
   </div>
 </div>
 
-<!-- 
-<section style="margin-top: 210px;">
-    <div class="container">
-      <table id="example" class="table mt-5">
-        <thead style="background-color: rgb(22, 22, 22);">
-          <tr>
-            <th scope="col">No</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone No.</th>
-            <th scope="col">Block/Unblock</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% user.forEach(function(user,index) { %>
-            <tr>
-              <th scope="row"><%= index+1 %></th>
-              <td><%=user.fname %></td>
-              <td><%=user.email %></td>
-              <td><%=user.phonenumber %></td>
-              <% if(user.isBlocked === false) { %>
-                <td><a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a></td>
-                <% } else { %>
-                <td><a href="/unblockuser/<%= user._id %>" class="btn btn-primary" onclick="return confirm('Do you want to unblock <%= user.fname %> ?')">Unblock</a></td>
-              <% } %>
-            </tr>
-            <% }) %>
-        </tbody>
-      </table>
-    </div>
-  </section> -->
-
   <script>
     $(document).ready(function() {
     $('#example').DataTable( {

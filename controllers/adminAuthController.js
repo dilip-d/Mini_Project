@@ -153,8 +153,8 @@ module.exports.adminlogout_get = (req, res) => {
 }
 
 // category
-module.exports.category = (req, res) => {
-    Category.find()
+module.exports.category = async (req, res) => {
+    await Category.find()
         .then((result) => {
             res.render('admin/category', { result, validation, layout: 'layouts/adminlayout', title: 'Category', admin: true })
             validation.category = false
@@ -163,7 +163,7 @@ module.exports.category = (req, res) => {
 
 module.exports.addCategory = async (req, res) => {
     let newcat = req.body.category
-    Category.findOne({ category: newcat })
+    await Category.findOne({ category: newcat })
         .then((result) => {
             if (result) {
                 validation.category = true
@@ -182,9 +182,9 @@ module.exports.addCategory = async (req, res) => {
         })
 }
 
-module.exports.deleteCategory = (req, res) => {
+module.exports.deleteCategory = async (req, res) => {
     newcat = req.query.id
-    Category.deleteOne({ _id: newcat })
+    await Category.deleteOne({ _id: newcat })
         .then((result) => {
             res.redirect('/category-management')
         }).catch((err) => {
@@ -192,8 +192,8 @@ module.exports.deleteCategory = (req, res) => {
         })
 }
 
-module.exports.banner_get = (req, res) => {
-    Banner.find()
+module.exports.banner_get = async (req, res) => {
+    await Banner.find()
         .then((result) => {
             res.render('admin/bannerManage', { result, bannerValidation, layout: 'layouts/adminlayout', title: 'Banner', admin: true })
             bannerValidation.banner = false
@@ -230,9 +230,9 @@ module.exports.banner_post = async (req, res) => {
         })
 }
 
-module.exports.deleteBanner = (req, res) => {
+module.exports.deleteBanner = async (req, res) => {
     let newBanner = req.query.id
-    Banner.deleteOne({ _id: newBanner })
+    await Banner.deleteOne({ _id: newBanner })
         .then((result) => {
             res.redirect('/bannerManage')
         }).catch((err) => {
@@ -292,17 +292,21 @@ module.exports.viewOrder_get = async (req, res) => {
 //     }
 // }
 
-module.exports.adminOrderStatus = (req, res) => {
+module.exports.adminOrderStatus = async (req, res) => {
     console.log('in admin order status');
-    const user = req.user.id
-    console.log(user);
+    // const user = req.user.id
+    // console.log(user);
+    console.log(req.body);
+    const orderId = req.body.orderid;
+    console.log(orderId);
 
     uniqueid = req.params.id;
     console.log(uniqueid);
-
-    User.findOne({ _id: user})
+    // const records = await User.find({ '_id': { $in: orderId } });
+    // console.log(records);
+    await User.findOne({ _id: orderId })
         .then((result) => {
-            // console.log(result);
+            console.log(result);
             const user = result._id;
             const orders = result.order
 
@@ -352,18 +356,18 @@ module.exports.adminOrderStatus = (req, res) => {
         })
 }
 
-module.exports.coupon_get = (req, res) => {
+module.exports.coupon_get = async (req, res) => {
     console.log('order view');
-    Coupon.find()
+    await Coupon.find()
         .then((coupon) => {
             res.render('admin/coupon.ejs', { coupon, layout: 'layouts/adminlayout', title: 'Coupon', admin: true })
         })
 }
 
-module.exports.addCoupon = (req, res) => {
+module.exports.addCoupon = async (req, res) => {
     console.log('adding coupon');
     console.log(req.body);
-    Coupon.findOne({ couponCode: req.body.couponcode })
+    await Coupon.findOne({ couponCode: req.body.couponcode })
         .then(() => {
             let coupon = new Coupon({
                 couponCode: req.body.couponcode,
@@ -379,11 +383,11 @@ module.exports.addCoupon = (req, res) => {
 }
 
 // delete coupon
-module.exports.deleteCoupon = (req, res) => {
+module.exports.deleteCoupon = async (req, res) => {
     console.log('deleting coupon');
     cop = req.query.id
     console.log(cop);
-    Coupon.deleteOne({ couponCode: cop })
+    await Coupon.deleteOne({ couponCode: cop })
         .then(() => {
             res.redirect('/coupon')
         })

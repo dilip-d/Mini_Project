@@ -1,49 +1,82 @@
-<section style="background-color: rgb(218, 208, 208); padding:2rem; height: 100%; margin-top: 2rem; overflow-x: hidden"> 
-    <div class="container ">
-      <div class="row mt-2">
-        <h2 class="" style="margin-left:20rem ;">Product List</h2>
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h3 class="text-center text-dark font-weight-bold mb-0">Product Management</h3>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-3">
+              <table id="example" class="table align-items-center mb-0 p-1">
+                <thead class="bg-dark">
+                  <tr>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">No</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Name</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Image</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Category</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Desc</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Act Price</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Offer</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Dis Price</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Stock</th>
+                    <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Edit/Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% product.forEach(function(product,index) { %>
+                  <tr>
+                    <td>
+                      <!-- <div class="d-flex px-2 py-1"> -->
+                        <!-- <div>
+                           <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1"> 
+                        </div> -->
+                        <!-- <div class="d-flex flex-column justify-content-center"> -->
+                          <h6 class="mb-0 text-center text-sm text-dark"><%= index+1 %></h6>
+                          <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                        <!-- </div> -->
+                      <!-- </div> -->
+                    </td>
+                    <td>
+                      <p class="text-sm text-center text-dark font-weight-bold mb-0"><%=product.name %></p>
+                      <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                    </td>
+                    <td class="align-middle text-center"> 
+                      <img src="./image/<%= product._id %>.jpeg" class="avatar avatar-sm me-3" alt="user1"> 
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.category %></span>
+                      <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.description %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.originalPrice %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.offer %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.price %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold"><%=product.stock %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <a href="/editproduct/<%= product._id %>" class="btn btn-primary">Edit</a>
+      
+                        <a href="/deleteproduct/<%= product._id %>" class="btn btn-danger" onclick="return confirm('Do you want to delete <%=product.name %> ?')">Delete</a>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-      <table id="example" class="table mt-5">
-        <thead style="background-color: rgb(22, 22, 22);">
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope="col">Price</th>
-            <th scope="col">Desciption</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Image</th>
-            <th scope="col">Edit/Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% product.forEach(function(product) { %>
-            <tr>
-              <td><%=product.name %></td>
-              <td><%=product.category %></td>
-              <td><%=product.price %></td>
-              <td><%=product.description %></td>
-              <td><%=product.stock %></td>
-              <td><img
-                  style="width:50px;height: 50px;"
-                  src="./image/<%= product._id %>.jpeg"
-                  alt=""/></td>
-              <td>
-                <a
-                  href="/editproduct/<%= product._id %>"
-                  class="btn btn-primary"
-                >Edit</a>
-                <a
-                  href="/deleteproduct/<%= product._id %>"
-                  class="btn btn-danger"
-                  onclick="return confirm('Do you want to delete <%=product.name %> ?')"
-                >Delete</a>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
     </div>
-  </section>
+  </div>
 
   <script>
     $(document).ready(function() {

@@ -1,62 +1,98 @@
-<body>
-  <div class="container">
-   <br><br><br>
-      <h1 class="text-center text-white">Order Management</h1>
-      <br><br><br><br>
-    <div class="row">
-      <table id="example" class="display nowrap" style="width:100%">
-        <thead style="background-color: black;">
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Order Status</th>
-            <th>Time</th>
-            <th>Payment Mode</th>
-            <th>Total</th>
-            <th>Change Status</th>
-            <th>Update</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% order.forEach(function(order) { %>
-          <tr>
-            <td><%=order.name %></td>
-            <td><%=order.price %></td>
-            <td><%=order.count %></td>
-            <td><%=order.orderStatus %></td>
-            <td><%=order.createdAt.toLocaleString() %></td>
-            <td><%=order.paymentOption %></td>
-            <td><%= (order.price * order.count) %></td>
-            <td>
-              <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
-                  <select class="form-select" name="status" aria-label="Default select example" required>
-                     <option selected disabled><%=order.orderStatus %> </option>
-                      <option value="Dispatched">Dispatched</option>
-                      <option value="Delivered">Delivered</option>
-                      <option value="Cancelled">Cancel</option>     
-                  </select>
-                </td>
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h3 class="text-center text-dark font-weight-bold mb-0">Order Management</h3>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-3">
+            <table id="example" class="table align-items-center mb-0 p-1">
+              <thead class="bg-dark">
+                <tr>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">No</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Name</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Image</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Price</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Qty</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Pay Mode</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Order Stat</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Time</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Total</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Change Stat</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% order.forEach(function(order,index) { %>
+                <tr>
                   <td>
-                    <% if(order.orderStatus === 'Order cancelled') { %>
-                  <button disabled class="btn btn-secondary">Update</button>
-                  <% }else{ %>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <% } %>
-                  </td>      
-              </form>
-          </tr>
-          <% }) %>        
-        </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
+                    <!-- <div class="d-flex px-2 py-1"> -->
+                      <!-- <div>
+                         <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1"> 
+                      </div> -->
+                      <!-- <div class="d-flex flex-column justify-content-center"> -->
+                        <h6 class="mb-0 text-center text-sm text-dark"><%= index+1 %></h6>
+                        <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                      <!-- </div> -->
+                    <!-- </div> -->
+                  </td>
+                  <td>
+                    <p class="text-sm text-center text-dark font-weight-bold"><%=order.name %></p>
+                    <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <img src="./image/<%= order._id %>.jpeg" class="avatar avatar-sm me-3" alt="user1"> 
+                    <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.price %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.count %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.paymentOption %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.orderStatus %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.createdAt.toLocaleString() %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-dark text-center text-sm font-weight-bold"><%= (order.price * order.count) %></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
+                        <select class="form-select" name="status" aria-label="Default select example" required>
+                           <option selected disabled><%=order.orderStatus %> </option>
+                            <option value="Dispatched">Dispatched</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancel</option>     
+                        </select>
+                      </td>
+                      <input type="hidden" class="form-control" name="orderid" value="<%= order._id %>">
+                        <td class="align-middle text-center">
+                          <% if(order.orderStatus === 'Order cancelled') { %>
+                        <button disabled class="btn btn-secondary">Update</button>
+                        <% }else if(order.orderStatus === 'Returned'){ %>
+                          <button disabled class="btn btn-secondary">Update</button>
+                          <% }else { %>
+                          <button type="submit" class="btn btn-primary ">Update</button>
+                          <% } %>
+                        </td>      
+                    </form>
+                </tr>
+                <% }) %> 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</body>
+</div>
 
 <script>
   $(document).ready(function() {

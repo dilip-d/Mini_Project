@@ -12,16 +12,13 @@ module.exports.addproduct_get = (req, res) => {
 
 module.exports.addproduct_post = async (req, res) => {
 
-    // function formatAsPercent(num) {
-    //     return `${parseFloat(num).toFixed(2)}%`;
-    //   }
-
     console.log(req.body);
     const name = req.body.name;
     const category = req.body.category;
     const originalPrice = req.body.originalPrice;
     const discount = req.body.originalPrice / 100 * req.body.offer;
-    const price = req.body.originalPrice - discount;
+    const pricebefore = req.body.originalPrice - discount;
+    const price = pricebefore.toFixed();
     const offer = req.body.offer;
     const description = req.body.description;
     const stock = req.body.stock;
@@ -89,14 +86,10 @@ module.exports.editproduct_post = async (req, res) => {
     const proId = req.params.id
     console.log('edit product post');
     console.log(req.body);
-    const name = req.body.name;
-    const category = req.body.category;
-    const originalPrice = req.body.originalPrice;
     const discount = req.body.originalPrice / 100 * req.body.offer;
-    const price = req.body.originalPrice - discount;
-    const offer = req.body.offer;
-    const description = req.body.description;
-    const stock = req.body.stock;
+    const pricebefore = req.body.originalPrice - discount;
+    const price = pricebefore.toFixed();
+
     try {
         await Product.updateOne({ _id: proId }, {
 
