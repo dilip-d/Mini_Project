@@ -175,39 +175,42 @@ module.exports.userCart_get = async (req, res) => {
     }
 }
 
-module.exports.addToCart_post = async (req, res) => {
-    console.log('add to cart post');
+// module.exports.addToCart_post = async (req, res) => {
+//     console.log('add to cart post');
 
-    const id = req.body.id;
-    let userr = req.user.id
+//     const id = req.body.id;
+//     let userr = req.user.id
 
-    let product = await Product.findById({ _id: id })
-    product = product.toJSON()
-    product.count = 1;
+//     let product = await Product.findById({ _id: id })
+//     product = product.toJSON()
+//     product.count = 1;
 
-    const userid = await User.findById({ _id: userr })
-    const checks = userid.cart;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == id) {
-            await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
-                { $inc: { "cart.$.count": 1 } })
-            n++
-        }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
-        res.redirect('back')
-    }
-}
+//     const userid = await User.findById({ _id: userr })
+//     const checks = userid.cart;
+//     let n = 0;
+//     for (const check of checks) {
+//         if (check._id == id) {
+//             await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
+//                 { $inc: { "cart.$.count": 1 } })
+//             n++
+//         }
+//     }
+//     if (n > 0) {
+//         res.redirect('back')
+//     }
+//     else {
+//         const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+//         res.redirect('back')
+//     }
+// }
 
 module.exports.incrementCartCount = async (req, res) => {
-    console.log('increment');
+    console.log('adding');
+
     const prodId = req.params.id;
-    let product = await Product.findById(prodId)
+    let product = await Product.findById({ _id: prodId })
+    product = product.toJSON()
+    product.count = 1;
 
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
@@ -236,8 +239,8 @@ module.exports.decrementCartCount = async (req, res) => {
     let product = await Product.findById(prodId)
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
-    try {
 
+    try {
         const checks = userid.cart;
         let n = 0;
         for (const check of checks) {
@@ -248,12 +251,14 @@ module.exports.decrementCartCount = async (req, res) => {
             }
         }
         if (n > 0) {
+            // const count = 1;
             res.redirect('back')
+            // res.json(count)
         }
         else {
             await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
             res.redirect('/userCart')
-        }   
+        }
     } catch (err) {
         console.log(err);
     }
@@ -317,7 +322,7 @@ module.exports.moveToCart = async (req, res) => {
         else {
             product = product.toJSON()
             product.count = 1;
-            const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+            await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
         }
         await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
@@ -326,38 +331,38 @@ module.exports.moveToCart = async (req, res) => {
     }
 }
 
-module.exports.addToWishlist_post = async (req, res) => {
+// module.exports.addToWishlist_post = async (req, res) => {
 
-    const id = req.body.id;
-    let userr = req.user.id
+//     const id = req.body.id;
+//     let userr = req.user.id
 
-    let product = await Product.findById({ _id: id })
-    product = product.toJSON()
-    product.count = 1;
+//     let product = await Product.findById({ _id: id })
+//     product = product.toJSON()
+//     product.count = 1;
 
-    const userid = await User.findById({ _id: userr })
-    const checks = userid.wishlist;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == id) {
-            await User.updateOne({ _id: req.user.id, 'wishlist._id': req.body.id },
-                { $inc: { "wishlist.$.count": 1 } })
-            n++
-        }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
-        res.redirect('back')
-    }
-}
+//     const userid = await User.findById({ _id: userr })
+//     const checks = userid.wishlist;
+//     let n = 0;
+//     for (const check of checks) {
+//         if (check._id == id) {
+//             await User.updateOne({ _id: req.user.id, 'wishlist._id': req.body.id },
+//                 { $inc: { "wishlist.$.count": 1 } })
+//             n++
+//         }
+//     }
+//     if (n > 0) {
+//         res.redirect('back')
+//     }
+//     else {
+//        await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
+//         res.redirect('back')
+//     }
+// }
 
 module.exports.addToWishlist = async (req, res) => {
 
     const prodId = req.params.id
-    let product = await Product.findById(prodId)
+    let product = await Product.findById({ _id: prodId })
 
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
@@ -366,8 +371,6 @@ module.exports.addToWishlist = async (req, res) => {
     let n = 0;
     for (const check of checks) {
         if (check._id == prodId) {
-            await User.updateOne({ _id: userr, 'wishlist._id': req.params.id },
-                { $inc: { "wishlist.$.count": 1 } })
             n++
         }
     }
@@ -375,10 +378,11 @@ module.exports.addToWishlist = async (req, res) => {
         res.redirect('back')
     }
     else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
+        await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
         res.redirect('back')
     }
 }
+
 
 module.exports.removeFromWishlist = async (req, res) => {
 

@@ -199,9 +199,9 @@
                                                     <!-- <span class="product-new-top">New</span> -->
                                                 </div>
                                                 <div class="item-info-product">
-                                                    <div class="info-product-price">
-                                                        <div class="grid_meta">
-                                                            <div class="product_price">
+                                                    <div class="info-product-price d-flex">
+                                                        <div class="grid_meta ">
+                                                            <div class="product_price text-left">
                                                                 <h4>
                                                                     <a href="/singleProductView?id=<%= product._id %>">
                                                                         <%=product.name %>
@@ -214,11 +214,36 @@
                                                                 </div>
                                                                 <div class="grid-price mt-2">
                                                                     <span class="">
-                                                                       <s>Rs.<%=product.originalPrice %></s>
+                                                                        <s>Rs.<%=product.originalPrice %></s>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="grid-price mt-2">
+                                                                    <span class="">
+                                                                        <a href="/addToWishlist/<%= product._id %>"
+                                                                            class="btn btn-danger"
+                                                                            style="color:rgb(253, 250, 250)">Wishlist
+                                                                            🤍</a>
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            <ul class="stars">
+                                                        </div>
+                                                        <div class="product_price2 text-right"
+                                                            style="text-align:right;">
+                                                            <div class="mt-2">
+                                                                <span class="money">
+                                                                    <a href="/incrementCartCount/<%= product._id %>"><i
+                                                                            class="fa fa-cart-plus"
+                                                                            style="font-size:25px;color:rgb(46, 46, 133)"></i></a>
+                                                                </span>
+                                                            </div>
+                                                            <div class="grid-price mt-2">
+                                                                <span class="money">
+                                                                    <%=product.offer %>% Offer
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <ul class="stars">
                                                                 <li>
                                                                     <a href="#">
                                                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -245,54 +270,28 @@
                                                                             aria-hidden="true"></i>
                                                                     </a>
                                                                 </li>
-
-                                                                <form action="/addToWishlist" method="post">
-                                                                    <input type="hidden" name="id"
-                                                                        value="<%= product._id %>">
-
-                                                                    <button type="submit" name="submit"
-                                                                        value="Add to wishlist"
-                                                                        class="googles-cart pgoogles-cart">
-                                                                        <a class="btn btn-danger btn-sm">
-                                                                            Wishlist <span
-                                                                                class="glyphicon glyphicon-heart"></span>
-                                                                        </a>
-                                                                    </button>
-                                                                </form>
-                                                            </ul>
-                                                        </div>
-
-                                                        <div class="googles single-item hvr-outline-out">
-                                                            <form action="/addToCart" method="post">
-                                                                <input type="hidden" name="id"
-                                                                    value="<%= product._id %>">
-
-                                                                <button type="submit" name="submit" value="Add to cart"
-                                                                    class="googles-cart pgoogles-cart">
-                                                                    <i class="fa fa-cart-plus"
-                                                                        style="font-size:25px;color:rgb(46, 46, 133)"></i>
-                                                                </button>
-                                                            </form>
-                                                            <div class="grid-price mt-2">
+                                                                <li>                                                                   
+                                                                </li> -->
+                                                    <!-- </ul> -->
+                                                    <!-- </div> -->
+                                                    <!-- <div class="googles single-item hvr-outline-out">
+                                                     <div class="grid-price mt-2">
                                                                 <span class="money">
                                                                     <%=product.offer %>%
                                                                 </span>
-                                                               
                                                             </div>
-                                                            <span class="money">
+                                                           <span class="money">
                                                                 Offer
                                                             </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
+                                                            </div> -->
                                                 </div>
-
+                                                <div class="clearfix"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } %>
+                             <% } %>
 
-                                        <% }) %>
+                          <% }) %>
                         </div>
                     </div>
                 </div>

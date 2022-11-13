@@ -911,6 +911,12 @@ input.checked {
     font-family: 'Inconsolata', monospace;
 }
 
+/* .product_price2{
+
+	text-align: -webkit-right;
+} */
+
+
 /*-- //customer --*/
 
 /*-- special deals --*/
@@ -952,10 +958,10 @@ input.checked {
 	text-align: center;
 	position: relative;
 }
-
+/* 
 .item-info-product {
 	text-align: center;
-}
+} */
 
 span.item_price {
 	font-size: 18px;
@@ -1006,9 +1012,7 @@ span.item_price {
 }
 
 .grid_meta {
-	float: left;
 	width: 80%;
-	text-align: left;
 }
 
 button.googles-cart {

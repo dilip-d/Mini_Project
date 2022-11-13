@@ -22,16 +22,17 @@ router.get('/singleProductView', authController.singleProductView_get);
 
 //cart
 router.get('/userCart', authMiddleware.requireAuth, authController.userCart_get);
-router.post('/addToCart', authMiddleware.requireAuth, authController.addToCart_post);
+// router.post('/addToCart', authMiddleware.requireAuth, authController.addToCart_post);
 router.get('/removeFromcart/:id', authController.removeFromCart);
+router.get('/incrementCartCount/:id', authMiddleware.requireAuth, authController.incrementCartCount);
 router.get('/decrementCartCount/:id', authController.decrementCartCount);
-router.get('/incrementCartCount/:id', authController.incrementCartCount);
+
 
 //wishlist
-router.get('/userWishlist', authController.userWishlist_get);
-router.post('/addToWishlist', authMiddleware.requireAuth, authController.addToWishlist_post);
+router.get('/userWishlist', authMiddleware.requireAuth, authController.userWishlist_get);
+// router.post('/addToWishlist', authMiddleware.requireAuth, authController.addToWishlist_post);
 router.get('/removeFromWishlist/:id', authController.removeFromWishlist);
-router.get('/addtoWishlist/:id', authMiddleware.requireAuth, authController.addToWishlist);
+router.get('/addToWishlist/:id', authMiddleware.requireAuth, authController.addToWishlist);
 router.get('/moveToCart/:id', authController.moveToCart);
 
 //user side profile management
