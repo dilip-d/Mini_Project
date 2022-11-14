@@ -218,8 +218,8 @@ body {
 }
 
 .bg-c-lite-green {
-        background: -webkit-gradient(linear, left top, right top, from(#d48761), to(#837f7f));
-    background: linear-gradient(to right, #5f5c5c, #f29263);
+        background: -webkit-gradient(linear, left top, right top, from(#5f3825), to(#837f7f));
+    background: linear-gradient(to right, #5f5c5c, #523121);
 }
 
 .user-profile {

@@ -6,6 +6,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 //get home page
 router.get('/', authMiddleware.checkUser, authController.homepage_get)
 
+//Signup and login
 router.get('/userSignup', authController.userSignup_get);
 router.post('/userSignup', authController.userSignup_post);
 router.post('/sendnotification', authController.sendOtp);
@@ -27,7 +28,6 @@ router.get('/removeFromcart/:id', authController.removeFromCart);
 router.get('/incrementCartCount/:id', authMiddleware.requireAuth, authController.incrementCartCount);
 router.get('/decrementCartCount/:id', authController.decrementCartCount);
 
-
 //wishlist
 router.get('/userWishlist', authMiddleware.requireAuth, authController.userWishlist_get);
 // router.post('/addToWishlist', authMiddleware.requireAuth, authController.addToWishlist_post);
@@ -43,6 +43,7 @@ router.get('/addAddress', authController.addAddress);
 router.post('/addAddress/:id', authController.addAddress_post);
 router.get('/editAddress', authController.editAddress_get);
 router.post('/editAddress/:id', authController.editAddress_post);
+router.get('/deleteAddress/:id', authController.deleteAddress);
 
 //checkout and order details
 router.get('/checkout', authController.checkout_get);

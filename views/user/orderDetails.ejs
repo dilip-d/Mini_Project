@@ -61,13 +61,17 @@
                                                 <a href="/returnOrder/<%= result[i].unique %>" class="btn btn-primary"
                                                     onclick="return confirm('Do you want to return ?')">Return</a>
                                                     <% } else if( result[i].orderStatus=='Order is under process' )  { %>
-                                                        <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
-                                                          onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
+                                                        <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                          onclick="return confirm('Do you want to Cancel ?')">Cancel</a> -->
+                                                          <button type="button" value="<%= result[i].unique %>"
+                                                            class="confirm_del_btn btn btn-danger">Cancel</button>
                                                     <% } else if( result[i].orderStatus=='Returned' )  { %>
                                                         <p class="" style="color :rgb(0, 47, 255)">Returned</p>
                                                     <% }else { %>
-                                                <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
-                                                    onclick="return confirm('Do you want to Cancel ?')">Cancel</a>
+                                                <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                    onclick="return confirm('Do you want to Cancel ?')">Cancel</a> -->
+                                                    <button type="button" value="<%= result[i].unique %>"
+                                                        class="confirm_del_btn btn btn-danger">Cancel</button>
                                                 <% } %>
                                     </div>
                                 </td>
@@ -101,4 +105,40 @@
         // ]
     } );
 } );
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('.confirm_del_btn').click(function (e) {
+
+            var id = $(this).val();
+            swal({
+                title: "Are you sure?",
+                text: "Once cancelled, you will not be able to undo !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "/cancelOrder/" + id,
+                            success: function (response) {
+                                swal("Poof! Order has been cancelled!", {
+                                    icon: "success",
+                                }).then((confirmed) => {
+                                    window.location.reload();
+                                })
+                            }
+                        })
+                    } else {
+                        swal("It's safe!");
+                    }
+                });
+        })
+    })
+
 </script>

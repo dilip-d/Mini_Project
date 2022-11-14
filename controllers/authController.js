@@ -481,7 +481,6 @@ module.exports.editAddress_get = async (req, res) => {
             console.log(address);
         }
     }
-
     res.render('./user/editAddress.ejs', { address, layout: "./layouts/layout.ejs", title: 'Edit Address', admin: false })
 }
 
@@ -509,6 +508,22 @@ module.exports.editAddress_post = async (req, res) => {
             })
         res.redirect('/userProfile')
 
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.deleteAddress = async (req, res) => {
+    console.log('deleting address');
+    let addressId = req.params.id
+    console.log(addressId);
+    let userr = req.user.id
+    try {
+        let user = await User.findById({ _id: userr })
+
+        await User.findOneAndUpdate({ _id: user }, { $pull: { address: { _id: addressId } } })
+        // res.redirect('/userProfile')
+        res.json({status : true})
     } catch (err) {
         console.log(err);
     }
@@ -903,7 +918,7 @@ module.exports.applyCoupon_post = async (req, res) => {
     if (coupondata.users.length !== 0) {
         console.log('users in coupon');
 
-        const isExisting = await coupondata.users.findIndex(users => users == req.user.id)
+        const isExisting = coupondata.users.findIndex(users => users == req.user.id)
         console.log(isExisting)
         if (total >= coupondata.minBill && isExisting === -1) {
 
