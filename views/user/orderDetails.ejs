@@ -57,22 +57,22 @@
                                     <div class="rem">
                                         <% if( result[i].orderStatus=='Order cancelled' ) { %>
                                             <p class="" style="color :red">Cancelled</p>
-                                            <% } else if( result[i].orderStatus=='Delivered' )  { %>
+                                            <% } else if( result[i].orderStatus=='Delivered' ) { %>
                                                 <a href="/returnOrder/<%= result[i].unique %>" class="btn btn-primary"
                                                     onclick="return confirm('Do you want to return ?')">Return</a>
-                                                    <% } else if( result[i].orderStatus=='Order is under process' )  { %>
-                                                        <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                <% } else if( result[i].orderStatus=='Order is under process' ) { %>
+                                                    <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
                                                           onclick="return confirm('Do you want to Cancel ?')">Cancel</a> -->
-                                                          <button type="button" value="<%= result[i].unique %>"
-                                                            class="confirm_del_btn btn btn-danger">Cancel</button>
-                                                    <% } else if( result[i].orderStatus=='Returned' )  { %>
-                                                        <p class="" style="color :rgb(0, 47, 255)">Returned</p>
-                                                    <% }else { %>
-                                                <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
-                                                    onclick="return confirm('Do you want to Cancel ?')">Cancel</a> -->
                                                     <button type="button" value="<%= result[i].unique %>"
                                                         class="confirm_del_btn btn btn-danger">Cancel</button>
-                                                <% } %>
+                                                    <% } else if( result[i].orderStatus=='Returned' ) { %>
+                                                        <p class="" style="color :rgb(0, 47, 255)">Returned</p>
+                                                        <% }else { %>
+                                                            <!-- <a href="/cancelOrder/<%= result[i].unique %>" class="btn btn-danger"
+                                                    onclick="return confirm('Do you want to Cancel ?')">Cancel</a> -->
+                                                            <button type="button" value="<%= result[i].unique %>"
+                                                                class="confirm_del_btn btn btn-danger">Cancel</button>
+                                                            <% } %>
                                     </div>
                                 </td>
                             </tr>
@@ -83,31 +83,33 @@
         </div>
     </div>
 </section>
-  <!-- data table -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-  
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<!-- data table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-    $('#example').DataTable( {
-        // dom: 'Bfrtip',
-        // buttons: [
-        //     'copy', 'csv', 'excel', 'pdf', 'print'
-        // ]
-    } );
-} );
+    $(document).ready(function () {
+        $('#example').DataTable({
+            // dom: 'Bfrtip',
+            // buttons: [
+            //     'copy', 'csv', 'excel', 'pdf', 'print'
+            // ]
+        });
+    });
 </script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
 
 <script>
 
@@ -115,20 +117,28 @@
         $('.confirm_del_btn').click(function (e) {
 
             var id = $(this).val();
-            swal({
-                title: "Are you sure?",
-                text: "Once cancelled, you will not be able to undo !",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                width: 500,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Cancel it!'
             })
-                .then((willDelete) => {
-                    if (willDelete) {
+                .then((result) => {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: "/cancelOrder/" + id,
                             success: function (response) {
-                                swal("Poof! Order has been cancelled!", {
-                                    icon: "success",
+                                Swal.fire({
+                                    title: 'Cancelled!',
+                                    width: 500,
+                                    text: 'Cancelled!',
+                                    text: 'Your order has been cancelled.',
+                                    icon: 'success'
                                 }).then((confirmed) => {
                                     window.location.reload();
                                 })
@@ -140,5 +150,4 @@
                 });
         })
     })
-
 </script>

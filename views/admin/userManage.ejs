@@ -16,59 +16,154 @@
                   </th>
                   <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">
                     Phone No.</th>
-                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Block/Unblock</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Block/Unblock
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <% user.forEach(function(user,index) { %>
-                <tr>
-                  <td>
-                    <!-- <div class="d-flex px-2 py-1"> -->
+                  <tr>
+                    <td>
+                      <!-- <div class="d-flex px-2 py-1"> -->
                       <!-- <div>
                          <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1"> 
                       </div> -->
                       <!-- <div class="d-flex flex-column justify-content-center"> -->
-                        <h6 class="mb-0 text-center text-sm text-dark"><%= index+1 %></h6>
-                        <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                      <h6 class="mb-0 text-center text-sm text-dark">
+                        <%= index+1 %>
+                      </h6>
+                      <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                       <!-- </div> -->
-                    </div>
-                  </td>
-                  <td>
-                    <p class="text-sm text-center text-dark font-weight-bold mb-0"><%=user.fname %></p>
-                    <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=user.email %></span>
-                    <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=user.phonenumber %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <% if(user.isBlocked === false) { %>
-                      <a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a>
-                      <% } else { %>
-                      <a href="/unblockuser/<%= user._id %>" class="btn btn-primary" onclick="return confirm('Do you want to unblock <%= user.fname %> ?')">Unblock</a>
-                    <% } %>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
           </div>
+          </td>
+          <td>
+            <p class="text-sm text-center text-dark font-weight-bold mb-0">
+              <%=user.fname %>
+            </p>
+            <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+          </td>
+          <td class="align-middle text-center text-sm">
+            <span class="text-dark text-center text-sm font-weight-bold">
+              <%=user.email %>
+            </span>
+            <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
+          </td>
+          <td class="align-middle text-center">
+            <span class="text-dark text-center text-sm font-weight-bold">
+              <%=user.phonenumber %>
+            </span>
+          </td>
+          <td class="align-middle text-center">
+            <% if(user.isBlocked===false) { %>
+              <!-- <a href="/blockuser/<%= user._id %>" class="btn btn-danger mr-1" onclick="return confirm('Do you want to block <%= user.fname %> ?')">Block</a> -->
+              <button type="button" value="<%= user._id %>" class="confirm_block_btn btn btn-danger">Block</button>
+              <% } else { %>
+                <!-- <a href="/unblockuser/<%= user._id %>" class="btn btn-primary" onclick="return confirm('Do you want to unblock <%= user.fname %> ?')">Unblock</a> -->
+                <button type="button" value="<%= user._id %>" class="confirm_Unblock_btn btn btn-primary">Unblock</button>
+                <% } %>
+          </td>
+          </tr>
+          <% }) %>
+            </tbody>
+            </table>
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
-  <script>
-    $(document).ready(function() {
-    $('#example').DataTable( {
-        // dom: 'Bfrtip',
-        // buttons: [
-        //     'copy', 'csv', 'excel', 'pdf', 'print'
-        // ]
-    } );
-} );
-  </script>
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable({
+      // dom: 'Bfrtip',
+      // buttons: [
+      //     'copy', 'csv', 'excel', 'pdf', 'print'
+      // ]
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+
+<script>
+  //block
+  $(document).ready(function () {
+    $('.confirm_block_btn').click(function (e) {
+
+      var id = $(this).val();
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        width: 500,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, proceed it!'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "/blockuser/" + id,
+              success: function (response) {
+                Swal.fire({
+                  title: 'Blocked!',
+                  width: 500,
+                  text: 'Blocked!',
+                  text: 'User has been blocked.',
+                  icon: 'success'
+                }).then((confirmed) => {
+                  window.location.reload();
+                })
+              }
+            })
+          } else {
+            swal("It's safe!");
+          }
+        });
+    })
+  })
+
+  //unblock
+  $(document).ready(function () {
+    $('.confirm_Unblock_btn').click(function (e) {
+
+      var id = $(this).val();
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        width: 500,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, proceed it!'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "/unblockuser/" + id,
+              success: function (response) {
+                Swal.fire({
+                  title: 'Unblocked!',
+                  width: 500,
+                  text: 'Unblocked!',
+                  text: 'User has been unblocked.',
+                  icon: 'success'
+                }).then((confirmed) => {
+                  window.location.reload();
+                })
+              }
+            })
+          } else {
+            swal("It's safe!");
+          }
+        });
+    })
+  })
+</script>

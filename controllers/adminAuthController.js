@@ -183,7 +183,7 @@ module.exports.addCategory = async (req, res) => {
 }
 
 module.exports.deleteCategory = async (req, res) => {
-    newcat = req.query.id
+    newcat = req.params.id
     await Category.deleteOne({ _id: newcat })
         .then((result) => {
             res.redirect('/category-management')
@@ -231,7 +231,8 @@ module.exports.banner_post = async (req, res) => {
 }
 
 module.exports.deleteBanner = async (req, res) => {
-    let newBanner = req.query.id
+    console.log('deleting banner');
+    let newBanner = req.params.id;
     await Banner.deleteOne({ _id: newBanner })
         .then((result) => {
             res.redirect('/bannerManage')
@@ -385,7 +386,7 @@ module.exports.addCoupon = async (req, res) => {
 // delete coupon
 module.exports.deleteCoupon = async (req, res) => {
     console.log('deleting coupon');
-    cop = req.query.id
+    cop = req.params.id
     console.log(cop);
     await Coupon.deleteOne({ couponCode: cop })
         .then(() => {
