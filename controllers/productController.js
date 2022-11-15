@@ -38,7 +38,7 @@ module.exports.addproduct_post = async (req, res) => {
         image2.mv('./public/image/' + product._id + "2.jpeg");
         let image3 = req.files.image3;
         image3.mv('./public/image/' + product._id + "3.jpeg");
-        // res.status(200).json()
+
         res.redirect('/addproduct');
     }
     catch (err) {
@@ -93,7 +93,7 @@ module.exports.editproduct_post = async (req, res) => {
     try {
         await Product.updateOne({ _id: proId }, {
 
-            $set: { 
+            $set: {
                 name: req.body.name,
                 category: req.body.category,
                 price: price,

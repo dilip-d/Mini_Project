@@ -54,10 +54,8 @@
 						</div>
 					</div>
 					<div class="buttons d-flex flex-row mt-5 gap-3">
-							<a href="/addToWishlist/<%= product._id %>">
-						 <button class="btn btn-outline-danger">Add to Wishlist 🤍 </button></a>
-							<a href="/incrementCartCount/<%= product._id %>">
-							<button class="btn btn-dark">Add to Cart</button></a>
+						 <button type="button" value="<%= product._id %>" class="wishlist_btn btn btn-outline-danger">Add to Wishlist 🤍 </button>
+							<button type="button" value="<%= product._id %>" class="confirm_del_btn btn btn-dark">Add to Cart</button>
 					</div>
 					<!-- <div class="search-option"> <i class='bx bx-search-alt-2 first-search'></i>
 						<div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i> -->
@@ -69,3 +67,54 @@
 </div>
 
 <script src="js/jquery-2.2.3.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+
+<script>
+
+    $(document).ready(function () {
+        $('.confirm_del_btn').click(function (e) {
+
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/incrementCartCount/" + id,
+                success: function (response) {
+                    Swal.fire({
+                        position: 'middle',
+                        icon: 'success',
+                        title: 'Item added to cart 👍',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((confirmed) => {
+                        // window.location.reload();
+                    })
+                }
+            }) 
+        })
+    })
+
+    $(document).ready(function () {
+        $('.wishlist_btn').click(function (e) {
+
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/addToWishlist/" + id,
+                success: function (response) {
+                    Swal.fire({
+                        position: 'middle',
+                        icon: 'success',
+                        title: 'Added to wishlist ❤️',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((confirmed) => {
+                        // window.location.reload();
+                    })
+                }
+            }) 
+        })
+    })
+</script>

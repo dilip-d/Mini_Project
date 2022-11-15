@@ -68,16 +68,15 @@ module.exports.adminHome_get = async (req, res) => {
                         sales.push(order.count * order.price);
                         // console.log(sales);
                         timeOfSale.push(order.createdAt.toISOString().substring(0, 10));
-                        // console.log(timeOfSale);
                     }
                 }
                 if (l === sums && k === n) {
 
                     // console.log(sales);
                     // console.log(typeof (sales[0]));
-
                     // console.log(timeOfSale);
                     // console.log(typeof (timeOfSale[0]));
+
                     Product.find({})
                         .then((result) => {
                             const sum = function (items, prop1, prop2) {
@@ -113,7 +112,6 @@ module.exports.adminSignup_post = async (req, res) => {
         //   const token = createToken(admin._id);
         //     // res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
         //     // res.status(201).json({admin});
-        // console.log(token);
         res.redirect('/adminLogin');
 
     } catch (errors) {
@@ -257,60 +255,21 @@ module.exports.viewOrder_get = async (req, res) => {
 
 }
 
-// module.exports.adminCancelOrder = async (req, res) => {
-
-//     console.log('cancelling in order');
-//     const user = req.user.id;
-//     // console.log(user);
-//     uniqueId = req.params.id;
-//     console.log(uniqueId);
-//     if (user) {
-//         console.log('after unique id');
-//         User.findOne({ user: uniqueId })
-//             .then((result) => {
-//                 // console.log(result)
-
-//                 const orders = result.order
-//                 console.log(orders)
-
-//                 for (let order of orders) {
-//                     order = order.toJSON();
-//                     console.log('order of orders');
-//                     if (order.unique === uniqueId) {
-//                         console.log('going for update');
-//                         Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count } }))])
-//                             .then((result) => {
-//                                 res.redirect('/viewOrder')
-//                             })
-//                             .catch((err) => {
-//                                 console.log(err)
-//                             })
-//                     }
-//                 }
-//             })
-//         //     } else {
-//         //         res.redirect('/admin')
-//     }
-// }
-
 module.exports.adminOrderStatus = async (req, res) => {
     console.log('in admin order status');
-    // const user = req.user.id
-    // console.log(user);
+
     console.log(req.body);
     const orderId = req.body.orderid;
     console.log(orderId);
 
     uniqueid = req.params.id;
     console.log(uniqueid);
-    // const records = await User.find({ '_id': { $in: orderId } });
-    // console.log(records);
+
     await User.findOne({ _id: orderId })
         .then((result) => {
             console.log(result);
             const user = result._id;
             const orders = result.order
-
             // console.log(orders); 
             if (req.body.status == 'Delivered') {
 

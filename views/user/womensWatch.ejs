@@ -223,10 +223,12 @@
                                                                 </div>
                                                                 <div class="grid-price mt-2">
                                                                     <span class="">
-                                                                        <a href="/addToWishlist/<%= product._id %>"
+                                                                        <!-- <a href="/addToWishlist/<%= product._id %>"
                                                                             class="btn btn-danger"
                                                                             style="color:rgb(253, 250, 250)">Wishlist
-                                                                            🤍</a>
+                                                                            🤍</a> -->
+                                                                            <button type="button" value="<%= product._id %>"
+                                                                                class="wishlist_btn btn btn-danger"  style="color:rgb(253, 250, 250)">Wishlist 🤍</button>
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -235,9 +237,13 @@
                                                             style="text-align:right;">
                                                             <div class="mt-2">
                                                                 <span class="money">
-                                                                    <a href="/incrementCartCount/<%= product._id %>"><i
+                                                                    <!-- <a href="/incrementCartCount/<%= product._id %>"><i
                                                                             class="fa fa-cart-plus"
-                                                                            style="font-size:25px;color:rgb(46, 46, 133)"></i></a>
+                                                                            style="font-size:25px;color:rgb(46, 46, 133)"></i></a> -->
+                                                                            <button type="button" value="<%= product._id %>"
+                                                                                class="confirm_del_btn btn btn-white" style=" background-color: white; font-size:25px; color:rgb(46, 46, 133);"><i
+                                                                                class="fa fa-cart-plus"
+                                                                                ></i></button>
                                                                 </span>
                                                             </div>
                                                             <div class="grid-price mt-2">
@@ -304,3 +310,54 @@
 </section>
 
 <script src="js/jquery-2.2.3.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+
+<script>
+
+    $(document).ready(function () {
+        $('.confirm_del_btn').click(function (e) {
+
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/incrementCartCount/" + id,
+                success: function (response) {
+                    Swal.fire({
+                        position: 'middle',
+                        icon: 'success',
+                        title: 'Item added to cart 👍',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((confirmed) => {
+                        // window.location.reload();
+                    })
+                }
+            }) 
+        })
+    })
+
+    $(document).ready(function () {
+        $('.wishlist_btn').click(function (e) {
+
+            var id = $(this).val();
+
+            $.ajax({
+                url: "/addToWishlist/" + id,
+                success: function (response) {
+                    Swal.fire({
+                        position: 'middle',
+                        icon: 'success',
+                        title: 'Added to wishlist ❤️',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((confirmed) => {
+                        // window.location.reload();
+                    })
+                }
+            }) 
+        })
+    })
+</script>

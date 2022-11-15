@@ -175,35 +175,6 @@ module.exports.userCart_get = async (req, res) => {
     }
 }
 
-// module.exports.addToCart_post = async (req, res) => {
-//     console.log('add to cart post');
-
-//     const id = req.body.id;
-//     let userr = req.user.id
-
-//     let product = await Product.findById({ _id: id })
-//     product = product.toJSON()
-//     product.count = 1;
-
-//     const userid = await User.findById({ _id: userr })
-//     const checks = userid.cart;
-//     let n = 0;
-//     for (const check of checks) {
-//         if (check._id == id) {
-//             await User.updateOne({ _id: req.user.id, 'cart._id': req.body.id },
-//                 { $inc: { "cart.$.count": 1 } })
-//             n++
-//         }
-//     }
-//     if (n > 0) {
-//         res.redirect('back')
-//     }
-//     else {
-//         const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
-//         res.redirect('back')
-//     }
-// }
-
 module.exports.incrementCartCount = async (req, res) => {
     console.log('adding');
 
@@ -330,34 +301,6 @@ module.exports.moveToCart = async (req, res) => {
         console.log(err);
     }
 }
-
-// module.exports.addToWishlist_post = async (req, res) => {
-
-//     const id = req.body.id;
-//     let userr = req.user.id
-
-//     let product = await Product.findById({ _id: id })
-//     product = product.toJSON()
-//     product.count = 1;
-
-//     const userid = await User.findById({ _id: userr })
-//     const checks = userid.wishlist;
-//     let n = 0;
-//     for (const check of checks) {
-//         if (check._id == id) {
-//             await User.updateOne({ _id: req.user.id, 'wishlist._id': req.body.id },
-//                 { $inc: { "wishlist.$.count": 1 } })
-//             n++
-//         }
-//     }
-//     if (n > 0) {
-//         res.redirect('back')
-//     }
-//     else {
-//        await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
-//         res.redirect('back')
-//     }
-// }
 
 module.exports.addToWishlist = async (req, res) => {
 
@@ -523,7 +466,7 @@ module.exports.deleteAddress = async (req, res) => {
 
         await User.findOneAndUpdate({ _id: user }, { $pull: { address: { _id: addressId } } })
         // res.redirect('/userProfile')
-        res.json({status : true})
+        res.json({ status: true })
     } catch (err) {
         console.log(err);
     }
@@ -557,32 +500,6 @@ module.exports.editProfile_post = async (req, res) => {
         console.log(err);
     }
 }
-
-// module.exports.editProfile_post = async (req, res) => {
-//     const user = req.params.id
-//     console.log('edit profile post');
-//     const result = req.body;
-
-//     try {
-//         await User.updateOne({ _id: user }, {
-
-//             $set: {
-//                 address: {
-//                     address: result.address,
-//                     zip: result.zip
-//                 },
-//                 fname: result.fname,
-//                 lname: result.lname,
-//                 email: result.email,
-//                 phonenumber: result.phonenumber
-//             }
-//         })
-//         res.redirect('/userProfile');
-
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
 
 module.exports.checkout_get = async (req, res) => {
     console.log('in checkout');
@@ -930,13 +847,6 @@ module.exports.applyCoupon_post = async (req, res) => {
             console.log(couponValue);
             res.json({ discountedTotal, couponValue, total })
 
-            //     await Coupon.updateOne({ couponCode: coupon }, {
-            //         $push: { users: req.user.id }
-            //     })
-            //     await User.updateOne({ _id: curUser }, { $inc: { total: coupondata.couponValue * -1 } })
-
-            //     const tot = parseInt(total) + coupondata.couponValue * -1
-            //     res.json({ tot })
         } else {
             res.json({ error: true, msg: 'already used this coupon' })
             console.log('already used this coupon')
@@ -945,15 +855,11 @@ module.exports.applyCoupon_post = async (req, res) => {
         if (total >= coupondata.minBill) {
             console.log('new user for coupon');
 
-            // await Coupon.updateOne({ couponCode: coupon }, {
-            //     $push: { users: req.user.id }
-            // })
             discountedTotal = total - coupondata.couponValue
             let couponValue = coupondata.couponValue
             console.log(discountedTotal);
-            console.log(couponValue);
+            // console.log(couponValue);
 
-            //     const tot = parseInt(total) + coupondata.couponValue * -1
             res.json({ discountedTotal, couponValue, total })
         } else {
             res.json({ error: true, msg: 'purchase amount is not enough' })

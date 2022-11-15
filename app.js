@@ -26,21 +26,19 @@ app.use('*', checkUser);
 app.use('/', userRoute)
 app.use('/', adminRoute)
 
-db.connectToDb((err)=>{
-  if(!err){
-      app.listen(PORT,() => {
-          console.log(`listening to port ${PORT}`)
-      })
+db.connectToDb((err) => {
+  if (!err) {
+    app.listen(PORT, () => {
+      console.log(`listening to port ${PORT}`)
+    })
   }
 })
 
 app.use(function (req, res, next) {
-  res.render('./user/error',{ title: 'Not found',layout:false})
+  res.render('./user/error', { title: 'Not found', layout: false })
   next()
-  // res.status(404).send("<h1>Sorry can't find that!</h1>");
 });
 
-//const port = process.env.PORT || 3000
-app.listen(3000, (req, res) => {
-  console.log('app is listening on port 3000');
+app.listen(process.env.PORT, (req, res) => {
+  console.log('app is listening on port');
 })
