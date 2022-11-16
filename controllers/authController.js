@@ -103,9 +103,9 @@ module.exports.userSignup_post = async (req, res) => {
     }
 }
 
-// module.exports.userLogin_get = (req, res) => {
-//     res.render('./user/userLogin.ejs', { title: 'login' });
-// }
+module.exports.userLogin_get = (req, res) => {
+    res.render('./user/userLogin.ejs', {  layout: "./layouts/layout.ejs",title: 'login' });
+}
 
 module.exports.userLogin_post = async (req, res) => {
     console.log(req.body);
@@ -256,13 +256,14 @@ module.exports.userWishlist_get = async (req, res) => {
         let Curuser = req.user.id
 
         const users = await User.findById({ _id: Curuser })
+        const a = users;
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
                 return parseInt(a) + (parseInt(b[p1]) * parseInt(b[p2]))
             }, 0)
         }
         const total = sum(users.wishlist, 'price', 'count')
-        res.render('./user/wishlist.ejs', { user: users.wishlist, totals: total, layout: './layouts/layout.ejs', title: 'Wishlist', admin: false })
+        res.render('./user/wishlist.ejs', { user: users.wishlist, totals: total, b: a, layout: './layouts/layout.ejs', title: 'Wishlist', admin: false })
 
     } catch (err) {
         console.log(err);

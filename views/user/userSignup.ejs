@@ -30,9 +30,9 @@
                 <input type="password" name ="password" id="password" placeholder="Password" >
                 <div class="passwordError" style="color: red;"></div>
                 <div class="register-check-box">
-                    <div class="check">
+                    <!-- <div class="check">
                         <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and conditions</label>
-                    </div>   
+                    </div>    -->
                 </div>
                 <button id="subbtn" class="btn btn-primary mt-5" type="submit">Submit</button>
             </form>
@@ -42,7 +42,8 @@
         </div>
    
     </div>
-    <form id="otp" class="otpform pt-5" style="display: block;" class="col-md px-5">
+
+    <form id="otp" class="otpform pt-5" style="display: none;" class="col-md px-5">
         <div class="form-group">
             <input type="text" class="form-control" id="otpinp" placeholder="" name="otpvalue">
             <label class="mb-2 mt-2">Enter OTP for verification</label>
@@ -72,6 +73,7 @@
         </div>
     </div>
 </div> 
+</body>
 <!-- //register -->
 <script src="js/jquery-2.2.3.min.js"></script>
 <script>
@@ -176,4 +178,3 @@
         }
     })
 </script>
-</body>

@@ -466,7 +466,7 @@ a.animated-button.gibson-three:hover:after {
 
 /*-- login --*/
 .login-form-grids {
-    width: 45%;
+    width: 25em;
     padding: 3em;
     background: #F7F7F9;
     margin: 3em auto 0;

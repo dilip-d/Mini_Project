@@ -3,6 +3,11 @@
         <div class="inner-sec-shop px-lg-4 px-3">
             <h3 class="tittle-w3layouts my-lg-4 mt-3">My Wishlist</h3>
             <div class="checkout-right">
+                <% if(b.wishlist==0) { %>
+					<div>
+						<h1 style="color: red;">Your Wishlist is Empty !</h1>
+					</div>
+					<% } else { %>
                 <!-- <h4>Your wishlist contains:
                     <span>3 Products</span>
                 </h4> -->
@@ -50,6 +55,7 @@
                         <% }) %> 
                     </tbody>
                 </table>
+                <% } %>
             </div>
         </div>
 

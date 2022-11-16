@@ -11,7 +11,7 @@ router.get('/userSignup', authController.userSignup_get);
 router.post('/userSignup', authController.userSignup_post);
 router.post('/sendnotification', authController.sendOtp);
 router.post('/verify-otp', authController.otpVerification);
-router.get('/userLogin', authMiddleware.requireAuth);
+router.get('/userLogin', authMiddleware.requireAuth,authController.userLogin_get);
 router.post('/userLogin', authController.userLogin_post);
 router.get('/logout', authController.logout_get);
 router.get('/otpSignup', authController.otpSignup_get);

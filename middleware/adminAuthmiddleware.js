@@ -28,7 +28,7 @@ const requireAdminAuth = (req, res, next) => {
 
 //check current user
 const checkAdmin = (req, res, next) => {
-    const token = req.cookies.jwt;
+    const token = req.cookies.jwt2;
     if (token) {
         jwt.verify(token, 'the topsecret', async (err, decodedToken) => {
             if (err) {
