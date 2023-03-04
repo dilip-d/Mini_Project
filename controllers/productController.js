@@ -4,7 +4,6 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 module.exports.addproduct_get = (req, res) => {
-    console.log('add product');
     Category.find().then((category) => {
         res.render('admin/addproduct', { result: '', category, layout: "./layouts/adminlayout.ejs", title: 'add product', admin: true })
     })
@@ -48,10 +47,8 @@ module.exports.addproduct_post = async (req, res) => {
 
 //get product
 module.exports.viewproduct_get = async (req, res) => {
-    console.log('find product');
     try {
         const products = await Product.find({});
-        console.log('found');
         res.render('admin/viewproduct', { product: products, layout: "./layouts/adminlayout.ejs", title: 'view product', admin: true })
 
     } catch (err) {
@@ -60,11 +57,9 @@ module.exports.viewproduct_get = async (req, res) => {
 }
 
 module.exports.deleteproduct = async (req, res) => {
-    const productId = req.params.id
-    console.log(productId);
     try {
-        const result = await Product.deleteOne({ _id: productId });
-        console.log('deletion success');
+        const productId = req.params.id
+        await Product.deleteOne({ _id: productId });
         res.redirect('/viewproduct');
     } catch (err) {
         console.log(err);
@@ -73,7 +68,6 @@ module.exports.deleteproduct = async (req, res) => {
 
 module.exports.editproduct_get = async (req, res) => {
     try {
-        console.log('edit product get');
         const proId = req.params.id
         const products = await Product.findById(proId)
         res.render('admin/editproduct', { product: products, layout: "./layouts/adminlayout.ejs", title: 'edit product', admin: true })
@@ -84,8 +78,6 @@ module.exports.editproduct_get = async (req, res) => {
 
 module.exports.editproduct_post = async (req, res) => {
     const proId = req.params.id
-    console.log('edit product post');
-    console.log(req.body);
     const discount = req.body.originalPrice / 100 * req.body.offer;
     const pricebefore = req.body.originalPrice - discount;
     const price = pricebefore.toFixed();

@@ -28,11 +28,9 @@ const createToken = (id) => {
 }
 
 module.exports.homepage_get = async (req, res) => {
-    console.log('find product for user');
     try {
         const banner = await Banner.find({});
         const products = await Product.find({});
-        console.log('found');
         res.render('./user/index', { banner, product: products, layout: "./layouts/layout.ejs", title: 'Home page', admin: false })
 
     } catch (err) {
@@ -49,27 +47,19 @@ module.exports.otpSignup_get = (req, res) => {
 }
 
 module.exports.sendOtp = async (req, res) => {
-    console.log('hai sending otp');
     const data = req.body;
-    console.log(data.phonenumber);
     await client.verify.services(process.env.serviceID)
         .verifications
         .create({ to: `+91${req.body.phonenumber}`, channel: 'sms' })
         .then(verification => console.log(verification.status))
 
         .catch(e => {
-            console.log('error catch');
-            console.log(e);
             res.status(500).send(e);
         })
-    console.log('verification send');
     res.sendStatus(200);
 }
 
 module.exports.otpVerification = async (req, res) => {
-
-    console.log('otpverificatin in');
-    console.log(req.body);
     const check = await client.verify.services(process.env.serviceID)
         .verificationChecks
         .create({ to: `+91${req.body.phonenumber}`, code: req.body.otp })
@@ -86,29 +76,22 @@ module.exports.otpVerification = async (req, res) => {
 }
 
 module.exports.userSignup_post = async (req, res) => {
-    console.log('Sign up post..');
-
     try {
         const { fname, lname, email, phonenumber, password } = req.body;
         const user = await User.create({ fname, lname, email, phonenumber, password });
-        console.log('try to save data on db');
         res.status(201).json({ user });
-        console.log(user);
 
     } catch (errors) {
-        console.log(errors);
         const errorHandler = handleErrors(errors);
-        console.log(errorHandler);
         res.status(400).json({ errorHandler });
     }
 }
 
 module.exports.userLogin_get = (req, res) => {
-    res.render('./user/userLogin.ejs', {  layout: "./layouts/layout.ejs",title: 'login' });
+    res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login' });
 }
 
 module.exports.userLogin_post = async (req, res) => {
-    console.log(req.body);
     try {
         const { email, password } = req.body;
         const user = await User.login(email, password);
@@ -118,7 +101,6 @@ module.exports.userLogin_post = async (req, res) => {
         console.log(user + "logged in");
 
     } catch (errors) {
-        console.log(errors);
         const errorHandle = loginerrorhandler(errors);
         res.status(400).json({ errorHandle });
     }
@@ -130,10 +112,8 @@ module.exports.logout_get = (req, res) => {
 }
 
 module.exports.mensWatch_get = async (req, res) => {
-    console.log('find product for user');
     try {
         const products = await Product.find({});
-        console.log('found');
         res.render('./user/mensWatch', { product: products, layout: "./layouts/layout.ejs", title: 'Mens watch', admin: false })
 
     } catch (err) {
@@ -142,10 +122,8 @@ module.exports.mensWatch_get = async (req, res) => {
 }
 
 module.exports.womensWatch_get = async (req, res) => {
-    console.log('find product for user');
     try {
         const products = await Product.find({});
-        console.log('found');
         res.render('./user/womensWatch', { product: products, layout: "./layouts/layout.ejs", title: 'Womens watch', admin: false })
 
     } catch (err) {
@@ -154,11 +132,8 @@ module.exports.womensWatch_get = async (req, res) => {
 }
 
 module.exports.userCart_get = async (req, res) => {
-    console.log('in cart');
     try {
         const coupon = await Coupon.find()
-        // console.log(coupon);
-
         let Curuser = req.user.id
         const users = await User.findById({ _id: Curuser })
         let a = users
@@ -176,7 +151,6 @@ module.exports.userCart_get = async (req, res) => {
 }
 
 module.exports.incrementCartCount = async (req, res) => {
-    console.log('adding');
 
     const prodId = req.params.id;
     let product = await Product.findById({ _id: prodId })
@@ -205,9 +179,8 @@ module.exports.incrementCartCount = async (req, res) => {
 }
 
 module.exports.decrementCartCount = async (req, res) => {
-    console.log('decrement');
     let prodId = req.params.id
-    let product = await Product.findById(prodId)
+    await Product.findById(prodId)
     let userr = req.user.id
     const userid = await User.findById({ _id: userr })
 
@@ -224,7 +197,6 @@ module.exports.decrementCartCount = async (req, res) => {
         if (n > 0) {
             // const count = 1;
             res.redirect('back')
-            // res.json(count)
         }
         else {
             await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
@@ -236,12 +208,9 @@ module.exports.decrementCartCount = async (req, res) => {
 }
 
 module.exports.removeFromCart = async (req, res) => {
-
-    let prodId = req.params.id
-    let product = await Product.findById(prodId)
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
     try {
+        let prodId = req.params.id
+        let userr = req.user.id
         await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
         res.redirect('/userCart')
     } catch (err) {
@@ -251,7 +220,6 @@ module.exports.removeFromCart = async (req, res) => {
 
 //wishlist get/add/remove
 module.exports.userWishlist_get = async (req, res) => {
-    console.log('in wishlist');
     try {
         let Curuser = req.user.id
 
@@ -271,7 +239,6 @@ module.exports.userWishlist_get = async (req, res) => {
 }
 
 module.exports.moveToCart = async (req, res) => {
-    console.log('moving to cart');
     const prodId = req.params.id
     let product = await Product.findById(prodId)
 
@@ -329,12 +296,9 @@ module.exports.addToWishlist = async (req, res) => {
 
 
 module.exports.removeFromWishlist = async (req, res) => {
-
-    let prodId = req.params.id
-    let product = await Product.findById(prodId)
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
     try {
+        let prodId = req.params.id
+        let userr = req.user.id
         await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
     } catch (err) {
@@ -345,7 +309,6 @@ module.exports.removeFromWishlist = async (req, res) => {
 module.exports.singleProductView_get = async (req, res) => {
     try {
         let prodId = req.query.id
-        console.log(prodId);
         let product = await Product.findById(prodId)
 
         res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single view', admin: false })
@@ -357,27 +320,21 @@ module.exports.singleProductView_get = async (req, res) => {
 
 // user Profile view edit
 module.exports.userProfile_get = async (req, res) => {
-    console.log('profile getttt');
     let user = req.user.id
-    console.log(user);
     const profile = await User.findById({ _id: user })
 
     res.render('./user/profile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
 }
 
 module.exports.editProfile_get = async (req, res) => {
-    console.log('edit profile getttt');
     let user = req.user.id
-    console.log(user);
     const profile = await User.findById({ _id: user })
 
     res.render('./user/editProfile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
 }
 
 module.exports.addAddress = async (req, res) => {
-    console.log('add address');
     let user = req.user.id
-    console.log(user);
     const profile = await User.findById({ _id: user })
 
     res.render('./user/addAddress.ejs', { profile, layout: "./layouts/layout.ejs", title: 'Add Address', admin: false })
@@ -388,7 +345,6 @@ module.exports.addAddress_post = async (req, res) => {
     try {
         const user = req.user.id;
         const result = req.body;
-        const userid = await User.findById({ _id: user })
 
         await User.updateOne({ _id: user },
             {
@@ -409,13 +365,9 @@ module.exports.addAddress_post = async (req, res) => {
 }
 
 module.exports.editAddress_get = async (req, res) => {
-    console.log('edit address get');
     const addressId = req.query.id
     let user = req.user.id
-    // console.log(user);
-    console.log(addressId);
     const profile = await User.findById({ _id: user })
-    // console.log(profile.address);
 
     let address;
     let checks = profile.address;
@@ -430,11 +382,7 @@ module.exports.editAddress_get = async (req, res) => {
 
 module.exports.editAddress_post = async (req, res) => {
 
-    console.log(req.body);
-    console.log('in edit address post');
-
     const addressid = req.params.id;
-    console.log(addressid);
 
     try {
         const user = req.user.id;
@@ -458,15 +406,13 @@ module.exports.editAddress_post = async (req, res) => {
 }
 
 module.exports.deleteAddress = async (req, res) => {
-    console.log('deleting address');
+
     let addressId = req.params.id
-    console.log(addressId);
     let userr = req.user.id
     try {
         let user = await User.findById({ _id: userr })
 
         await User.findOneAndUpdate({ _id: user }, { $pull: { address: { _id: addressId } } })
-        // res.redirect('/userProfile')
         res.json({ status: true })
     } catch (err) {
         console.log(err);
@@ -503,11 +449,9 @@ module.exports.editProfile_post = async (req, res) => {
 }
 
 module.exports.checkout_get = async (req, res) => {
-    console.log('in checkout');
     try {
         let id = req.user.id
         const coupon = await Coupon.find()
-        // console.log(coupon);
         const users = await User.findById({ _id: id })
         const sum = function (items, p1, p2) {
             return items.reduce(function (a, b) {
@@ -524,7 +468,6 @@ module.exports.checkout_get = async (req, res) => {
 }
 
 module.exports.orderStatus_get = async (req, res) => {
-    console.log('order placed');
     res.render('./user/orderStatus.ejs', { layout: './layouts/layout.ejs', title: 'Order status', admin: false })
 }
 
@@ -538,8 +481,6 @@ let discountedTotal = 0;
 let paymentPaypalAmount;
 
 module.exports.checkout_post = async (req, res) => {
-    console.log('checkout submit');
-    console.log(req.body);
     address = req.body.address || req.body.addressopt;
     payment = req.body.payment;
     zip = req.body.zip;
@@ -552,7 +493,6 @@ module.exports.checkout_post = async (req, res) => {
     // const cartItems = result.cart;
 
     if (payment == 'Razorpay') {
-        console.log('in razor pay');
 
         let { amount, currency } = req.body;
 
@@ -568,12 +508,9 @@ module.exports.checkout_post = async (req, res) => {
         console.log(typeof amount);
 
         instance.orders.create({ amount, currency }, (err, order) => {
-            // console.log(order);
             res.json(order)
         })
     } else if (payment == 'Paypal') {
-        console.log('in paypal');
-        // discountedTotal = req.body.discountedTotal;
 
         if (discountedTotal == 0) {
             paymentPaypalAmount = total;
@@ -581,7 +518,6 @@ module.exports.checkout_post = async (req, res) => {
             paymentPaypalAmount = discountedTotal;
         }
         const order = { id: 'Paypal' };
-        console.log(order);
         res.json(order);
     } else {
         res.redirect('/saveOrder')
@@ -589,7 +525,6 @@ module.exports.checkout_post = async (req, res) => {
 }
 
 module.exports.saveOrder = async (req, res) => {
-    console.log('save order');
     let id = req.user.id;
 
     try {
@@ -651,14 +586,11 @@ module.exports.verifyPaymentRazorpay = async (req, res) => {
 }
 
 module.exports.orderDetails_get = async (req, res) => {
-    console.log('order details');
     let user = req.user.id
-    console.log(user);
     try {
         const profile = await User.findById({ _id: user })
 
         const result = profile.order
-        // console.log(result);
 
         res.render('./user/orderDetails.ejs', { user, result, layout: './layouts/layout.ejs', title: 'Order details', admin: false })
     } catch (err) {
@@ -667,18 +599,13 @@ module.exports.orderDetails_get = async (req, res) => {
 }
 
 module.exports.cancelOrder = (req, res) => {
-    console.log('cancelling in order');
     const user = req.user.id;
-    // console.log(user);
     uniqueId = req.params.id;
-    console.log(uniqueId);
     if (user) {
         User.findOne({ _id: user })
             .then((result) => {
-                // console.log(result)
 
                 const orders = result.order
-                // console.log(orders)
 
                 for (let order of orders) {
                     order = order.toJSON();
@@ -699,18 +626,13 @@ module.exports.cancelOrder = (req, res) => {
 }
 
 module.exports.returnOrder = (req, res) => {
-    console.log('returning order');
     const user = req.user.id;
-    // console.log(user);
     uniqueId = req.params.id;
-    console.log(uniqueId);
     if (user) {
         User.findOne({ _id: user })
             .then((result) => {
-                // console.log(result)
 
                 const orders = result.order
-                // console.log(orders)
 
                 for (let order of orders) {
                     order = order.toJSON();

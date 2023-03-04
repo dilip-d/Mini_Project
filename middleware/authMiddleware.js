@@ -21,7 +21,7 @@ const requireAuth = (req, res, next) => {
         })
     } else {
         console.log('no token');
-        res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login',admin:false });
+        res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login', admin: false });
         // res.redirect('/userLogin');
         // next();
     }
