@@ -1,7 +1,5 @@
 //handle errors
 const handleErrors = (err) => {
-  console.log("before");
-  console.log(err.message, err.code);
 
   let errors = { fname: '', lname: '', email: '', phonenumber: '', password: '' };
 
@@ -18,13 +16,10 @@ const handleErrors = (err) => {
       errors[properties.path] = properties.message;
     });
   }
-  console.log("hai test");
   return errors;
 }
 
 const loginerrorhandler = (err) => {
-  console.log("before");
-  console.log(err.message);
 
   let errors = { email: '', password: '' };
 
@@ -50,7 +45,6 @@ const loginerrorhandler = (err) => {
       errors[properties.path] = properties.message;
     });
   }
-  console.log("hai test");
   return errors;
 }
 module.exports = { loginerrorhandler, handleErrors };

@@ -1,4 +1,3 @@
-<!--checkout-->
 <section class="banner-bottom-wthreelayouts py-lg-5 py-3">
 	<div class="container">
 		<div class="inner-sec-shop px-lg-4 px-3">
@@ -9,8 +8,6 @@
 						<h1 style="color: red;">Your Cart is Empty !</h1>
 					</div>
 					<% } else { %>
-						<!-- <h4>Your shopping cart contains:
-						<span>3 Products</span></h4> -->
 						<table class="timetable_sub">
 							<thead>
 								<tr>
@@ -46,14 +43,6 @@
 													<a href="/incrementCartCount/<%=user._id%>">
 														<div class="entry value-plus active">&nbsp;</div>
 													</a>
-													<!-- <button class="entry value-minus"
-														onclick="decrementQuantity('<%=user._id%>',-1)">&nbsp;</button>
-													<div class="entry value"><span id="count">
-															<%=user.count%>
-														</span></div>
-													<button class="entry value-plus active"
-														style="color: rgb(61, 61, 173);"
-														onclick="changeQuantity('<%=user._id%>',1)">&nbsp;</button> -->
 												</div>
 											</div>
 										</td>
@@ -68,8 +57,8 @@
 											<div class="rem">
 												<!-- <a href="/removeFromcart/<%= user._id %>" class="btn btn-dark"
 													onclick="return confirm('Do you want to delete <%=user.name %> ?')">Remove</a> -->
-													<button type="button" value="<%= user._id %>"
-														class="confirm_del_btn btn btn-dark">Remove</button>
+												<button type="button" value="<%= user._id %>"
+													class="confirm_del_btn btn btn-dark">Remove</button>
 											</div>
 										</td>
 									</tr>
@@ -89,48 +78,6 @@
 					</ul>
 				</div>
 				<div class="col-md-8 address_form">
-					<!-- <h4>Add a new Details</h4>
-						<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
-							<section class="creditly-wrapper wrapper">
-								<div class="information-wrapper">
-									<div class="first-row form-group">
-										<div class="controls">
-											<label class="control-label">Full name: </label>
-											<input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
-										</div>
-										<div class="card_number_grids">
-											<div class="card_number_grid_left">
-												<div class="controls">
-													<label class="control-label">Mobile number:</label>
-													<input class="form-control" type="text" placeholder="Mobile number">
-												</div>
-											</div>
-											<div class="card_number_grid_right">
-												<div class="controls">
-													<label class="control-label">Landmark: </label>
-													<input class="form-control" type="text" placeholder="Landmark">
-												</div>
-											</div>
-											<div class="clear"> </div>
-										</div>
-										<div class="controls">
-											<label class="control-label">Town/City: </label>
-											<input class="form-control" type="text" placeholder="Town/City">
-										</div>
-										<div class="controls">
-											<label class="control-label">Address type: </label>
-											<select class="form-control option-w3ls">
-												<option>Office</option>
-												<option>Home</option>
-												<option>Commercial</option>
-
-											</select>
-										</div>
-									</div>
-									<button class="submit check_out">Delivery to this Address</button>
-								</div>
-							</section>
-						</form> -->
 					<div class="checkout-right-basket">
 						<a href="/checkout">Make a Payment </a>
 					</div>
@@ -149,41 +96,41 @@
 
 <script>
 
-    $(document).ready(function () {
-        $('.confirm_del_btn').click(function (e) {
+	$(document).ready(function () {
+		$('.confirm_del_btn').click(function (e) {
 
-            var id = $(this).val();
+			var id = $(this).val();
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                width: 500,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, remove it!'
-            })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "/removeFromcart/" + id,
-                            success: function (response) {
-                                Swal.fire({
-                                    title: 'Removed!',
-                                    width: 500,
-                                    text: 'Removed!',
-                                    text: 'Item has been removed.',
-                                    icon: 'success'
-                                }).then((confirmed) => {
-                                    window.location.reload();
-                                })
-                            }
-                        })
-                    } else {
-                        swal("It's safe!");
-                    }
-                });
-        })
-    })
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				width: 500,
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, remove it!'
+			})
+				.then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: "/removeFromcart/" + id,
+							success: function (response) {
+								Swal.fire({
+									title: 'Removed!',
+									width: 500,
+									text: 'Removed!',
+									text: 'Item has been removed.',
+									icon: 'success'
+								}).then((confirmed) => {
+									window.location.reload();
+								})
+							}
+						})
+					} else {
+						swal("It's safe!");
+					}
+				});
+		})
+	})
 </script>

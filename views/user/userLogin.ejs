@@ -24,7 +24,6 @@
                 <input type="password" name="password" placeholder="Password" >
                 <div class="passwordError" style="color: red;"></div>
                 <div class="forgot">
-                    <!-- <a href="#">Forgot Password?</a> -->
                 </div>
                 <input type="submit">
             </form>
@@ -58,7 +57,6 @@
                 headers:{'Content-Type': 'application/json'}
         });
         const data = await res.json();
-        console.log(data.errorHandle);
         if(data.errorHandle){
             emailError.textContent = data.errorHandle.email;
             passwordError.textContent = data.errorHandle.password;

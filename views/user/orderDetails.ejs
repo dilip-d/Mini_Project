@@ -3,9 +3,6 @@
         <div class="inner-sec-shop px-lg-4 px-3">
             <h3 class="tittle-w3layouts my-lg-4 mt-3">My Orders</h3>
             <div class="checkout-right">
-                <!-- <h4>Your wishlist contains:
-                    <span>3 Products</span>
-                </h4> -->
                 <table id="example" class="timetable_sub">
                     <thead>
                         <tr>
@@ -22,34 +19,12 @@
                                 <td class="invert">
                                     <%= i+1 %>
                                 </td>
-                                <!-- <td class="invert-image">
-                                <a href="single.html">
-                                    <img src="./image/<%= result._id %>.jpeg" alt=" " class="img-responsive">
-                                </a>
-                            </td> -->
                                 <td class="invert">
                                     <%= result[i].name %>
                                 </td>
                                 <td class="invert">
                                     <%= result[i].createdAt.toLocaleString() %>
                                 </td>
-                                <!-- <td class="invert">
-                                <div class="quantity">
-                                    <div class="quantity-select">
-                                        <a href="/removeFromcart/<%=user._id%>"><div class="entry value-minus">&nbsp;</div></a>
-                                        <div class="entry value"><span><%=user.count%></span></div>
-                                        <a href="/addtoCart/<%=user._id%>"><div class="entry value-plus active">&nbsp;</div></a>
-                                    </div>
-                                </div>
-                            </td> -->
-                                <!-- <td class="invert">&#x20B9; <%= (user.price * user.count) %></td> -->
-                                <!-- <td class="invert"> -->
-                                <!-- <div class="rem">
-                                    <a
-                                    href="/addToCart/<%= user._id %>"
-                                    class="btn btn-dark"
-                                  >Move to Cart</a>
-                                </div> -->
                                 <td class="invert">
                                     <%= result[i].orderStatus %>
                                 </td>

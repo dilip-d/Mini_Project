@@ -10,19 +10,15 @@ const requireAdminAuth = (req, res, next) => {
         jwt.verify(token, 'the topsecret', (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
-                // res.redirect('/adminLogin');
                 next();
             } else {
                 console.log(decodedToken);
-                // res.redirect('/admin');
                 next();
             }
         })
     } else {
         console.log('no token');
         res.render('admin/adminLogin', { layout: "./layouts/adminlayout.ejs", title: 'Login page', admin: false })
-        // res.redirect('/adminLogin');
-        // next();
     }
 }
 
@@ -36,7 +32,6 @@ const checkAdmin = (req, res, next) => {
                 res.locals.admin = null;
                 next();
             } else {
-                // console.log(decodedToken);
                 let admin = await Admin.findById(decodedToken.id);
                 res.locals.admin = admin;
                 next();

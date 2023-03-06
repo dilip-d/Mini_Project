@@ -19,72 +19,81 @@
                   <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Order Stat</th>
                   <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Time</th>
                   <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Total</th>
-                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Change Stat</th>
+                  <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Change Stat
+                  </th>
                   <th class="text-center text-uppercase text-white text-sm font-weight-bolder opacity-7">Update</th>
                 </tr>
               </thead>
               <tbody>
                 <% order.forEach(function(order,index) { %>
-                <tr>
-                  <td>
-                    <!-- <div class="d-flex px-2 py-1"> -->
-                      <!-- <div>
-                         <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1"> 
-                      </div> -->
-                      <!-- <div class="d-flex flex-column justify-content-center"> -->
-                        <h6 class="mb-0 text-center text-sm text-dark"><%= index+1 %></h6>
-                        <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
-                      <!-- </div> -->
-                    <!-- </div> -->
-                  </td>
-                  <td>
-                    <p class="text-sm text-center text-dark font-weight-bold"><%=order.name %></p>
-                    <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <img src="./image/<%= order._id %>.jpeg" class="avatar avatar-sm me-3" alt="user1"> 
-                    <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.price %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.count %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.paymentOption %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.orderStatus %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%=order.createdAt.toLocaleString() %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-dark text-center text-sm font-weight-bold"><%= (order.price * order.count) %></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
+                  <tr>
+                    <td>
+                      <h6 class="mb-0 text-center text-sm text-dark">
+                        <%= index+1 %>
+                      </h6>
+                    </td>
+                    <td>
+                      <p class="text-sm text-center text-dark font-weight-bold">
+                        <%=order.name %>
+                      </p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <img src="./image/<%= order._id %>.jpeg" class="avatar avatar-sm me-3" alt="user1">
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%=order.price %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%=order.count %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%=order.paymentOption %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%=order.orderStatus %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%=order.createdAt.toLocaleString() %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-dark text-center text-sm font-weight-bold">
+                        <%= (order.price * order.count) %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <form action="/adminUpdateOrder/<%= order.unique %>" method="post">
                         <select class="form-select" name="status" aria-label="Default select example" required>
-                           <option selected disabled><%=order.orderStatus %> </option>
-                            <option value="Dispatched">Dispatched</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Cancelled">Cancel</option>     
+                          <option selected disabled>
+                            <%=order.orderStatus %>
+                          </option>
+                          <option value="Dispatched">Dispatched</option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Cancelled">Cancel</option>
                         </select>
-                      </td>
-                      <input type="hidden" class="form-control" name="orderid" value="<%= order._id %>">
-                        <td class="align-middle text-center">
-                          <% if(order.orderStatus === 'Order cancelled') { %>
+                    </td>
+                    <input type="hidden" class="form-control" name="orderid" value="<%= order._id %>">
+                    <td class="align-middle text-center">
+                      <% if(order.orderStatus==='Order cancelled' ) { %>
                         <button disabled class="btn btn-secondary">Update</button>
-                        <% }else if(order.orderStatus === 'Returned'){ %>
+                        <% }else if(order.orderStatus==='Returned' ){ %>
                           <button disabled class="btn btn-secondary">Update</button>
                           <% }else { %>
-                          <button type="submit" class="btn btn-primary ">Update</button>
-                          <% } %>
-                        </td>      
+                            <button type="submit" class="btn btn-primary ">Update</button>
+                            <% } %>
+                    </td>
                     </form>
-                </tr>
-                <% }) %> 
+                  </tr>
+                  <% }) %>
               </tbody>
             </table>
           </div>
@@ -95,12 +104,12 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-  $('#example').DataTable( {
+  $(document).ready(function () {
+    $('#example').DataTable({
       // dom: 'Bfrtip',
       // buttons: [
       //     'copy', 'csv', 'excel', 'pdf', 'print'
       // ]
-  } );
-} );
+    });
+  });
 </script>

@@ -11,7 +11,6 @@ module.exports.addproduct_get = (req, res) => {
 
 module.exports.addproduct_post = async (req, res) => {
 
-    console.log(req.body);
     const name = req.body.name;
     const category = req.body.category;
     const originalPrice = req.body.originalPrice;
@@ -21,11 +20,6 @@ module.exports.addproduct_post = async (req, res) => {
     const offer = req.body.offer;
     const description = req.body.description;
     const stock = req.body.stock;
-
-    console.log(discount);
-    console.log(price);
-    console.log(offer);
-    console.log(originalPrice);
 
     const product = await Product.create({ name, category, price, originalPrice, offer, description, stock });
     try {
@@ -100,7 +94,6 @@ module.exports.editproduct_post = async (req, res) => {
         console.log(err);
     }
 
-    //--------------------------------
     try {
         const results = await User.find({})
         for (result of results) {
@@ -116,9 +109,7 @@ module.exports.editproduct_post = async (req, res) => {
     catch (err) {
         console.log(err)
     }
-    //-----------------------------------
 
-    //--------------------------------
     try {
         const results = await User.find({})
         for (result of results) {
@@ -135,6 +126,5 @@ module.exports.editproduct_post = async (req, res) => {
         console.log(err)
     }
     res.redirect('/viewproduct');
-    //-----------------------------------
 }
 

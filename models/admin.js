@@ -30,14 +30,12 @@ adminSchema.pre('save', async function (next) {
 })
 
 adminSchema.methods.comparePassword = function (plainText, callback) {
-    console.log('comparing pw');
     return callback(null, bcrypt.compareSync(plainText, this.password))
 }
 
 //static method to login admin
 adminSchema.statics.login = async function (username, password) {
     const admin = await this.findOne({ username });
-    console.log('Found admin');
     if (admin) {
         const auth = await bcrypt.compare(password, admin.password);
         if (auth) {
@@ -50,7 +48,6 @@ adminSchema.statics.login = async function (username, password) {
 
 //fire a function after doc saved to db
 adminSchema.post('save', function (doc, next) {
-    console.log('new user was created & saved', doc);
     next();
 })
 

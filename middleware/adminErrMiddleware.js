@@ -1,7 +1,5 @@
 //handle errors
 const adminHandleerror = (err) => {
-  console.log("before");
-  console.log(err.message, err.code);
 
   let errors = { username: '', password: '' };
 
@@ -30,14 +28,10 @@ const adminHandleerror = (err) => {
       errors[properties.path] = properties.message;
     });
   }
-  console.log("hai test");
   return errors;
 }
 
 const adminloginerrorhandler = (err) => {
-  console.log("before");
-  console.log(err.message);
-
   let adminerrors = { username: '', password: '' };
 
   //incorrect email
@@ -59,7 +53,6 @@ const adminloginerrorhandler = (err) => {
       adminerrors[properties.path] = properties.message;
     });
   }
-  console.log("hai test");
   return adminerrors;
 }
 module.exports = { adminHandleerror, adminloginerrorhandler };

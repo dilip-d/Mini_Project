@@ -127,19 +127,13 @@ module.exports.adminLogin_get = (req, res) => {
 }
 
 module.exports.adminLogin_post = async (req, res) => {
-    console.log(req.body);
-
     const { username, password } = req.body;
-
     try {
         const admin = await Admin.login(username, password);
         const token = createToken(admin._id);
         res.cookie('jwt2', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json({ admin });
-        console.log(admin + "logged in");
-
     } catch (adminerrors) {
-        console.log(adminerrors);
         const adminerrorHandle = adminloginerrorhandler(adminerrors);
         res.status(400).json({ adminerrorHandle });
     }
@@ -215,7 +209,6 @@ module.exports.banner_post = async (req, res) => {
                         try {
                             let image = req.files.image;
                             image.mv('./public/banner/' + banner._id + ".jpeg");
-                            // res.status(200).json()
                         }
                         catch (err) {
                             console.log(err);
@@ -229,7 +222,6 @@ module.exports.banner_post = async (req, res) => {
 }
 
 module.exports.deleteBanner = async (req, res) => {
-    console.log('deleting banner');
     let newBanner = req.params.id;
     await Banner.deleteOne({ _id: newBanner })
         .then((result) => {
@@ -242,7 +234,6 @@ module.exports.deleteBanner = async (req, res) => {
 module.exports.viewOrder_get = async (req, res) => {
 
     const result = await User.find({})
-    // console.log(result)
     let orders = []
     for (item of result) {
         orders = orders.concat(item.order)
@@ -256,21 +247,14 @@ module.exports.viewOrder_get = async (req, res) => {
 }
 
 module.exports.adminOrderStatus = async (req, res) => {
-    console.log('in admin order status');
-
-    console.log(req.body);
     const orderId = req.body.orderid;
-    console.log(orderId);
 
     uniqueid = req.params.id;
-    console.log(uniqueid);
 
     await User.findOne({ _id: orderId })
         .then((result) => {
-            console.log(result);
             const user = result._id;
             const orders = result.order
-            // console.log(orders); 
             if (req.body.status == 'Delivered') {
 
                 for (let order of orders) {
@@ -317,7 +301,6 @@ module.exports.adminOrderStatus = async (req, res) => {
 }
 
 module.exports.coupon_get = async (req, res) => {
-    console.log('order view');
     await Coupon.find()
         .then((coupon) => {
             res.render('admin/coupon.ejs', { coupon, layout: 'layouts/adminlayout', title: 'Coupon', admin: true })
@@ -325,8 +308,6 @@ module.exports.coupon_get = async (req, res) => {
 }
 
 module.exports.addCoupon = async (req, res) => {
-    console.log('adding coupon');
-    console.log(req.body);
     await Coupon.findOne({ couponCode: req.body.couponcode })
         .then(() => {
             let coupon = new Coupon({
@@ -344,9 +325,7 @@ module.exports.addCoupon = async (req, res) => {
 
 // delete coupon
 module.exports.deleteCoupon = async (req, res) => {
-    console.log('deleting coupon');
     cop = req.params.id
-    console.log(cop);
     await Coupon.deleteOne({ couponCode: cop })
         .then(() => {
             res.redirect('/coupon')

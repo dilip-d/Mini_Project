@@ -11,19 +11,13 @@ const requireAuth = (req, res, next) => {
             if (err) {
                 console.log(err.message);
                 res.redirect('/userLogin');
-                // res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login',admin:false });
-                // next();
             } else {
-                console.log(decodedToken);
-                // res.redirect('/');
                 next();
             }
         })
     } else {
         console.log('no token');
         res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login', admin: false });
-        // res.redirect('/userLogin');
-        // next();
     }
 }
 
@@ -37,7 +31,6 @@ const checkUser = (req, res, next) => {
                 res.locals.user = null;
                 next();
             } else {
-                // console.log(decodedToken);
                 let user = await User.findById(decodedToken.id);
                 res.locals.user = user;
                 req.user = decodedToken;

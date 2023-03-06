@@ -1,7 +1,7 @@
 <style>
 	select {
-  width: 75%;
-}
+		width: 75%;
+	}
 </style>
 <div class="container">
 	<div class="py-5 text-center">
@@ -11,8 +11,6 @@
 	<div class="row">
 		<div class="col-md-4 order-md-2 mb-4">
 			<h4 class="d-flex justify-content-between align-items-center mb-3">
-				<!-- <span class="text-muted">Your cart</span>
-				<span class="badge badge-secondary badge-pill">3</span> -->
 			</h4>
 			<ul class="list-group mb-3">
 				<li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -22,17 +20,9 @@
 					</div>
 					<span class="text-muted">Rs.<%= totals %></span>
 				</li>
-				<!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-			<div>
-			  <h6 class="my-0">Second product</h6>
-			  <small class="text-muted">Brief description</small>
-			</div>
-			<span class="text-muted">Rs.8</span>
-		  </li> -->
 				<li class="list-group-item d-flex justify-content-between bg-light">
 					<div class="text-success">
 						<h6 class="my-0">Promo code</h6>
-						<!-- <small>EXAMPLECODE</small> -->
 					</div>
 					<span id="p2" class="text-success">-Rs.0</span>
 				</li>
@@ -41,24 +31,22 @@
 					<strong id="p1">Rs.0</strong>
 				</li>
 			</ul>
-			<!-- coupon form -->
 			<form id="couponform" class="card p-2">
-				
+
 				<div class="input-group d-flex">
 					<select class="form-control option-w3ls" name="coupon" aria-label="Default select example">
 						<option selected disabled>Choose...</option>
 						<% coupon.forEach(function(coupon) { %>
-							<option value="<%= coupon.couponCode %>"><%= coupon.couponCode %></option>							
+							<option value="<%= coupon.couponCode %>">
+								<%= coupon.couponCode %>
+							</option>
 							<% }) %>
 					</select>
 					<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
-						<button type="submit" class="btn btn-primary">Redeem</button>
+					<button type="submit" class="btn btn-primary">Redeem</button>
 				</div>
-
-					<h5 class="text-success text-center" id="success" ></h5>
-					
+				<h5 class="text-success text-center" id="success"></h5>
 			</form>
-
 		</div>
 		<div class="col-md-8 order-md-1">
 			<h4 class="mb-3">Billing address</h4>
@@ -102,10 +90,10 @@
 					<div class="mb-3">
 						<label for="address"> Choose Address</label>
 						<br>
-						<select class="form-control option-w3ls" name="addressOption" aria-label="Default select example">
+						<select class="form-control option-w3ls" name="addressOption"
+							aria-label="Default select example">
 							<option selected disabled>Select address...</option>
 							<% for(let i=0;i<profile.address.length ;i++){ %>
-								<!-- <input type="radio" name="addressOption" value="<%=profile.address[i].address %>"> -->
 								<option value="<%=profile.address[i].address %>">
 									<%= profile.address[i].address %>
 								</option>
@@ -126,9 +114,6 @@
 							<div class="col-md-5 mb-3">
 								<label for="country">Country</label>
 								<input type="text" class="form-control" name="country" value="" placeholder="" required>
-								<!-- <select class="form-select w-100" name="country" required>
-									<option value="India">India</option>
-								</select> -->
 								<div class="invalid-feedback">
 									Please select a valid country.
 								</div>
@@ -136,9 +121,6 @@
 							<div class="col-md-4 mb-3">
 								<label for="state">State</label>
 								<input type="text" class="form-control" name="state" value="" placeholder="" required>
-								<!-- <select class="form-select w-100" name="state" required>
-									<option value="Kerala">Kerala</option>
-								</select> -->
 								<div class="invalid-feedback">
 									Please provide a valid state.
 								</div>
@@ -153,24 +135,9 @@
 							<input type="hidden" class="form-control" name="currency" value="INR">
 
 							<input type="hidden" id="newTotal" class="form-control" name="discountedTotal" value="0">
-							
-							<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
-									
-						</div>
-						<!-- <hr class="mb-4">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="same-address">
-							<label class="custom-control-label" for="same-address">Shipping address is the same as my
-								billing
-								address</label>
-						</div>
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="save-info">
-							<label class="custom-control-label" for="save-info">Save this information for next
-								time</label>
-						</div>
-						<hr class="mb-4"> -->
 
+							<input type="hidden" class="form-control" name="amount" value="<%= totals %>">
+						</div>
 						<h4 class="mb-3">Payment</h4>
 						<div class="row">
 							<div class="col-md-5 mb-3">
@@ -184,59 +151,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- 
-				<div class="d-block my-3">
-					<div class="custom-control custom-radio">
-						<input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
-							required>
-						<label class="custom-control-label" for="credit">Cash On Delivery</label>
-					</div>
-					 <div class="custom-control custom-radio">
-			  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-			  <label class="custom-control-label" for="credit">Credit card</label>
-			</div> 
-					<div class="custom-control custom-radio">
-						<input id="razorpay" name="paymentMethod" type="radio" class="custom-control-input" required>
-						<label class="custom-control-label" for="debit">Razorpay</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-						<label class="custom-control-label" for="paypal">PayPal</label>
-					</div>
-				</div> -->
-						<!-- <div class="row">
-					<div class="col-md-6 mb-3">
-						<label for="cc-name">Name on card</label>
-						<input type="text" class="form-control" id="cc-name" placeholder="" required>
-						<small class="text-muted">Full name as displayed on card</small>
-						<div class="invalid-feedback">
-							Name on card is required
-						</div>
-					</div>
-					<div class="col-md-6 mb-3">
-						<label for="cc-number">Credit card number</label>
-						<input type="text" class="form-control" id="cc-number" placeholder="" required>
-						<div class="invalid-feedback">
-							Credit card number is required
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3 mb-3">
-						<label for="cc-expiration">Expiration</label>
-						<input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-						<div class="invalid-feedback">
-							Expiration date required
-						</div>
-					</div>
-					<div class="col-md-3 mb-3">
-						<label for="cc-cvv">CVV</label>
-						<input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-						<div class="invalid-feedback">
-							Security code required
-						</div>
-					</div>
-				</div> -->
 						<hr class="mb-4">
 						<button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
 			</form>
@@ -259,36 +173,29 @@
 
 		const couponCode = couponform.coupon.value;
 		const total = couponform.amount.value;
-		
-		console.log(couponCode);
-		console.log(total);
+
 		try {
 			let coupon = await fetch('/applyCoupon', {
 				method: 'post',
-				body: JSON.stringify({ couponCode ,total}),
+				body: JSON.stringify({ couponCode, total }),
 				headers: { 'Content-Type': 'application/json' }
 			});
-			console.log('coupon applied');
 			coupon = await coupon.json();
-			console.log(coupon);
 			const newTotal = coupon.discountedTotal
 			const couponVal = coupon.couponValue
-			console.log(newTotal);
-			console.log(couponVal);
-			console.log(coupon.msg);
 
-			if(coupon.msg == 'already used this coupon'){
+			if (coupon.msg == 'already used this coupon') {
 				document.getElementById('success').innerHTML = "Already Applied"
 				document.getElementById("p1").innerHTML = total;
-			}else if(coupon.msg == 'purchase amount is not enough'){
+			} else if (coupon.msg == 'purchase amount is not enough') {
 				document.getElementById('success').innerHTML = "Amount is not enough"
 				document.getElementById("p1").innerHTML = total;
-			}else{
-			document.getElementById("p1").innerHTML = "Rs."+ newTotal;
-			document.getElementById("p2").innerHTML = "Rs."+ couponVal;
-			document.getElementById("newTotal").value = newTotal;
-			document.getElementById('success').innerHTML = "Coupon Applied";
-			}			
+			} else {
+				document.getElementById("p1").innerHTML = "Rs." + newTotal;
+				document.getElementById("p2").innerHTML = "Rs." + couponVal;
+				document.getElementById("newTotal").value = newTotal;
+				document.getElementById('success').innerHTML = "Coupon Applied";
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -298,8 +205,6 @@
 
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
-		console.log(11111);
-
 		//get the values
 		const fname = form.fname.value;
 		const lname = form.lname.value;
@@ -320,12 +225,6 @@
 		const currency = form.currency.value;
 		const amount = form.amount.value;
 		const discountedTotal = form.discountedTotal.value;
-		
-		console.log(discountedTotal);
-		console.log(currency);
-		console.log(amount);
-		console.log(payment);
-		console.log(addressopt);
 
 		try {
 			let order = await fetch('/checkout', {
@@ -333,17 +232,15 @@
 				body: JSON.stringify({ fname, lname, email, phonenumber, address, addressopt, country, state, zip, payment, currency, amount, discountedTotal }),
 				headers: { 'Content-Type': 'application/json' }
 			});
-			console.log(245465677678865);
+
 			order = await order.json();
-			console.log(order);
 
 			if (order.success) {
 				location.assign('/orderStatus');
 
 			} else if (order.id === 'Paypal') {
-				console.log('fetching');
 				paypal.Buttons({
-					
+
 					// Order is created on the server and the order id is returned
 					createOrder: (data, actions) => {
 						return fetch('/paymentPaypal', {
@@ -351,7 +248,7 @@
 							headers: {
 								'Content-Type': 'application/json',
 							},
-							body: JSON.stringify({ amount , currency, address, payment, order}),
+							body: JSON.stringify({ amount, currency, address, payment, order }),
 							// use the "body" param to optionally pass additional order information
 							// like product ids or amount
 						})
@@ -382,10 +279,7 @@
 												'Content-Type': 'application/json',
 											},
 										})
-
-										console.log(saveRes + "saveRes")
 										if (saveRes) {
-											console.log('completed');
 											location.assign('/orderStatus');
 										}
 									}
@@ -396,9 +290,6 @@
 				}).render('#paypal-button-container');
 
 			} else if (order.id) {
-
-				console.log(order);
-				console.log('before razor');
 				const options = {
 					"key": "rzp_test_fMYGGzYHXWUmyl", // Enter the Key ID generated from the Dashboard
 					"amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -407,8 +298,6 @@
 					"description": "Test Transaction",
 					"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 					"handler": async function (response) {
-						console.log(order.id)
-						console.log('hai hello razor');
 						const res = await fetch('/verifyPaymentRazorpay', {
 							method: 'POST',
 							headers: {
@@ -416,7 +305,6 @@
 							},
 							body: JSON.stringify(response)
 						})
-						console.log(res + "res");
 
 						if (res) {
 							const saveRes = await fetch('/saveOrder', {
@@ -425,9 +313,8 @@
 									'Content-Type': 'application/json',
 								},
 							})
-							console.log(saveRes + "saveRes")
+
 							if (saveRes) {
-								console.log('completed');
 								location.assign('/orderStatus');
 							}
 						}

@@ -29,6 +29,5 @@ const CouponSchema = new Schema({
     }],
 }, { timestamps: true })
 
-// model to access schema
 const Coupon = mongoose.model('Coupon', CouponSchema)
 module.exports = Coupon;

@@ -47,7 +47,6 @@ module.exports.otpSignup_get = (req, res) => {
 }
 
 module.exports.sendOtp = async (req, res) => {
-    const data = req.body;
     await client.verify.services(process.env.serviceID)
         .verifications
         .create({ to: `+91${req.body.phonenumber}`, channel: 'sms' })
@@ -98,7 +97,6 @@ module.exports.userLogin_post = async (req, res) => {
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json({ user });
-        console.log(user + "logged in");
 
     } catch (errors) {
         const errorHandle = loginerrorhandler(errors);
@@ -310,7 +308,6 @@ module.exports.singleProductView_get = async (req, res) => {
     try {
         let prodId = req.query.id
         let product = await Product.findById(prodId)
-
         res.render('./user/singleProductview.ejs', { product, layout: "./layouts/layout.ejs", title: 'Single view', admin: false })
     } catch (err) {
         console.log(err);
@@ -322,21 +319,18 @@ module.exports.singleProductView_get = async (req, res) => {
 module.exports.userProfile_get = async (req, res) => {
     let user = req.user.id
     const profile = await User.findById({ _id: user })
-
     res.render('./user/profile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
 }
 
 module.exports.editProfile_get = async (req, res) => {
     let user = req.user.id
     const profile = await User.findById({ _id: user })
-
     res.render('./user/editProfile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
 }
 
 module.exports.addAddress = async (req, res) => {
     let user = req.user.id
     const profile = await User.findById({ _id: user })
-
     res.render('./user/addAddress.ejs', { profile, layout: "./layouts/layout.ejs", title: 'Add Address', admin: false })
 }
 
@@ -368,7 +362,6 @@ module.exports.editAddress_get = async (req, res) => {
     const addressId = req.query.id
     let user = req.user.id
     const profile = await User.findById({ _id: user })
-
     let address;
     let checks = profile.address;
     for (let check of checks) {
@@ -383,7 +376,6 @@ module.exports.editAddress_get = async (req, res) => {
 module.exports.editAddress_post = async (req, res) => {
 
     const addressid = req.params.id;
-
     try {
         const user = req.user.id;
         const checks = req.body;
@@ -489,8 +481,7 @@ module.exports.checkout_post = async (req, res) => {
     discountedTotal = req.body.discountedTotal;
     let id = req.user.id;
 
-    const result = await User.findOne({ _id: id });
-    // const cartItems = result.cart;
+   await User.findOne({ _id: id });
 
     if (payment == 'Razorpay') {
 
@@ -562,8 +553,6 @@ module.exports.saveOrder = async (req, res) => {
 }
 
 module.exports.verifyPaymentRazorpay = async (req, res) => {
-    console.log('verifying razorpay');
-    console.log(req.body);
 
     //creating hmac object
     const crypto = require("crypto");
@@ -578,7 +567,6 @@ module.exports.verifyPaymentRazorpay = async (req, res) => {
     var response = { signatureIsValid: "false" }
     if (generated_signature === req.body.razorpay_signature) {
         response = { signatureIsValid: "true" }
-        console.log("signatureIsvalid");
         res.json(response);
     } else {
         res.send(response);
@@ -654,24 +642,15 @@ module.exports.returnOrder = (req, res) => {
 
 // const { paypalClientid, paypalClientsecret } = process.env;
 module.exports.paymentPaypal = async (req, res) => {
-    console.log('in payment paypal');
-    console.log(req.body);
-    const { amount, currency } = req.body;
     let orderAmt = paymentPaypalAmount / 80
     let orderAmount = (Math.round(orderAmt * 100) / 100).toFixed(2);
-    console.log(orderAmount)
     const order = await createOrder(orderAmount);
-    console.log(order);
-    console.log(order.id);
     res.json(order);
 }
 
 // capture payment & store order information or fullfill order
 module.exports.verifyPaymentPaypal = async (req, res) => {
-    console.log('in verify payment paypal');
-    console.log(req.params)
     const orderID = req.params.id;
-    console.log(orderID)
     const captureData = await capturePayment(orderID);
     // TODO: store payment information such as the transaction ID
     res.json(captureData);
@@ -683,8 +662,6 @@ module.exports.verifyPaymentPaypal = async (req, res) => {
 
 // use the orders api to create an order
 async function createOrder(orderAmount) {
-
-    console.log('in create Order paypal');
     const accessToken = await generateAccessToken();
     const url = `${base}/v2/checkout/orders`;
     const response = await fetch(url, {
@@ -707,7 +684,6 @@ async function createOrder(orderAmount) {
     });
     const data = await response.json();
     console.log('at the end of create order');
-    console.log(data)
     return data;
 }
 
@@ -728,7 +704,6 @@ async function capturePayment(orderId) {
 
 // generate an access token using client id and app secret
 async function generateAccessToken() {
-    console.log('in generate token');
     const auth = Buffer.from(process.env.paypalClientid + ":" + process.env.paypalClientsecret).toString("base64")
     const response = await fetch(`${base}/v1/oauth2/token`, {
         method: "post",
@@ -749,44 +724,30 @@ module.exports.applyCoupon_post = async (req, res) => {
 
     coupon = req.body.couponCode
     total = req.body.total;
-    console.log(coupon)
-    console.log(total);
 
     const coupondata = await Coupon.findOne({ couponCode: coupon })
-    console.log(coupondata)
 
     if (coupondata.users.length !== 0) {
-        console.log('users in coupon');
 
         const isExisting = coupondata.users.findIndex(users => users == req.user.id)
-        console.log(isExisting)
         if (total >= coupondata.minBill && isExisting === -1) {
-
-            console.log('not existing');
 
             discountedTotal = total - coupondata.couponValue
             let couponValue = coupondata.couponValue
-            console.log(discountedTotal);
-            console.log(couponValue);
             res.json({ discountedTotal, couponValue, total })
 
         } else {
             res.json({ error: true, msg: 'already used this coupon' })
-            console.log('already used this coupon')
         }
     } else {
         if (total >= coupondata.minBill) {
-            console.log('new user for coupon');
 
             discountedTotal = total - coupondata.couponValue
             let couponValue = coupondata.couponValue
-            console.log(discountedTotal);
-            // console.log(couponValue);
 
             res.json({ discountedTotal, couponValue, total })
         } else {
             res.json({ error: true, msg: 'purchase amount is not enough' })
-            //     console.log('purchase amount is not enough')
         }
     }
 }

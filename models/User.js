@@ -125,14 +125,12 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.methods.comparePassword = function (plainText, callback) {
-    console.log('comparing pw');
     return callback(null, bcrypt.compareSync(plainText, this.password))
 }
 
 //static method to login user
 userSchema.statics.login = async function (email, password) {
     const user = await this.findOne({ email });
-    console.log('login user');
     if (user) {
         const auth = await bcrypt.compare(password, user.password);
         if (auth) {
@@ -148,7 +146,6 @@ userSchema.statics.login = async function (email, password) {
 
 //fire a function after doc saved to db
 userSchema.post('save', function (doc, next) {
-    console.log('new user was created & saved', doc);
     next();
 })
 

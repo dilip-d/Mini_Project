@@ -27,23 +27,14 @@
                 <% product.forEach(function(product,index) { %>
                   <tr>
                     <td>
-                      <!-- <div class="d-flex px-2 py-1"> -->
-                      <!-- <div>
-                           <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1"> 
-                        </div> -->
-                      <!-- <div class="d-flex flex-column justify-content-center"> -->
                       <h6 class="mb-0 text-center text-sm text-dark">
                         <%= index+1 %>
                       </h6>
-                      <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
-                      <!-- </div> -->
-                      <!-- </div> -->
                     </td>
                     <td>
                       <p class="text-sm text-center text-dark font-weight-bold mb-0">
                         <%=product.name %>
                       </p>
-                      <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
                     </td>
                     <td class="align-middle text-center">
                       <img src="./image/<%= product._id %>.jpeg" class="avatar avatar-sm me-3" alt="user1">
@@ -52,7 +43,6 @@
                       <span class="text-dark text-center text-sm font-weight-bold">
                         <%=product.category %>
                       </span>
-                      <!-- <span class="badge badge-sm bg-gradient-success">Online</span> -->
                     </td>
                     <td class="align-middle text-center">
                       <span class="text-dark text-center text-sm font-weight-bold">
@@ -81,11 +71,8 @@
                     </td>
                     <td class="align-middle text-center">
                       <a href="/editproduct/<%= product._id %>" class="btn btn-primary">Edit</a>
-
-                      <!-- <a href="/deleteproduct/<%= product._id %>" class="btn btn-danger"
-                        onclick="return confirm('Do you want to delete <%=product.name %> ?')">Delete</a> -->
-                        <button type="button" value="<%= product._id %>"
-                          class="confirm_del_btn btn btn-danger">Delete</button>
+                      <button type="button" value="<%= product._id %>"
+                        class="confirm_del_btn btn btn-danger">Delete</button>
                     </td>
                   </tr>
                   <% }) %>
