@@ -31,7 +31,6 @@ module.exports.adminHome_get = async (req, res) => {
 
     let Sales = await Product.aggregate([{ $group: { _id: null, sum_val: { $sum: "$sales" } } }])
     let totalSales = (Sales[0].sum_val);
-    //  console.log(totalSales);
 
     const sales = [];
     const timeOfSale = [];
@@ -42,40 +41,25 @@ module.exports.adminHome_get = async (req, res) => {
 
     await User.find({})
         .then((results) => {
-            // console.log(result)
             let sums;
             n = results.length;
-            // console.log(`n:${n}`);
 
             for (result of results) {
                 k++;
-                // console.log(`k:${k}`);
                 const orders = result.order
                 m.push(orders.length);
-                // console.log(`m:${m}`);
-
-                // console.log(`sums:${sums}`)
 
                 for (let order of orders) {
                     l++;
-                    // console.log(`l:${l}`);
                     sums = m.reduce((partialSum, a) => partialSum + a, 0);
                     order = order.toJSON();
 
                     if (order.orderStatus !== "Order cancelled") {
-                        // console.log(order.count);
-                        // console.log(order.price);
                         sales.push(order.count * order.price);
-                        // console.log(sales);
                         timeOfSale.push(order.createdAt.toISOString().substring(0, 10));
                     }
                 }
                 if (l === sums && k === n) {
-
-                    // console.log(sales);
-                    // console.log(typeof (sales[0]));
-                    // console.log(timeOfSale);
-                    // console.log(typeof (timeOfSale[0]));
 
                     Product.find({})
                         .then((result) => {
@@ -86,7 +70,6 @@ module.exports.adminHome_get = async (req, res) => {
                             };
 
                             const totals = sum(result, 'price', 'sales');
-                            // console.log(totals);
 
                             res.render('admin/index', { productList, productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
                         }).catch((err) => {
@@ -98,26 +81,17 @@ module.exports.adminHome_get = async (req, res) => {
 }
 
 module.exports.adminSignup_get = (req, res) => {
-    console.log('hai');
     res.render('admin/adminSignup', { layout: "./layouts/adminlayout.ejs", title: 'Signup', admin: false })
 }
 
 module.exports.adminSignup_post = async (req, res) => {
-    console.log('testing..');
     const { username, password } = req.body
-
     try {
-        const admin = await Admin.create({ username, password });
-        console.log('try to save data on db');
-        //   const token = createToken(admin._id);
-        //     // res.cookie('jwt',token,{httpOnly: true , maxAge: maxAge * 1000});
-        //     // res.status(201).json({admin});
+        await Admin.create({ username, password });
         res.redirect('/adminLogin');
 
     } catch (errors) {
-        console.log(errors);
         const errorHandler = adminHandleerror(errors);
-        console.log(errorHandler);
         res.status(400).json({ errorHandler });
     }
 }

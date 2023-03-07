@@ -1,7 +1,6 @@
 const Product = require('../models/productSchema');
 const Category = require('../models/categorySchema');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
 
 module.exports.addproduct_get = (req, res) => {
     Category.find().then((category) => {

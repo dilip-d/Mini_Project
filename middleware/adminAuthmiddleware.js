@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken')
 const Admin = require('../models/admin');
 
 const requireAdminAuth = (req, res, next) => {
-    console.log('requirauth checking');
     const token = req.cookies.jwt2;
-
     //check json web token exists & is verified
     if (token) {
         jwt.verify(token, 'the topsecret', (err, decodedToken) => {
@@ -12,7 +10,6 @@ const requireAdminAuth = (req, res, next) => {
                 console.log(err.message);
                 next();
             } else {
-                console.log(decodedToken);
                 next();
             }
         })
