@@ -8,7 +8,7 @@ const requireAdminAuth = (req, res, next) => {
         jwt.verify(token, 'the topsecret', (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
-                next();
+                res.redirect('/adminLogin');
             } else {
                 next();
             }
