@@ -6,8 +6,12 @@ const adminAuthMiddleware = require('../middleware/adminAuthmiddleware')
 const userController = require('../controllers/userController')
 
 router.get('/adminLogin', (req, res) => {
-    console.log('Login page');
-    res.render('admin/adminLogin', { layout: "./layouts/adminlayout.ejs", title: 'Login page', admin: false })
+    try {
+        res.render('admin/adminLogin', { layout: "./layouts/adminlayout.ejs", title: 'Login page', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 })
 
 //admin user management

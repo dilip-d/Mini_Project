@@ -12,7 +12,6 @@ const Razorpay = require('razorpay');
 
 //paypal
 const fetch = require('node-fetch');
-const { log } = require('console');
 const base = "https://api-m.sandbox.paypal.com";
 
 var instance = new Razorpay({
@@ -39,39 +38,59 @@ module.exports.homepage_get = async (req, res) => {
 }
 
 module.exports.userSignup_get = (req, res) => {
-    res.render('./user/userSignup.ejs', { title: 'signup' });
+    try {
+        res.render('./user/userSignup.ejs', { title: 'signup' });
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.otpSignup_get = (req, res) => {
-    res.render('./user/otpSignup.ejs', { title: 'OTP' })
+    try {
+        res.render('./user/otpSignup.ejs', { title: 'OTP' })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.sendOtp = async (req, res) => {
-    await client.verify.services(process.env.serviceID)
-        .verifications
-        .create({ to: `+91${req.body.phonenumber}`, channel: 'sms' })
-        .then(verification => console.log(verification.status))
+    try {
+        await client.verify.services(process.env.serviceID)
+            .verifications
+            .create({ to: `+91${req.body.phonenumber}`, channel: 'sms' })
+            .then(verification => console.log(verification.status))
 
-        .catch(e => {
-            res.status(500).send(e);
-        })
-    res.sendStatus(200);
+            .catch(error => {
+                res.status(500).send(error);
+            })
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.otpVerification = async (req, res) => {
-    const check = await client.verify.services(process.env.serviceID)
-        .verificationChecks
-        .create({ to: `+91${req.body.phonenumber}`, code: req.body.otp })
-        .catch(e => {
-            console.log(e);
-            res.status(500).send(e);
-        })
+    try {
+        const check = await client.verify.services(process.env.serviceID)
+            .verificationChecks
+            .create({ to: `+91${req.body.phonenumber}`, code: req.body.otp })
+            .catch(error => {
+                console.log(error);
+                res.status(500).send(error);
+            })
 
-    if (check.status === 'approved') {
-        let email = req.body.email;
-        await User.findOneAndUpdate({ email: email }, { isVerified: true });
+        if (check.status === 'approved') {
+            let email = req.body.email;
+            await User.findOneAndUpdate({ email: email }, { isVerified: true });
+        }
+        res.status(200).json(check.status);
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
-    res.status(200).json(check.status);
 }
 
 module.exports.userSignup_post = async (req, res) => {
@@ -87,7 +106,12 @@ module.exports.userSignup_post = async (req, res) => {
 }
 
 module.exports.userLogin_get = (req, res) => {
-    res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login' });
+    try {
+        res.render('./user/userLogin.ejs', { layout: "./layouts/layout.ejs", title: 'login' });
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.userLogin_post = async (req, res) => {
@@ -105,8 +129,13 @@ module.exports.userLogin_post = async (req, res) => {
 }
 
 module.exports.logout_get = (req, res) => {
-    res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('/');
+    try {
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.redirect('/');
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.mensWatch_get = async (req, res) => {
@@ -144,45 +173,51 @@ module.exports.userCart_get = async (req, res) => {
         res.render('./user/cart.ejs', { coupon, user: users.cart, totals: total, b: a, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.incrementCartCount = async (req, res) => {
 
-    const prodId = req.params.id;
-    let product = await Product.findById({ _id: prodId })
-    product = product.toJSON()
-    product.count = 1;
+    try {
+        const prodId = req.params.id;
+        let product = await Product.findById({ _id: prodId })
+        product = product.toJSON()
+        product.count = 1;
 
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
+        let userr = req.user.id
+        const userid = await User.findById({ _id: userr })
 
-    const checks = userid.cart;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == prodId) {
-            await User.updateOne({ _id: userr, 'cart._id': req.params.id },
-                { $inc: { "cart.$.count": 1 } })
-            n++
+        const checks = userid.cart;
+        let n = 0;
+        for (const check of checks) {
+            if (check._id == prodId) {
+                await User.updateOne({ _id: userr, 'cart._id': req.params.id },
+                    { $inc: { "cart.$.count": 1 } })
+                n++
+            }
         }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
-        const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
-        res.redirect('back')
+        if (n > 0) {
+            res.redirect('back')
+        }
+        else {
+            const neww = await User.updateOne({ _id: req.user.id }, { $push: { cart: product } })
+            res.redirect('back')
+        }
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }
 
 module.exports.decrementCartCount = async (req, res) => {
-    let prodId = req.params.id
-    await Product.findById(prodId)
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
 
     try {
+        let prodId = req.params.id
+        await Product.findById(prodId)
+        let userr = req.user.id
+        const userid = await User.findById({ _id: userr })
         const checks = userid.cart;
         let n = 0;
         for (const check of checks) {
@@ -201,18 +236,20 @@ module.exports.decrementCartCount = async (req, res) => {
             res.redirect('/userCart')
         }
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.removeFromCart = async (req, res) => {
     try {
         let prodId = req.params.id
-        let userr = req.user.id
-        await User.findOneAndUpdate({ _id: userr }, { $pull: { cart: { _id: prodId } } })
+        let user = req.user.id
+        await User.findOneAndUpdate({ _id: user }, { $pull: { cart: { _id: prodId } } })
         res.redirect('/userCart')
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -232,18 +269,20 @@ module.exports.userWishlist_get = async (req, res) => {
         res.render('./user/wishlist.ejs', { user: users.wishlist, totals: total, b: a, layout: './layouts/layout.ejs', title: 'Wishlist', admin: false })
 
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.moveToCart = async (req, res) => {
-    const prodId = req.params.id
-    let product = await Product.findById(prodId)
-
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
 
     try {
+
+        const prodId = req.params.id
+        let product = await Product.findById(prodId)
+
+        let userr = req.user.id
+        const userid = await User.findById({ _id: userr })
         const checks = userid.cart;
         let n = 0;
         for (const check of checks) {
@@ -264,31 +303,37 @@ module.exports.moveToCart = async (req, res) => {
         await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.addToWishlist = async (req, res) => {
 
-    const prodId = req.params.id
-    let product = await Product.findById({ _id: prodId })
+    try {
+        const prodId = req.params.id
+        let product = await Product.findById({ _id: prodId })
 
-    let userr = req.user.id
-    const userid = await User.findById({ _id: userr })
+        let userr = req.user.id
+        const userid = await User.findById({ _id: userr })
 
-    const checks = userid.wishlist;
-    let n = 0;
-    for (const check of checks) {
-        if (check._id == prodId) {
-            n++
+        const checks = userid.wishlist;
+        let n = 0;
+        for (const check of checks) {
+            if (check._id == prodId) {
+                n++
+            }
         }
-    }
-    if (n > 0) {
-        res.redirect('back')
-    }
-    else {
-        await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
-        res.redirect('back')
+        if (n > 0) {
+            res.redirect('back')
+        }
+        else {
+            await User.updateOne({ _id: req.user.id }, { $push: { wishlist: product } })
+            res.redirect('back')
+        }
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }
 
@@ -300,7 +345,8 @@ module.exports.removeFromWishlist = async (req, res) => {
         await User.findOneAndUpdate({ _id: userr }, { $pull: { wishlist: { _id: prodId } } })
         res.redirect('/userWishlist')
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -317,21 +363,36 @@ module.exports.singleProductView_get = async (req, res) => {
 
 // user Profile view edit
 module.exports.userProfile_get = async (req, res) => {
-    let user = req.user.id
-    const profile = await User.findById({ _id: user })
-    res.render('./user/profile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
+    try {
+        let user = req.user.id
+        const profile = await User.findById({ _id: user })
+        res.render('./user/profile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.editProfile_get = async (req, res) => {
-    let user = req.user.id
-    const profile = await User.findById({ _id: user })
-    res.render('./user/editProfile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
+    try {
+        let user = req.user.id
+        const profile = await User.findById({ _id: user })
+        res.render('./user/editProfile.ejs', { profile, layout: "./layouts/layout.ejs", title: 'User profile', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.addAddress = async (req, res) => {
-    let user = req.user.id
-    const profile = await User.findById({ _id: user })
-    res.render('./user/addAddress.ejs', { profile, layout: "./layouts/layout.ejs", title: 'Add Address', admin: false })
+    try {
+        let user = req.user.id
+        const profile = await User.findById({ _id: user })
+        res.render('./user/addAddress.ejs', { profile, layout: "./layouts/layout.ejs", title: 'Add Address', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.addAddress_post = async (req, res) => {
@@ -354,29 +415,36 @@ module.exports.addAddress_post = async (req, res) => {
             })
         res.redirect('/userProfile')
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.editAddress_get = async (req, res) => {
-    const addressId = req.query.id
-    let user = req.user.id
-    const profile = await User.findById({ _id: user })
-    let address;
-    let checks = profile.address;
-    for (let check of checks) {
-        if (check._id == addressId) {
-            address = check;
-            console.log(address);
+
+    try {
+        const addressId = req.query.id
+        let user = req.user.id
+        const profile = await User.findById({ _id: user })
+        let address;
+        let checks = profile.address;
+        for (let check of checks) {
+            if (check._id == addressId) {
+                address = check;
+                console.log(address);
+            }
         }
+        res.render('./user/editAddress.ejs', { address, layout: "./layouts/layout.ejs", title: 'Edit Address', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
-    res.render('./user/editAddress.ejs', { address, layout: "./layouts/layout.ejs", title: 'Edit Address', admin: false })
 }
 
 module.exports.editAddress_post = async (req, res) => {
 
-    const addressid = req.params.id;
     try {
+        const addressid = req.params.id;
         const user = req.user.id;
         const checks = req.body;
 
@@ -393,7 +461,8 @@ module.exports.editAddress_post = async (req, res) => {
         res.redirect('/userProfile')
 
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -407,7 +476,8 @@ module.exports.deleteAddress = async (req, res) => {
         await User.findOneAndUpdate({ _id: user }, { $pull: { address: { _id: addressId } } })
         res.json({ status: true })
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -436,7 +506,8 @@ module.exports.editProfile_post = async (req, res) => {
         res.redirect('/userProfile')
 
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -455,7 +526,8 @@ module.exports.checkout_get = async (req, res) => {
         res.render('./user/checkout.ejs', { coupon, user: users.cart, totals: total, profile: thisuser, layout: './layouts/layout.ejs', title: 'checkout', admin: false })
 
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -473,45 +545,51 @@ let discountedTotal = 0;
 let paymentPaypalAmount;
 
 module.exports.checkout_post = async (req, res) => {
-    address = req.body.address || req.body.addressopt;
-    payment = req.body.payment;
-    zip = req.body.zip;
-    country = req.body.country;
-    state = req.body.state;
-    discountedTotal = req.body.discountedTotal;
-    let id = req.user.id;
 
-   await User.findOne({ _id: id });
+    try {
+        address = req.body.address || req.body.addressopt;
+        payment = req.body.payment;
+        zip = req.body.zip;
+        country = req.body.country;
+        state = req.body.state;
+        discountedTotal = req.body.discountedTotal;
+        let id = req.user.id;
 
-    if (payment == 'Razorpay') {
+        await User.findOne({ _id: id });
 
-        let { amount, currency } = req.body;
+        if (payment == 'Razorpay') {
 
-        if (discountedTotal == 0) {
-            amount = total;
+            let { amount, currency } = req.body;
+
+            if (discountedTotal == 0) {
+                amount = total;
+            } else {
+                amount = discountedTotal;
+            }
+            console.log(amount);
+            amount = amount * 100;
+            console.log(amount);
+            console.log(currency);
+            console.log(typeof amount);
+
+            instance.orders.create({ amount, currency }, (err, order) => {
+                res.json(order)
+            })
+        } else if (payment == 'Paypal') {
+
+            if (discountedTotal == 0) {
+                paymentPaypalAmount = total;
+            } else {
+                paymentPaypalAmount = discountedTotal;
+            }
+            const order = { id: 'Paypal' };
+            res.json(order);
         } else {
-            amount = discountedTotal;
+            res.redirect('/saveOrder')
         }
-        console.log(amount);
-        amount = amount * 100;
-        console.log(amount);
-        console.log(currency);
-        console.log(typeof amount);
-
-        instance.orders.create({ amount, currency }, (err, order) => {
-            res.json(order)
-        })
-    } else if (payment == 'Paypal') {
-
-        if (discountedTotal == 0) {
-            paymentPaypalAmount = total;
-        } else {
-            paymentPaypalAmount = discountedTotal;
-        }
-        const order = { id: 'Paypal' };
-        res.json(order);
-    } else {
-        res.redirect('/saveOrder')
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }
 
@@ -548,7 +626,8 @@ module.exports.saveOrder = async (req, res) => {
             res.status(200).json({ success: 'true' });
         }
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -587,56 +666,70 @@ module.exports.orderDetails_get = async (req, res) => {
 }
 
 module.exports.cancelOrder = (req, res) => {
-    const user = req.user.id;
-    uniqueId = req.params.id;
-    if (user) {
-        User.findOne({ _id: user })
-            .then((result) => {
 
-                const orders = result.order
+    try {
+        const user = req.user.id;
+        uniqueId = req.params.id;
+        if (user) {
+            User.findOne({ _id: user })
+                .then((result) => {
 
-                for (let order of orders) {
-                    order = order.toJSON();
-                    if (order.unique === uniqueId) {
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
-                            .then((result) => {
-                                res.redirect('/orderDetails')
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                            })
+                    const orders = result.order
+
+                    for (let order of orders) {
+                        order = order.toJSON();
+                        if (order.unique === uniqueId) {
+                            Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Order cancelled" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
+                                .then((result) => {
+                                    res.redirect('/orderDetails')
+                                })
+                                .catch((err) => {
+                                    res.status(403)
+                                    throw new Error(error)
+                                })
+                        }
                     }
-                }
-            })
-    } else {
-        res.redirect('/userLogin')
+                })
+        } else {
+            res.redirect('/userLogin')
+        }
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }
 
 module.exports.returnOrder = (req, res) => {
-    const user = req.user.id;
-    uniqueId = req.params.id;
-    if (user) {
-        User.findOne({ _id: user })
-            .then((result) => {
 
-                const orders = result.order
+    try {
+        const user = req.user.id;
+        uniqueId = req.params.id;
+        if (user) {
+            User.findOne({ _id: user })
+                .then((result) => {
 
-                for (let order of orders) {
-                    order = order.toJSON();
-                    if (order.unique === uniqueId) {
-                        Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Returned" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
-                            .then((result) => {
-                                res.redirect('/orderDetails')
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                            })
+                    const orders = result.order
+
+                    for (let order of orders) {
+                        order = order.toJSON();
+                        if (order.unique === uniqueId) {
+                            Promise.all([(User.updateOne({ "_id": user, "order.unique": uniqueId }, { $set: { "order.$.orderStatus": "Returned" } })), (Product.updateOne({ "_id": order._id }, { $inc: { "stock": order.count, "sales": (order.count * -1) } }))])
+                                .then((result) => {
+                                    res.redirect('/orderDetails')
+                                })
+                                .catch((err) => {
+                                    res.status(403)
+                                    throw new Error(error)
+                                })
+                        }
                     }
-                }
-            })
-    } else {
-        res.redirect('/userLogin')
+                })
+        } else {
+            res.redirect('/userLogin')
+        }
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }
 
@@ -722,32 +815,37 @@ let coupon;
 
 module.exports.applyCoupon_post = async (req, res) => {
 
-    coupon = req.body.couponCode
-    total = req.body.total;
+    try {
+        coupon = req.body.couponCode
+        total = req.body.total;
 
-    const coupondata = await Coupon.findOne({ couponCode: coupon })
+        const coupondata = await Coupon.findOne({ couponCode: coupon })
 
-    if (coupondata.users.length !== 0) {
+        if (coupondata.users.length !== 0) {
 
-        const isExisting = coupondata.users.findIndex(users => users == req.user.id)
-        if (total >= coupondata.minBill && isExisting === -1) {
+            const isExisting = coupondata.users.findIndex(users => users == req.user.id)
+            if (total >= coupondata.minBill && isExisting === -1) {
 
-            discountedTotal = total - coupondata.couponValue
-            let couponValue = coupondata.couponValue
-            res.json({ discountedTotal, couponValue, total })
+                discountedTotal = total - coupondata.couponValue
+                let couponValue = coupondata.couponValue
+                res.json({ discountedTotal, couponValue, total })
 
+            } else {
+                res.json({ error: true, msg: 'already used this coupon' })
+            }
         } else {
-            res.json({ error: true, msg: 'already used this coupon' })
-        }
-    } else {
-        if (total >= coupondata.minBill) {
+            if (total >= coupondata.minBill) {
 
-            discountedTotal = total - coupondata.couponValue
-            let couponValue = coupondata.couponValue
+                discountedTotal = total - coupondata.couponValue
+                let couponValue = coupondata.couponValue
 
-            res.json({ discountedTotal, couponValue, total })
-        } else {
-            res.json({ error: true, msg: 'purchase amount is not enough' })
+                res.json({ discountedTotal, couponValue, total })
+            } else {
+                res.json({ error: true, msg: 'purchase amount is not enough' })
+            }
         }
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
     }
 }

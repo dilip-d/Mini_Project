@@ -2,26 +2,30 @@ const Product = require('../models/productSchema');
 const Category = require('../models/categorySchema');
 const User = require('../models/User');
 
-module.exports.addproduct_get = (req, res) => {
-    Category.find().then((category) => {
+module.exports.addproduct_get = async (req, res) => {
+    try {
+        const category = await Category.find()
         res.render('admin/addproduct', { result: '', category, layout: "./layouts/adminlayout.ejs", title: 'add product', admin: true })
-    })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.addproduct_post = async (req, res) => {
-
-    const name = req.body.name;
-    const category = req.body.category;
-    const originalPrice = req.body.originalPrice;
-    const discount = req.body.originalPrice / 100 * req.body.offer;
-    const pricebefore = req.body.originalPrice - discount;
-    const price = pricebefore.toFixed();
-    const offer = req.body.offer;
-    const description = req.body.description;
-    const stock = req.body.stock;
-
-    const product = await Product.create({ name, category, price, originalPrice, offer, description, stock });
     try {
+        const name = req.body.name;
+        const category = req.body.category;
+        const originalPrice = req.body.originalPrice;
+        const discount = req.body.originalPrice / 100 * req.body.offer;
+        const pricebefore = req.body.originalPrice - discount;
+        const price = pricebefore.toFixed();
+        const offer = req.body.offer;
+        const description = req.body.description;
+        const stock = req.body.stock;
+
+        const product = await Product.create({ name, category, price, originalPrice, offer, description, stock });
+
         let image = req.files.image;
         image.mv('./public/image/' + product._id + ".jpeg");
         let image1 = req.files.image1;
@@ -34,7 +38,8 @@ module.exports.addproduct_post = async (req, res) => {
         res.redirect('/addproduct');
     }
     catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
@@ -51,30 +56,30 @@ module.exports.viewproduct_get = async (req, res) => {
 
 module.exports.deleteproduct = async (req, res) => {
     try {
-        const productId = req.params.id
-        await Product.deleteOne({ _id: productId });
+        await Product.deleteOne({ _id: req.params.id });
         res.redirect('/viewproduct');
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.editproduct_get = async (req, res) => {
     try {
-        const proId = req.params.id
-        const products = await Product.findById(proId)
+        const products = await Product.findById(req.params.id)
         res.render('admin/editproduct', { product: products, layout: "./layouts/adminlayout.ejs", title: 'edit product', admin: true })
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 }
 
 module.exports.editproduct_post = async (req, res) => {
+
     const proId = req.params.id
     const discount = req.body.originalPrice / 100 * req.body.offer;
     const pricebefore = req.body.originalPrice - discount;
     const price = pricebefore.toFixed();
-
     try {
         await Product.updateOne({ _id: proId }, {
 
@@ -90,7 +95,8 @@ module.exports.editproduct_post = async (req, res) => {
             }
         })
     } catch (err) {
-        console.log(err);
+        res.status(403)
+        throw new Error(err)
     }
 
     try {
@@ -106,7 +112,8 @@ module.exports.editproduct_post = async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err)
+        res.status(403)
+        throw new Error(err)
     }
 
     try {
@@ -122,7 +129,8 @@ module.exports.editproduct_post = async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err)
+        res.status(403)
+        throw new Error(err)
     }
     res.redirect('/viewproduct');
 }

@@ -11,13 +11,21 @@ module.exports.userManage_get = async (req, res) => {
 }
 
 module.exports.blockUser = async (req, res) => {
-    const userId = req.params.id
-    await User.findByIdAndUpdate({ _id: userId }, { isBlocked: true })
-    res.redirect('/userManage');
+    try {
+        await User.findByIdAndUpdate({ _id: req.params.id }, { isBlocked: true })
+        res.redirect('/userManage');
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.unblockUser = async (req, res) => {
-    const userId = req.params.id
-    await User.findByIdAndUpdate({ _id: userId }, { isBlocked: false })
-    res.redirect('/userManage');
+    try {
+        await User.findByIdAndUpdate({ _id: req.params.id }, { isBlocked: false })
+        res.redirect('/userManage');
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }

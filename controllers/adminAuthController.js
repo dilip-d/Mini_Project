@@ -25,63 +25,74 @@ let bannerValidation = {
 
 module.exports.adminHome_get = async (req, res) => {
 
-    const user = await User.count()
-    const productCount = await Product.count()
-    const productList = await Product.find({})
+    try {
+        const user = await User.count()
+        const productCount = await Product.count()
+        const productList = await Product.find({})
 
-    let Sales = await Product.aggregate([{ $group: { _id: null, sum_val: { $sum: "$sales" } } }])
-    let totalSales = (Sales[0].sum_val);
+        let Sales = await Product.aggregate([{ $group: { _id: null, sum_val: { $sum: "$sales" } } }])
+        let totalSales = (Sales[0].sum_val);
 
-    const sales = [];
-    const timeOfSale = [];
-    let k = 0;
-    let l = 0;
-    let m = [];
-    let n;
+        const sales = [];
+        const timeOfSale = [];
+        let k = 0;
+        let l = 0;
+        let m = [];
+        let n;
 
-    await User.find({})
-        .then((results) => {
-            let sums;
-            n = results.length;
+        await User.find({})
+            .then((results) => {
+                let sums;
+                n = results.length;
 
-            for (result of results) {
-                k++;
-                const orders = result.order
-                m.push(orders.length);
+                for (result of results) {
+                    k++;
+                    const orders = result.order
+                    m.push(orders.length);
 
-                for (let order of orders) {
-                    l++;
-                    sums = m.reduce((partialSum, a) => partialSum + a, 0);
-                    order = order.toJSON();
+                    for (let order of orders) {
+                        l++;
+                        sums = m.reduce((partialSum, a) => partialSum + a, 0);
+                        order = order.toJSON();
 
-                    if (order.orderStatus !== "Order cancelled") {
-                        sales.push(order.count * order.price);
-                        timeOfSale.push(order.createdAt.toISOString().substring(0, 10));
+                        if (order.orderStatus !== "Order cancelled") {
+                            sales.push(order.count * order.price);
+                            timeOfSale.push(order.createdAt.toISOString().substring(0, 10));
+                        }
+                    }
+                    if (l === sums && k === n) {
+
+                        Product.find({})
+                            .then((result) => {
+                                const sum = function (items, prop1, prop2) {
+                                    return items.reduce(function (a, b) {
+                                        return parseInt(a) + (parseInt(b[prop1]) * parseInt(b[prop2]));
+                                    }, 0);
+                                };
+
+                                const totals = sum(result, 'price', 'sales');
+
+                                res.render('admin/index', { productList, productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
+                            }).catch((err) => {
+                                res.status(403)
+                                throw new Error(err)
+                            })
                     }
                 }
-                if (l === sums && k === n) {
-
-                    Product.find({})
-                        .then((result) => {
-                            const sum = function (items, prop1, prop2) {
-                                return items.reduce(function (a, b) {
-                                    return parseInt(a) + (parseInt(b[prop1]) * parseInt(b[prop2]));
-                                }, 0);
-                            };
-
-                            const totals = sum(result, 'price', 'sales');
-
-                            res.render('admin/index', { productList, productCount, result, total: totals, sales, timeOfSale, totalSales, user, layout: './layouts/adminlayout.ejs', title: 'Admin', admin: true })
-                        }).catch((err) => {
-                            console.log(err)
-                        })
-                }
-            }
-        })
+            })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.adminSignup_get = (req, res) => {
-    res.render('admin/adminSignup', { layout: "./layouts/adminlayout.ejs", title: 'Signup', admin: false })
+    try {
+        res.render('admin/adminSignup', { layout: "./layouts/adminlayout.ejs", title: 'Signup', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.adminSignup_post = async (req, res) => {
@@ -97,7 +108,12 @@ module.exports.adminSignup_post = async (req, res) => {
 }
 
 module.exports.adminLogin_get = (req, res) => {
-    res.render('admin/adminLogin', { layout: "./layouts/adminlayout.ejs", title: 'Login', admin: false })
+    try {
+        res.render('admin/adminLogin', { layout: "./layouts/adminlayout.ejs", title: 'Login', admin: false })
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.adminLogin_post = async (req, res) => {
@@ -114,17 +130,25 @@ module.exports.adminLogin_post = async (req, res) => {
 }
 
 module.exports.adminlogout_get = (req, res) => {
-    res.cookie('jwt2', '', { maxAge: 1 });
-    res.redirect('/adminLogin');
+    try {
+        res.cookie('jwt2', '', { maxAge: 1 });
+        res.redirect('/adminLogin');
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 // category
 module.exports.category = async (req, res) => {
-    await Category.find()
-        .then((result) => {
-            res.render('admin/category', { result, validation, layout: 'layouts/adminlayout', title: 'Category', admin: true })
-            validation.category = false
-        }).catch((err) => console.log(err))
+    try {
+        const result = await Category.find()
+        res.render('admin/category', { result, validation, layout: 'layouts/adminlayout', title: 'Category', admin: true })
+        validation.category = false
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.addCategory = async (req, res) => {
@@ -142,28 +166,33 @@ module.exports.addCategory = async (req, res) => {
                     .then(() => {
                         res.redirect('/category-management')
                     }).catch((err) => {
-                        console.log(err)
+                        res.status(403)
+                        throw new Error(err)
                     })
             }
         })
 }
 
 module.exports.deleteCategory = async (req, res) => {
-    newcat = req.params.id
-    await Category.deleteOne({ _id: newcat })
-        .then((result) => {
-            res.redirect('/category-management')
-        }).catch((err) => {
-            console.log(err)
-        })
+    try {
+        const newcat = req.params.id
+        await Category.deleteOne({ _id: newcat })
+        res.redirect('/category-management')
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.banner_get = async (req, res) => {
-    await Banner.find()
-        .then((result) => {
-            res.render('admin/bannerManage', { result, bannerValidation, layout: 'layouts/adminlayout', title: 'Banner', admin: true })
-            bannerValidation.banner = false
-        }).catch((err) => console.log(err))
+    try {
+        const result = await Banner.find()
+        res.render('admin/bannerManage', { result, bannerValidation, layout: 'layouts/adminlayout', title: 'Banner', admin: true })
+        bannerValidation.banner = false
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.banner_post = async (req, res) => {
@@ -185,45 +214,50 @@ module.exports.banner_post = async (req, res) => {
                             image.mv('./public/banner/' + banner._id + ".jpeg");
                         }
                         catch (err) {
-                            console.log(err);
+                            res.status(403)
+                            throw new Error(err);
                         }
                         res.redirect('/bannerManage')
                     }).catch((err) => {
-                        console.log(err)
+                        res.status(403)
+                        throw new Error(err)
                     })
             }
         })
 }
 
 module.exports.deleteBanner = async (req, res) => {
-    let newBanner = req.params.id;
-    await Banner.deleteOne({ _id: newBanner })
-        .then((result) => {
-            res.redirect('/bannerManage')
-        }).catch((err) => {
-            console.log(err)
-        })
+    try {
+        await Banner.deleteOne({ _id: req.params.id })
+        res.redirect('/bannerManage')
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.viewOrder_get = async (req, res) => {
 
-    const result = await User.find({})
-    let orders = []
-    for (item of result) {
-        orders = orders.concat(item.order)
+    try {
+        const result = await User.find({})
+        let orders = []
+        for (item of result) {
+            orders = orders.concat(item.order)
+        }
+        // const ans = orders.reverse()
+        // orders.sort((a, b) => {
+        //     return b.createdAt - a.createdAt;
+        // });
+        res.render('admin/viewOrder', { order: orders, layout: 'layouts/adminlayout', title: 'Orders', admin: true })
+    } catch (error) {
+        res.status(403)
+        throw new Error(err)
     }
-    // const ans = orders.reverse()
-    // orders.sort((a, b) => {
-    //     return b.createdAt - a.createdAt;
-    // });
-    res.render('admin/viewOrder', { order: orders, layout: 'layouts/adminlayout', title: 'Orders', admin: true })
-
 }
 
 module.exports.adminOrderStatus = async (req, res) => {
     const orderId = req.body.orderid;
-
-    uniqueid = req.params.id;
+    const uniqueid = req.params.id;
 
     await User.findOne({ _id: orderId })
         .then((result) => {
@@ -239,7 +273,8 @@ module.exports.adminOrderStatus = async (req, res) => {
                                 res.redirect('/viewOrder')
                             })
                             .catch((err) => {
-                                console.log(err)
+                                res.status(403)
+                                throw new Error(err)
                             })
                     }
                 }
@@ -252,7 +287,8 @@ module.exports.adminOrderStatus = async (req, res) => {
                                 res.redirect('/viewOrder')
                             })
                             .catch((err) => {
-                                console.log(err)
+                                res.status(403)
+                                throw new Error(err)
                             })
                     }
                 }
@@ -266,7 +302,8 @@ module.exports.adminOrderStatus = async (req, res) => {
                                 res.redirect('/viewOrder')
                             })
                             .catch((err) => {
-                                console.log(err)
+                                res.status(403)
+                                throw new Error(err)
                             })
                     }
                 }
@@ -275,33 +312,43 @@ module.exports.adminOrderStatus = async (req, res) => {
 }
 
 module.exports.coupon_get = async (req, res) => {
-    await Coupon.find()
-        .then((coupon) => {
-            res.render('admin/coupon.ejs', { coupon, layout: 'layouts/adminlayout', title: 'Coupon', admin: true })
-        })
+    try {
+        const coupon = await Coupon.find()
+        res.render('admin/coupon.ejs', { coupon, layout: 'layouts/adminlayout', title: 'Coupon', admin: true })
+        res.status(200)
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 module.exports.addCoupon = async (req, res) => {
-    await Coupon.findOne({ couponCode: req.body.couponcode })
-        .then(() => {
-            let coupon = new Coupon({
-                couponCode: req.body.couponcode,
-                couponValue: req.body.couponvalue,
-                minBill: req.body.minbill,
-                couponExpiry: req.body.expirydate
-            })
-            coupon.save()
-                .then(() => {
-                    res.redirect('/coupon')
-                })
+
+    try {
+        await Coupon.findOne({ couponCode: req.body.couponcode })
+
+        const coupon = new Coupon({
+            couponCode: req.body.couponcode,
+            couponValue: req.body.couponvalue,
+            minBill: req.body.minbill,
+            couponExpiry: req.body.expirydate
         })
+        await coupon.save()
+        res.redirect('/coupon')
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
 
 // delete coupon
 module.exports.deleteCoupon = async (req, res) => {
-    cop = req.params.id
-    await Coupon.deleteOne({ couponCode: cop })
-        .then(() => {
-            res.redirect('/coupon')
-        })
+    try {
+        const coupon = req.params.id;
+        await Coupon.deleteOne({ couponCode: coupon })
+        res.redirect('/coupon')
+    } catch (error) {
+        res.status(403)
+        throw new Error(error)
+    }
 }
